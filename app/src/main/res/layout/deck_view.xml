@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:elevation="4dp"
+    android:background="@drawable/corners_gray"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.example.cards.views.HiddenCardView
+            android:id="@+id/btnDeck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="8dp" />
+
+        <TextView
+            android:id="@+id/tvDeckCount"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="36" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lastCard"
+        android:alpha="0.5"
+        android:gravity="center_horizontal"
+        android:layout_width="60dp"
+        android:layout_height="100dp" />
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <com.example.cards.views.HiddenCardView
+            android:id="@+id/outCards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/lastCard"
+            android:alpha="0.5"
+            android:elevation="8dp" />
+
+        <TextView
+            android:id="@+id/tvOutCount"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="0" />
+
+    </LinearLayout>
+
+</LinearLayout>

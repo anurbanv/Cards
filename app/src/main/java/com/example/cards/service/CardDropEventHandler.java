@@ -1,0 +1,123 @@
+package com.example.cards.service;
+
+import com.andrius.logutil.LogUtil;
+import com.example.cards.MainActivity;
+import com.example.cards.domain.Card;
+import com.example.cards.domain.Player;
+import com.example.cards.domain.PlayerState;
+
+import java.util.List;
+
+public class CardDropEventHandler {
+
+    private int cell;
+    private Card card;
+    private Player cardOwner;
+
+    public void initEvent(boolean attacking, int cell) {
+        this.cell = cell;
+
+        card = MainActivity.currentDragViewModel.getCurrentDrag();
+        cardOwner = MainActivity.currentDragViewModel.getCardOwner();
+
+        if (attacking) {
+            attackEvent();
+        } else {
+            defendEvent();
+        }
+    }
+
+    private void attackEvent() {
+        List<Card> attackCards = MainActivity.gameFieldViewModel.getAttackingCardList();
+        List<Card> defendCards = MainActivity.gameFieldViewModel.getDefendingCardList();
+        boolean success = false;
+
+        Player defendingPlayer = MainActivity.playersViewModel.getDefendingPlayer();
+
+        if (cardOwner.getState() == PlayerState.ATTACK) {
+            int left = (attackCards.size() - defendCards.size()) + defendingPlayer.getHand().size();
+            if (left > 0) {
+                if (attackCards.isEmpty()) {
+                    success = true;
+                } else {
+                    if (containsSameNumber(attackCards, card) || containsSameNumber(defendCards, card)) {
+                        success = true;
+                    }
+                }
+            } else {
+                LogUtil.w("Defending player has no cards");
+            }
+        } else if (cardOwner.getState() == PlayerState.DEFEND) {
+
+            if (defendCards.isEmpty() && !attackCards.isEmpty()) {
+
+                Player nextPlayer = MainActivity.playersViewModel.getNextPlayer(defendingPlayer);
+
+                if (nextPlayer.getHand().size() >= attackCards.size() + 1) {
+                    boolean allSameNumber = true;
+                    for (Card attackCard : attackCards) {
+                        if (card.getNumber() != attackCard.getNumber()) {
+                            allSameNumber = false;
+                            break;
+                        }
+                    }
+                    if (allSameNumber) {
+                        success = true;
+                        MainActivity.playersViewModel.shiftDefendingPlayer();
+                    } else {
+                        LogUtil.w("Not all cards are number " + card.getNumber());
+                    }
+                } else {
+                    LogUtil.w("Next player does not have enough cards");
+                }
+            } else {
+                LogUtil.w("Cannot transfer defended cards");
+            }
+        }
+
+        if (success) {
+            cardOwner.removeCard(card);
+            MainActivity.gameFieldViewModel.setAttackingCard(card, cell);
+        } else {
+            LogUtil.w("Cannot place this card " + card.toString());
+        }
+    }
+
+    private void defendEvent() {
+        boolean success = false;
+        if (cardOwner.getState() == PlayerState.DEFEND) {
+            Card cardToDefend = MainActivity.gameFieldViewModel.getAttackCardAtIndex(cell);
+            if (cardToDefend != null) {
+                if (cardToDefend.getSuite() == card.getSuite()) {
+                    if (card.getNumber() > cardToDefend.getNumber()) {
+                        success = true;
+                    } else {
+                        LogUtil.w("Number " + card.getNumber() + " too low");
+                    }
+                } else if (!cardToDefend.isStrong() && card.isStrong()) {
+                    success = true;
+                } else {
+                    LogUtil.w("Wrong suite");
+                }
+            } else {
+                LogUtil.w("Attack cell " + cell + " is empty");
+            }
+        } else {
+            LogUtil.w("Player " + cardOwner.getId() + " is not defending");
+        }
+
+        if (success) {
+            cardOwner.removeCard(card);
+            MainActivity.gameFieldViewModel.setDefendingCard(card, cell);
+        }
+    }
+
+    private boolean containsSameNumber(List<Card> cards, Card card) {
+        for (Card card1 : cards) {
+            if (card1.getNumber() == card.getNumber()) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
