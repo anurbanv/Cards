@@ -73,6 +73,8 @@ public class CardDropEventHandler {
             } else {
                 LogUtil.w("Cannot transfer defended cards");
             }
+        } else {
+            LogUtil.w("Player is not defending nor attacking");
         }
 
         if (success) {

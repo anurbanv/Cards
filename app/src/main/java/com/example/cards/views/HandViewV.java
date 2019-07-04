@@ -44,6 +44,5 @@ public class HandViewV extends HandView {
         } else {
             setBackgroundColor(getResources().getColor(R.color.gray));
         }
-
     }
 }
