@@ -150,7 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
             for (Player player : playersViewModel.getPlayersList()) {
                 for (Card card : player.getHand()) {
-                    if (card.isStrong() && card.getNumber() < lowestStrongCard.getNumber()) {
+                    if (!lowestStrongCard.isStrong() && card.isStrong()) {
+                        lowestStrongCard = card;
+                        cardOwner = player;
+                    } else if (card.isStrong() && card.getNumber() < lowestStrongCard.getNumber()) {
                         lowestStrongCard = card;
                         cardOwner = player;
                     }
