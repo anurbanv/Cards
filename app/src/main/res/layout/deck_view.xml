@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:elevation="4dp"
+    android:layout_margin="8dp"
     android:background="@drawable/corners_gray"
-    android:orientation="horizontal">
+    android:elevation="4dp"
+    android:orientation="horizontal"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,16 +34,16 @@
 
     <RelativeLayout
         android:id="@+id/lastCard"
-        android:alpha="0.5"
-        android:gravity="center_horizontal"
         android:layout_width="60dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:alpha="0.5"
+        android:gravity="center_horizontal" />
 
     <LinearLayout
-        android:gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <com.example.cards.views.HiddenCardView
             android:id="@+id/outCards"

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,7 +14,6 @@ import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
-import com.example.cards.domain.Suite;
 
 import java.util.List;
 
@@ -30,10 +27,6 @@ public class DeckView extends LinearLayout {
     @BindView(R.id.btnDeck) View btnDeck;
     @BindView(R.id.lastCard) RelativeLayout lastCard;
     @BindView(R.id.outCards) View outCards;
-
-    private int deckSize = 0;
-    private int outSize = 0;
-    private Suite strong = Suite.CLUBS;
 
     public DeckView(Context context) {
         super(context);
