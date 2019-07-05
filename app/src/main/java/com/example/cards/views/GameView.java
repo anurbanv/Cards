@@ -105,12 +105,14 @@ public class GameView extends LinearLayout {
             playersViewModel.addPlayer(player);
         }
 
-        List<Player> playersList = playersViewModel.getPlayersList();
+        List<Player> playersList = playersViewModel.getPlayersInGame();
 
         for (int i = 0; i < 6; i++) {
             for (Player player : playersList) {
-                Card card = deckViewModel.takeCard();
-                player.addCardToHand(card);
+                if (deckViewModel.hasCards()) {
+                    Card card = deckViewModel.takeCard();
+                    player.addCardToHand(card);
+                }
             }
         }
 
@@ -119,7 +121,7 @@ public class GameView extends LinearLayout {
         Card lowestStrongCard = firstPlayer.lookAtCard(0);
         Player cardOwner = firstPlayer;
 
-        for (Player player : playersViewModel.getPlayersList()) {
+        for (Player player : playersViewModel.getPlayersInGame()) {
             for (Card card : player.getHand()) {
                 if (!lowestStrongCard.isStrong() && card.isStrong()) {
                     lowestStrongCard = card;

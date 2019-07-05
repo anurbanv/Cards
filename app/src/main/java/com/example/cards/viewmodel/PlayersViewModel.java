@@ -2,15 +2,12 @@ package com.example.cards.viewmodel;
 
 import android.app.Application;
 
-import com.andrius.logutil.LogUtil;
 import com.example.cards.MainActivity;
 import com.example.cards.domain.Player;
 import com.example.cards.domain.PlayerState;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -30,8 +27,15 @@ public class PlayersViewModel extends AndroidViewModel {
         return players;
     }
 
-    public List<Player> getPlayersList() {
-        return players.getValue();
+    public List<Player> getPlayersInGame() {
+        List<Player> playing = new ArrayList<>();
+        List<Player> value = players.getValue();
+        for (Player player : value) {
+            if (!player.isOut()) {
+                playing.add(player);
+            }
+        }
+        return playing;
     }
 
     public void reset() {
@@ -56,7 +60,7 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public Player getNextPlayer(Player player) {
-        List<Player> value = players.getValue();
+        List<Player> value = getPlayersInGame();
         int index = value.indexOf(player);
         if (value.size() == index + 1) {
             return value.get(0);
@@ -66,7 +70,7 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public Player getDefendingPlayer() {
-        List<Player> value = players.getValue();
+        List<Player> value = getPlayersInGame();
         for (Player player : value) {
             if (player.getState() == PlayerState.DEFEND) {
                 return player;
@@ -77,12 +81,13 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public void shiftDefendingPlayer() {
         Player defendingPlayer = getDefendingPlayer();
-        Player nextPlayer = getNextPlayer(defendingPlayer);
 
-        List<Player> playersList = getPlayersList();
+        List<Player> playersList = getPlayersInGame();
         for (Player player : playersList) {
             player.setState(PlayerState.NONE);
         }
+
+        Player nextPlayer = MainActivity.playersViewModel.getNextPlayer(defendingPlayer);
 
         defendingPlayer.setState(PlayerState.ATTACK);
         nextPlayer.setState(PlayerState.DEFEND);
@@ -92,7 +97,7 @@ public class PlayersViewModel extends AndroidViewModel {
         if (MainActivity.deckViewModel.hasCards()) {
             return false;
         }
-        List<Player> playersList = getPlayersList();
+        List<Player> playersList = getPlayersInGame();
         int count = 0;
         for (Player player : playersList) {
             if (!player.getHand().isEmpty()) {

@@ -15,6 +15,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,6 +24,7 @@ abstract class CardView extends LinearLayout {
     @BindView(R.id.tvNumber) TextView tvNumber;
     @BindView(R.id.tvNumberBottom) TextView tvNumberBottom;
     @BindView(R.id.icon) View icon;
+    @BindView(R.id.background) View background;
 
     private Card card;
     private Player owner;
@@ -54,8 +56,8 @@ abstract class CardView extends LinearLayout {
 
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(getResId(), this, true);
-        ButterKnife.bind(this, view);
+        View root = inflater.inflate(getResId(), this, true);
+        ButterKnife.bind(this, root);
 
         if (owner != null) {
             setOnLongClickListener(v -> {
@@ -94,5 +96,10 @@ abstract class CardView extends LinearLayout {
         int textColor = color ? getResources().getColor(R.color.red) : Color.BLACK;
         tvNumber.setTextColor(textColor);
         tvNumberBottom.setTextColor(textColor);
+
+        if (card.isStrong()) {
+            ViewCompat.setBackgroundTintList(background,
+                    getResources().getColorStateList(R.color.cyan));
+        }
     }
 }

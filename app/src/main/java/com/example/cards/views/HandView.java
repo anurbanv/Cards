@@ -52,7 +52,7 @@ public abstract class HandView extends LinearLayout {
             setBackgroundColor(Color.RED);
         } else if (player.getState() == PlayerState.DEFEND) {
             setBackgroundColor(Color.BLUE);
-        } else if (player.getState() == PlayerState.OUT){
+        } else if (player.isOut()){
             setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         } else {
             setBackgroundColor(getResources().getColor(R.color.gray));

@@ -49,7 +49,7 @@ public class DeckView extends LinearLayout {
         ButterKnife.bind(this, root);
 
         btnDeck.setOnClickListener(v -> {
-            List<Player> playersList = MainActivity.playersViewModel.getPlayersList();
+            List<Player> playersList = MainActivity.playersViewModel.getPlayersInGame();
             for (Player player : playersList) {
                 while (player.getHand().size() < 6) {
                     if (MainActivity.deckViewModel.hasCards()) {

@@ -10,6 +10,7 @@ public class Player {
     private List<Card> hand;
     private int id;
     private PlayerState state = PlayerState.NONE;
+    private boolean isOut = false;
 
     public Player(int id) {
         this.id = id;
@@ -33,11 +34,6 @@ public class Player {
         MainActivity.playersViewModel.updatePlayer(this);
     }
 
-    public void removeCard(int index) {
-        hand.remove(index);
-        MainActivity.playersViewModel.updatePlayer(this);
-    }
-
     public void removeCard(Card card) {
         hand.remove(card);
         MainActivity.playersViewModel.updatePlayer(this);
@@ -50,5 +46,14 @@ public class Player {
     public void setState(PlayerState state) {
         this.state = state;
         MainActivity.playersViewModel.updatePlayer(this);
+    }
+
+    public void setPlayerOut() {
+        isOut = true;
+        MainActivity.playersViewModel.updatePlayer(this);
+    }
+
+    public boolean isOut() {
+        return isOut;
     }
 }
