@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 public abstract class HandView extends LinearLayout {
 
     @BindView(R.id.llCards) LinearLayout llCards;
+    @BindView(R.id.scrollView) View scrollView;
 
     public HandView(Context context) {
         super(context);
@@ -49,13 +50,13 @@ public abstract class HandView extends LinearLayout {
             llCards.addView(getCardView(getContext(), card, player));
         }
         if (player.getState() == PlayerState.ATTACK) {
-            setBackgroundColor(Color.RED);
+            scrollView.setBackgroundColor(Color.RED);
         } else if (player.getState() == PlayerState.DEFEND) {
-            setBackgroundColor(Color.BLUE);
-        } else if (player.isOut()){
-            setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            scrollView.setBackgroundColor(Color.BLUE);
+        } else if (player.isOut()) {
+            scrollView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         } else {
-            setBackgroundColor(getResources().getColor(R.color.gray));
+            scrollView.setBackgroundColor(getResources().getColor(R.color.gray));
         }
     }
 

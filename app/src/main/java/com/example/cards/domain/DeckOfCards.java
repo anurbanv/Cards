@@ -13,7 +13,7 @@ public class DeckOfCards {
         cardStack = new Stack<>();
         List<Card> cardList = new ArrayList<>();
         for (Suite value : Suite.values()) {
-            for (int i = 6; i < 11; i++) {
+            for (int i = 6; i < 10; i++) {
                 Card card = new Card(value, i);
                 cardList.add(card);
             }

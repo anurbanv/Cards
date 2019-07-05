@@ -2,7 +2,6 @@ package com.example.cards.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Toast;
 
 import com.example.cards.MainActivity;
 import com.example.cards.domain.Card;
@@ -35,12 +34,7 @@ public class DoneButton extends AppCompatButton {
                 MainActivity.deckViewModel.placeCardToOutDeck(card);
             }
 
-            boolean gameFinished = MainActivity.playersViewModel.isGameFinished();
-            if (gameFinished) {
-                Toast.makeText(context, "GAME FINISHED", Toast.LENGTH_LONG).show();
-            } else {
-                MainActivity.playersViewModel.shiftDefendingPlayer();
-            }
+            MainActivity.playersViewModel.finishRound(false);
         });
     }
 

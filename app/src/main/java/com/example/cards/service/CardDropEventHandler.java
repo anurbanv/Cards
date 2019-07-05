@@ -63,7 +63,7 @@ public class CardDropEventHandler {
                     }
                     if (allSameNumber) {
                         success = true;
-                        MainActivity.playersViewModel.shiftDefendingPlayer();
+                        //MainActivity.playersViewModel.shiftDefendingPlayer();
                     } else {
                         LogUtil.w("Not all cards are number " + card.getNumber());
                     }

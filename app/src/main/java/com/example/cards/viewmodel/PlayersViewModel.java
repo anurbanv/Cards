@@ -2,6 +2,7 @@ package com.example.cards.viewmodel;
 
 import android.app.Application;
 
+import com.andrius.logutil.LogUtil;
 import com.example.cards.MainActivity;
 import com.example.cards.domain.Player;
 import com.example.cards.domain.PlayerState;
@@ -25,6 +26,10 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public LiveData<List<Player>> getPlayers() {
         return players;
+    }
+
+    public List<Player> getAllPlayers() {
+        return players.getValue();
     }
 
     public List<Player> getPlayersInGame() {
@@ -69,6 +74,16 @@ public class PlayersViewModel extends AndroidViewModel {
         }
     }
 
+    public Player getPreviousPlayer(Player player) {
+        List<Player> value = getPlayersInGame();
+        int index = value.indexOf(player);
+        if (index == 0) {
+            return value.get(value.size() - 1);
+        } else {
+            return value.get(index - 1);
+        }
+    }
+
     public Player getDefendingPlayer() {
         List<Player> value = getPlayersInGame();
         for (Player player : value) {
@@ -79,10 +94,37 @@ public class PlayersViewModel extends AndroidViewModel {
         throw new IllegalStateException("Defending player not found");
     }
 
+    public void finishRound(boolean tookHome) {
+        Player defendingPlayer = getDefendingPlayer();
+
+        List<Player> allPlayers = getPlayersInGame();
+
+        for (Player player : allPlayers) {
+            player.setState(PlayerState.NONE);
+            player.checkIfOut();
+        }
+        // todo investigate shift of players when one or more goes out
+        Player nextPlayer = getNextPlayer(defendingPlayer);
+        Player previousPlayer = getPreviousPlayer(nextPlayer);
+        nextPlayer.setState(PlayerState.DEFEND);
+        previousPlayer.setState(PlayerState.ATTACK);
+
+        LogUtil.d("---");
+        for (Player allPlayer : getAllPlayers()) {
+            String state;
+            if (allPlayer.isOut()) {
+                state = "out";
+            } else {
+                state = allPlayer.getState().toString();
+            }
+            LogUtil.d(allPlayer.getId() + " " + state);
+        }
+    }
+
     public void shiftDefendingPlayer() {
         Player defendingPlayer = getDefendingPlayer();
 
-        List<Player> playersList = getPlayersInGame();
+        List<Player> playersList = getAllPlayers();
         for (Player player : playersList) {
             player.setState(PlayerState.NONE);
         }
@@ -91,19 +133,5 @@ public class PlayersViewModel extends AndroidViewModel {
 
         defendingPlayer.setState(PlayerState.ATTACK);
         nextPlayer.setState(PlayerState.DEFEND);
-    }
-
-    public boolean isGameFinished() {
-        if (MainActivity.deckViewModel.hasCards()) {
-            return false;
-        }
-        List<Player> playersList = getPlayersInGame();
-        int count = 0;
-        for (Player player : playersList) {
-            if (!player.getHand().isEmpty()) {
-                count++;
-            }
-        }
-        return count < 2;
     }
 }

@@ -48,9 +48,11 @@ public class Player {
         MainActivity.playersViewModel.updatePlayer(this);
     }
 
-    public void setPlayerOut() {
-        isOut = true;
-        MainActivity.playersViewModel.updatePlayer(this);
+    public void checkIfOut() {
+        if (hand.isEmpty() && !MainActivity.deckViewModel.hasCards()) {
+            isOut = true;
+            MainActivity.playersViewModel.updatePlayer(this);
+        }
     }
 
     public boolean isOut() {
