@@ -16,7 +16,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.btnTest) Button btnTest;
+    @BindView(R.id.btn2Players) Button btn2Players;
+    @BindView(R.id.btn4Players) Button btn4Players;
+    @BindView(R.id.btn6Players) Button btn6Players;
 
     public static DeckViewModel deckViewModel;
     public static PlayersViewModel playersViewModel;
@@ -45,12 +47,16 @@ public class MainActivity extends AppCompatActivity {
             gameFieldViewModel = ViewModelProviders.of(this).get(GameFieldViewModel.class);
         }
 
-        btnTest.setOnClickListener(v -> {
-            resetModels();
-            Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra("count", 2);
-            startActivity(intent);
-        });
+        btn2Players.setOnClickListener(v -> startGameActivity(2));
+        btn4Players.setOnClickListener(v -> startGameActivity(4));
+        btn6Players.setOnClickListener(v -> startGameActivity(6));
+    }
+
+    private void startGameActivity(int playerCount) {
+        resetModels();
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("count", playerCount);
+        startActivity(intent);
     }
 
     private void resetModels() {

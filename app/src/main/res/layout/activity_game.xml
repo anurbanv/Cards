@@ -4,76 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal">
-
-        <com.example.cards.views.HomeButton
-            android:id="@+id/btnHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="home" />
-
-        <com.example.cards.views.GameFieldView
-            android:id="@+id/gameField"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.example.cards.views.DoneButton
-            android:id="@+id/btnDone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="done" />
-
-    </LinearLayout>
-
-
-    <com.example.cards.views.DeckView
-        android:id="@+id/deckView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/llField"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp" />
-
-    <com.example.cards.views.HandViewH
-        android:id="@+id/player1"
+    <com.example.cards.views.GameView
+        android:id="@+id/gameView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray"
-        android:minHeight="80dp" />
-
-    <com.example.cards.views.HandViewV
-        android:id="@+id/player2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="110dp"
-        android:layout_marginBottom="110dp"
-        android:background="@color/gray"
-        android:minWidth="50dp" />
-
-    <com.example.cards.views.HandViewH
-        android:id="@+id/player3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/gray"
-        android:minHeight="80dp" />
-
-    <com.example.cards.views.HandViewV
-        android:id="@+id/player4"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="110dp"
-        android:layout_marginBottom="110dp"
-        android:background="@color/gray"
-        android:minWidth="50dp" />
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
