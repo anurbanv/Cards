@@ -19,8 +19,7 @@ public class GameFieldViewModel extends AndroidViewModel {
 
     public GameFieldViewModel(@NonNull Application application) {
         super(application);
-        attackingCards.setValue(new Card[6]);
-        defendingCards.setValue(new Card[6]);
+        reset();
     }
 
     public LiveData<Card[]> getAttackingCards() {
@@ -29,6 +28,11 @@ public class GameFieldViewModel extends AndroidViewModel {
 
     public LiveData<Card[]> getDefendingCards() {
         return defendingCards;
+    }
+
+    public void reset() {
+        attackingCards.setValue(new Card[6]);
+        defendingCards.setValue(new Card[6]);
     }
 
     public Card getAttackCardAtIndex(int index) {

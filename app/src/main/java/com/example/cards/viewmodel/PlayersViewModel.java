@@ -23,7 +23,7 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public PlayersViewModel(@NonNull Application application) {
         super(application);
-        players.setValue(new ArrayList<>());
+        reset();
     }
 
     public LiveData<List<Player>> getPlayers() {
@@ -32,6 +32,10 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public List<Player> getPlayersList() {
         return players.getValue();
+    }
+
+    public void reset() {
+        players.setValue(new ArrayList<>());
     }
 
     public void addPlayer(Player player) {

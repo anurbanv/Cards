@@ -20,12 +20,16 @@ public class DeckViewModel extends AndroidViewModel {
 
     public DeckViewModel(@NonNull Application application) {
         super(application);
-        deck.setValue(new DeckOfCards());
-        outCards.setValue(new ArrayList<>());
+        reset();
     }
 
     public LiveData<DeckOfCards> getDeck() {
         return deck;
+    }
+
+    public void reset() {
+        deck.setValue(new DeckOfCards());
+        outCards.setValue(new ArrayList<>());
     }
 
     public Card getLastCard() {
