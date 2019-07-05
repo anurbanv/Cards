@@ -25,12 +25,12 @@ import static com.example.cards.MainActivity.playersViewModel;
 
 public class GameView extends LinearLayout {
 
-    @BindView(R.id.player1) HandViewH player1;
-    @BindView(R.id.player2) HandViewV player2;
-    @BindView(R.id.player3) HandViewV player3;
-    @BindView(R.id.player4) HandViewH player4;
-    @BindView(R.id.player5) HandViewV player5;
-    @BindView(R.id.player6) HandViewV player6;
+    @BindView(R.id.player1) HandView player1;
+    @BindView(R.id.player2) HandView player2;
+    @BindView(R.id.player3) HandView player3;
+    @BindView(R.id.player4) HandView player4;
+    @BindView(R.id.player5) HandView player5;
+    @BindView(R.id.player6) HandView player6;
 
     @BindView(R.id.deckView) DeckView deckView;
 

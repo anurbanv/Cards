@@ -41,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="30sp" />
 
-    <com.example.cards.views.HandViewH
+    <com.example.cards.views.HandViewHorizontal
         android:id="@+id/player1"
         android:layout_width="300dp"
         android:layout_height="80dp"
@@ -56,14 +56,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.example.cards.views.HandViewV
+        <com.example.cards.views.HandViewVertical
             android:id="@+id/player5"
             android:layout_width="80dp"
             android:layout_height="300dp"
             android:layout_marginBottom="100dp"
             android:background="@color/gray" />
 
-        <com.example.cards.views.HandViewV
+        <com.example.cards.views.HandViewVertical
             android:id="@+id/player6"
             android:layout_width="80dp"
             android:layout_height="300dp"
@@ -78,14 +78,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.example.cards.views.HandViewV
+        <com.example.cards.views.HandViewVertical
             android:id="@+id/player3"
             android:layout_width="80dp"
             android:layout_height="300dp"
             android:layout_marginBottom="100dp"
             android:background="@color/gray" />
 
-        <com.example.cards.views.HandViewV
+        <com.example.cards.views.HandViewVertical
             android:id="@+id/player2"
             android:layout_width="80dp"
             android:layout_height="300dp"
@@ -94,7 +94,7 @@
     </LinearLayout>
 
 
-    <com.example.cards.views.HandViewH
+    <com.example.cards.views.HandViewHorizontal
         android:id="@+id/player4"
         android:layout_width="300dp"
         android:layout_height="80dp"

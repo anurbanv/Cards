@@ -13,13 +13,12 @@ import com.example.cards.MainActivity;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
-import com.example.cards.domain.Suite;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CardView extends LinearLayout {
+abstract class CardView extends LinearLayout {
 
     @BindView(R.id.tvNumber) TextView tvNumber;
     @BindView(R.id.tvNumberBottom) TextView tvNumberBottom;
@@ -51,9 +50,11 @@ public class CardView extends LinearLayout {
         init(context);
     }
 
+    abstract int getResId();
+
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_card, this, true);
+        View view = inflater.inflate(getResId(), this, true);
         ButterKnife.bind(this, view);
 
         if (owner != null) {

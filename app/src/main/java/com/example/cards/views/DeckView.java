@@ -78,6 +78,6 @@ public class DeckView extends LinearLayout {
     }
 
     public void setLastCard(Card card) {
-        lastCard.addView(new CardView(getContext(), card));
+        lastCard.addView(new CardViewVertical(getContext(), card));
     }
 }

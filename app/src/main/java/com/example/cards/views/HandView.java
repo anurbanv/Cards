@@ -46,15 +46,18 @@ public abstract class HandView extends LinearLayout {
     public void update(Player player) {
         llCards.removeAllViews();
         for (Card card : player.getHand()) {
-            CardView cardView = new CardView(getContext(), card, player);
-            llCards.addView(cardView);
+            llCards.addView(getCardView(getContext(), card, player));
         }
         if (player.getState() == PlayerState.ATTACK) {
             setBackgroundColor(Color.RED);
         } else if (player.getState() == PlayerState.DEFEND) {
             setBackgroundColor(Color.BLUE);
+        } else if (player.getState() == PlayerState.OUT){
+            setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         } else {
             setBackgroundColor(getResources().getColor(R.color.gray));
         }
     }
+
+    abstract CardView getCardView(Context context, Card card, Player player);
 }

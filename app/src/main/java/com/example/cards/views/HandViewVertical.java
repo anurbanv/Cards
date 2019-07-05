@@ -11,17 +11,17 @@ import com.example.cards.domain.PlayerState;
 
 import androidx.annotation.Nullable;
 
-public class HandViewV extends HandView {
+public class HandViewVertical extends HandView {
 
-    public HandViewV(Context context) {
+    public HandViewVertical(Context context) {
         super(context);
     }
 
-    public HandViewV(Context context, @Nullable AttributeSet attrs) {
+    public HandViewVertical(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public HandViewV(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HandViewVertical(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -34,7 +34,7 @@ public class HandViewV extends HandView {
     public void update(Player player) {
         llCards.removeAllViews();
         for (Card card : player.getHand()) {
-            CardViewRotated cardView = new CardViewRotated(getContext(), card, player);
+            CardViewHorizontal cardView = new CardViewHorizontal(getContext(), card, player);
             llCards.addView(cardView);
         }
         if (player.getState() == PlayerState.ATTACK) {
@@ -44,5 +44,10 @@ public class HandViewV extends HandView {
         } else {
             setBackgroundColor(getResources().getColor(R.color.gray));
         }
+    }
+
+    @Override
+    CardView getCardView(Context context, Card card, Player player) {
+        return new CardViewHorizontal(getContext(), card, player);
     }
 }

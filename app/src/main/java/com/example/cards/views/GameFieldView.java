@@ -63,7 +63,7 @@ public class GameFieldView extends LinearLayout {
             cell.removeCard();
             Card card = cards[i];
             if (card != null) {
-                CardView cardView = new CardView(getContext(), card);
+                CardView cardView = new CardViewVertical(getContext(), card);
                 cell.setCard(cardView);
             }
         }
@@ -75,7 +75,7 @@ public class GameFieldView extends LinearLayout {
             cell.removeCard();
             Card card = cards[i];
             if (card != null) {
-                CardView cardView = new CardView(getContext(), card);
+                CardView cardView = new CardViewVertical(getContext(), card);
                 cell.setCard(cardView);
             }
         }
