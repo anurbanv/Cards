@@ -94,7 +94,7 @@ public class PlayersViewModel extends AndroidViewModel {
     public Player getDefendingPlayer() {
         List<Player> value = getPlayers().getValue();
         for (Player player : value) {
-            if (player.getState() == PlayerState.DEFEND) {
+            if (player.getState() == PlayerState.DEFEND && !player.isOut()) {
                 return player;
             }
         }

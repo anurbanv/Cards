@@ -16,7 +16,7 @@
             android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:text="home" />
 
         <com.example.cards.views.GameFieldView
@@ -28,7 +28,7 @@
             android:id="@+id/btnDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:text="done" />
 
     </LinearLayout>
@@ -43,7 +43,7 @@
 
     <com.example.cards.views.HandViewHorizontal
         android:id="@+id/player1"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -59,14 +59,14 @@
         <com.example.cards.views.HandViewVertical
             android:id="@+id/player5"
             android:layout_width="80dp"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="100dp"
             android:background="@color/gray" />
 
         <com.example.cards.views.HandViewVertical
             android:id="@+id/player6"
             android:layout_width="80dp"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:background="@color/gray" />
 
     </LinearLayout>
@@ -81,14 +81,14 @@
         <com.example.cards.views.HandViewVertical
             android:id="@+id/player3"
             android:layout_width="80dp"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="100dp"
             android:background="@color/gray" />
 
         <com.example.cards.views.HandViewVertical
             android:id="@+id/player2"
             android:layout_width="80dp"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:background="@color/gray" />
 
     </LinearLayout>
@@ -96,7 +96,7 @@
 
     <com.example.cards.views.HandViewHorizontal
         android:id="@+id/player4"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:background="@color/gray"
