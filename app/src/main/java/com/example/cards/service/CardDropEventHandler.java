@@ -35,8 +35,9 @@ public class CardDropEventHandler {
         Player defendingPlayer = MainActivity.playersViewModel.getDefendingPlayer();
 
         if (cardOwner.getState() == PlayerState.ATTACK) {
-            int left = (attackCards.size() - defendCards.size()) + defendingPlayer.getHand().size();
-            if (left > 0) {
+            int cardsToDefend = attackCards.size() - defendCards.size();
+            int handSize = defendingPlayer.getHand().size();
+            if (handSize - cardsToDefend > 0) {
                 if (attackCards.isEmpty()) {
                     success = true;
                 } else {
@@ -62,8 +63,9 @@ public class CardDropEventHandler {
                         }
                     }
                     if (allSameNumber) {
-                        success = true;
-                        //MainActivity.playersViewModel.shiftDefendingPlayer();
+                        cardOwner.removeCard(card);
+                        MainActivity.gameFieldViewModel.setAttackingCard(card, cell);
+                        MainActivity.playersViewModel.shiftDefendingPlayer();
                     } else {
                         LogUtil.w("Not all cards are number " + card.getNumber());
                     }

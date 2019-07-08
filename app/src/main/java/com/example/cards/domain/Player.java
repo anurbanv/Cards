@@ -31,12 +31,16 @@ public class Player {
 
     public void addCardToHand(Card card) {
         hand.add(card);
-        MainActivity.playersViewModel.updatePlayer(this);
+        MainActivity.playersViewModel.updatePlayers();
     }
 
     public void removeCard(Card card) {
         hand.remove(card);
-        MainActivity.playersViewModel.updatePlayer(this);
+        if (hand.isEmpty() && !MainActivity.deckViewModel.hasCards()) {
+            isOut = true;
+            MainActivity.playersViewModel.playerOut(this);
+        }
+        MainActivity.playersViewModel.updatePlayers();
     }
 
     public PlayerState getState() {
@@ -44,18 +48,22 @@ public class Player {
     }
 
     public void setState(PlayerState state) {
-        this.state = state;
-        MainActivity.playersViewModel.updatePlayer(this);
-    }
-
-    public void checkIfOut() {
-        if (hand.isEmpty() && !MainActivity.deckViewModel.hasCards()) {
-            isOut = true;
-            MainActivity.playersViewModel.updatePlayer(this);
+        if (this.state != state) {
+            this.state = state;
+            MainActivity.playersViewModel.updatePlayers();
         }
     }
 
     public boolean isOut() {
         return isOut;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                ", id=" + id +
+                ", state=" + state +
+                ", isOut=" + isOut +
+                '}';
     }
 }

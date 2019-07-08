@@ -50,14 +50,16 @@ public abstract class HandView extends LinearLayout {
             llCards.addView(getCardView(getContext(), card, player));
         }
 
-        if (player.getState() == PlayerState.ATTACK) {
-            DrawableCompat.setTint(getBackground(), Color.RED);
-        } else if (player.getState() == PlayerState.DEFEND) {
-            DrawableCompat.setTint(getBackground(), Color.BLUE);
-        } else if (player.isOut()) {
+        if (player.isOut()) {
             DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.colorPrimary));
         } else {
-            DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.gray));
+            if (player.getState() == PlayerState.ATTACK) {
+                DrawableCompat.setTint(getBackground(), Color.RED);
+            } else if (player.getState() == PlayerState.DEFEND) {
+                DrawableCompat.setTint(getBackground(), Color.BLUE);
+            } else {
+                DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.gray));
+            }
         }
     }
 
