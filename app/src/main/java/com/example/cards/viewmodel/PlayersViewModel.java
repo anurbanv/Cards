@@ -51,7 +51,7 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public void playerOut(Player player) {
-        if (player.getState() == PlayerState.ATTACK) {
+        if (player.getState() == PlayerState.ATTACK && getPlayersInGame().size() > 2) {
             Player previousPlayer = getPreviousPlayer(player);
             previousPlayer.setState(PlayerState.ATTACK);
         }
@@ -59,13 +59,26 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public Player getNextPlayer(Player player) {
-        List<Player> value = getPlayersInGame();
-        int index = value.indexOf(player);
-        if (value.size() == index + 1) {
-            return value.get(0);
-        } else {
-            return value.get(index + 1);
+        List<Player> value = getPlayers().getValue();
+
+        if (getPlayersInGame().size() < 2) {
+            return player;
         }
+
+        int index = value.indexOf(player);
+        if (index != -1) {
+            Player nextPlayer = null;
+            while (nextPlayer == null || nextPlayer.isOut()) {
+                if (index == value.size() - 1) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                nextPlayer = value.get(index);
+            }
+            return nextPlayer;
+        }
+        return player;
     }
 
     public Player getPreviousPlayer(Player player) {

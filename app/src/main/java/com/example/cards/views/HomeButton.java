@@ -30,7 +30,6 @@ public class HomeButton extends AppCompatButton {
         init(context);
     }
 
-
     private void init(Context context) {
         setOnClickListener(v -> {
             List<Card> cards = MainActivity.gameFieldViewModel.removeAllCardsFromField();

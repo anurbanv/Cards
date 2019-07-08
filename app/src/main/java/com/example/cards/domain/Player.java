@@ -61,13 +61,4 @@ public class Player {
         isOut = true;
         MainActivity.playersViewModel.updatePlayers();
     }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                ", id=" + id +
-                ", state=" + state +
-                ", isOut=" + isOut +
-                '}';
-    }
 }
