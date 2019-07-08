@@ -36,7 +36,6 @@ public class GameActivity extends AppCompatActivity {
 
         deckViewModel.getDeck().observe(this, deckOfCards -> gameView.updateDeck(deckOfCards));
         deckViewModel.getOutCards().observe(this, cards -> gameView.updateDeck(cards));
-        gameView.setLastCard(deckViewModel.getLastCard());
 
         playersViewModel.getPlayers().observe(this, players -> gameView.updatePlayers(players));
 

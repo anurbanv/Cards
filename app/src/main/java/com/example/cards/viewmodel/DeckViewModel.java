@@ -31,11 +31,6 @@ public class DeckViewModel extends AndroidViewModel {
         outCards.setValue(new ArrayList<>());
     }
 
-    public Card getLastCard() {
-        DeckOfCards value = deck.getValue();
-        return value.getLastCard();
-    }
-
     public MutableLiveData<List<Card>> getOutCards() {
         return outCards;
     }

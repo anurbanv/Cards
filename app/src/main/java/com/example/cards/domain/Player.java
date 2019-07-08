@@ -37,7 +37,6 @@ public class Player {
     public void removeCard(Card card) {
         hand.remove(card);
         if (hand.isEmpty() && !MainActivity.deckViewModel.hasCards()) {
-            isOut = true;
             MainActivity.playersViewModel.playerOut(this);
         }
         MainActivity.playersViewModel.updatePlayers();
@@ -56,6 +55,11 @@ public class Player {
 
     public boolean isOut() {
         return isOut;
+    }
+
+    public void setPlayerOut() {
+        isOut = true;
+        MainActivity.playersViewModel.updatePlayers();
     }
 
     @Override

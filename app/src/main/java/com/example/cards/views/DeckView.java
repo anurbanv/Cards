@@ -71,13 +71,11 @@ public class DeckView extends LinearLayout {
             tvDeckCount.setVisibility(GONE);
         }
         tvDeckCount.setText(String.valueOf(deck.cardCount()));
+        lastCard.removeAllViews();
+        lastCard.addView(new CardViewVertical(getContext(), deck.getLastCard()));
     }
 
     public void update(List<Card> outCards) {
         tvOutCount.setText(String.valueOf(outCards.size()));
-    }
-
-    public void setLastCard(Card card) {
-        lastCard.addView(new CardViewVertical(getContext(), card));
     }
 }

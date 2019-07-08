@@ -8,6 +8,7 @@ import java.util.Stack;
 public class DeckOfCards {
 
     private Stack<Card> cardStack;
+    private Card lastCard;
 
     public DeckOfCards() {
         cardStack = new Stack<>();
@@ -19,9 +20,9 @@ public class DeckOfCards {
             }
         }
         Collections.shuffle(cardList);
-        Card strong = cardList.get(0);
+        lastCard = cardList.get(0);
         for (Card card : cardList) {
-            if (card.getSuite() == strong.getSuite()) {
+            if (card.getSuite() == lastCard.getSuite()) {
                 card.setStrong(true);
             }
             cardStack.push(card);
@@ -37,7 +38,7 @@ public class DeckOfCards {
     }
 
     public Card getLastCard() {
-        return cardStack.get(0);
+        return lastCard;
     }
 
     public boolean isEmpty() {

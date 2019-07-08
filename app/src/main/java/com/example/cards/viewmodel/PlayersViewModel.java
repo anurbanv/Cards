@@ -55,6 +55,7 @@ public class PlayersViewModel extends AndroidViewModel {
             Player previousPlayer = getPreviousPlayer(player);
             previousPlayer.setState(PlayerState.ATTACK);
         }
+        player.setPlayerOut();
     }
 
     public Player getNextPlayer(Player player) {
@@ -78,7 +79,7 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public Player getDefendingPlayer() {
-        List<Player> value = getPlayersInGame();
+        List<Player> value = getPlayers().getValue();
         for (Player player : value) {
             if (player.getState() == PlayerState.DEFEND) {
                 return player;

@@ -79,10 +79,6 @@ public class GameView extends LinearLayout {
         deckView.update(outCards);
     }
 
-    public void setLastCard(Card card) {
-        deckView.setLastCard(card);
-    }
-
     public void updateAttackCards(Card[] cards) {
         btnHome.update(gameFieldViewModel.getDefendingCardList(),
                 gameFieldViewModel.getAttackingCardList());
