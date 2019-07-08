@@ -9,7 +9,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class GameFieldViewModel extends AndroidViewModel {
@@ -22,11 +21,11 @@ public class GameFieldViewModel extends AndroidViewModel {
         reset();
     }
 
-    public LiveData<Card[]> getAttackingCards() {
+    public MutableLiveData<Card[]> getAttackingCards() {
         return attackingCards;
     }
 
-    public LiveData<Card[]> getDefendingCards() {
+    public MutableLiveData<Card[]> getDefendingCards() {
         return defendingCards;
     }
 

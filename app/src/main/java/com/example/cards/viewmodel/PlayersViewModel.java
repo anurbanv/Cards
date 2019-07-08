@@ -10,7 +10,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class PlayersViewModel extends AndroidViewModel {
@@ -22,7 +21,7 @@ public class PlayersViewModel extends AndroidViewModel {
         reset();
     }
 
-    public LiveData<List<Player>> getPlayers() {
+    public MutableLiveData<List<Player>> getPlayers() {
         return players;
     }
 

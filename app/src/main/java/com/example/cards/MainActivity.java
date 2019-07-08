@@ -9,6 +9,8 @@ import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
+import java.io.File;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
@@ -24,12 +26,18 @@ public class MainActivity extends AppCompatActivity {
     public static PlayersViewModel playersViewModel;
     public static CurrentDragViewModel currentDragViewModel;
     public static GameFieldViewModel gameFieldViewModel;
+    public static File latestSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        if (latestSave == null) {
+            File appDir = getExternalFilesDir(null);
+            latestSave = new File(appDir, "latestSave.txt");
+        }
 
         if (deckViewModel == null) {
             deckViewModel = ViewModelProviders.of(this).get(DeckViewModel.class);

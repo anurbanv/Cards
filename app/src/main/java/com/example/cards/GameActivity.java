@@ -1,7 +1,9 @@
 package com.example.cards;
 
 import android.os.Bundle;
+import android.widget.Button;
 
+import com.example.cards.domain.Save;
 import com.example.cards.views.GameView;
 
 import androidx.annotation.Nullable;
@@ -17,6 +19,8 @@ import static com.example.cards.MainActivity.playersViewModel;
 public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.gameView) GameView gameView;
+    @BindView(R.id.btnSave) Button btnSave;
+    @BindView(R.id.btnRestore) Button btnRestore;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +57,9 @@ public class GameActivity extends AppCompatActivity {
                     });
             builder.create().show();
         });
+
+        btnSave.setOnClickListener(v -> Save.saveToFileSystem());
+        btnRestore.setOnClickListener(v -> Save.restoreFromFileSystem());
 
         gameView.startGame(count);
     }

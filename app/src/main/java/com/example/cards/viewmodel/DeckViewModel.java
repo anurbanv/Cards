@@ -10,7 +10,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class DeckViewModel extends AndroidViewModel {
@@ -23,7 +22,7 @@ public class DeckViewModel extends AndroidViewModel {
         reset();
     }
 
-    public LiveData<DeckOfCards> getDeck() {
+    public MutableLiveData<DeckOfCards> getDeck() {
         return deck;
     }
 
@@ -37,7 +36,7 @@ public class DeckViewModel extends AndroidViewModel {
         return value.getLastCard();
     }
 
-    public LiveData<List<Card>> getOutCards() {
+    public MutableLiveData<List<Card>> getOutCards() {
         return outCards;
     }
 
