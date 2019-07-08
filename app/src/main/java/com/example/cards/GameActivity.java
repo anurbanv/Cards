@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.example.cards.views.GameView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +41,18 @@ public class GameActivity extends AppCompatActivity {
 
         gameFieldViewModel.getDefendingCards().observe(this, cards ->
                 gameView.updateDefendCards(cards));
+
+        gameView.setGameOverListener(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("Title")
+                    .setCancelable(false)
+                    .setMessage("message")
+                    .setPositiveButton("button", (dialog, which) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+            builder.create().show();
+        });
 
         gameView.startGame(count);
     }

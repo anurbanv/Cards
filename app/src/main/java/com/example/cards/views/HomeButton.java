@@ -13,6 +13,8 @@ import androidx.appcompat.widget.AppCompatButton;
 
 public class HomeButton extends AppCompatButton {
 
+    private GameView.GameOverListener listener;
+
     public HomeButton(Context context) {
         super(context);
         init(context);
@@ -37,7 +39,10 @@ public class HomeButton extends AppCompatButton {
                 player.addCardToHand(card);
             }
 
-            MainActivity.playersViewModel.finishRound(true);
+            boolean gameOver = MainActivity.playersViewModel.finishRound(true);
+            if (gameOver && listener != null) {
+                listener.onGameOver();
+            }
         });
     }
 
@@ -47,5 +52,9 @@ public class HomeButton extends AppCompatButton {
             return;
         }
         setEnabled(true);
+    }
+
+    public void setListener(GameView.GameOverListener listener) {
+        this.listener = listener;
     }
 }

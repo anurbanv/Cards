@@ -25,6 +25,15 @@ import static com.example.cards.MainActivity.playersViewModel;
 
 public class GameView extends LinearLayout {
 
+    public void setGameOverListener(GameOverListener gameOverListener) {
+        btnHome.setListener(gameOverListener);
+        btnDone.setListener(gameOverListener);
+    }
+
+    public interface GameOverListener {
+        void onGameOver();
+    }
+
     @BindView(R.id.player1) HandView player1;
     @BindView(R.id.player2) HandView player2;
     @BindView(R.id.player3) HandView player3;

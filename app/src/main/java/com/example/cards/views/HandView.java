@@ -13,13 +13,13 @@ import com.example.cards.domain.Player;
 import com.example.cards.domain.PlayerState;
 
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public abstract class HandView extends LinearLayout {
 
     @BindView(R.id.llCards) LinearLayout llCards;
-    @BindView(R.id.scrollView) View scrollView;
 
     public HandView(Context context) {
         super(context);
@@ -49,14 +49,15 @@ public abstract class HandView extends LinearLayout {
         for (Card card : player.getHand()) {
             llCards.addView(getCardView(getContext(), card, player));
         }
+
         if (player.getState() == PlayerState.ATTACK) {
-            scrollView.setBackgroundColor(Color.RED);
+            DrawableCompat.setTint(getBackground(), Color.RED);
         } else if (player.getState() == PlayerState.DEFEND) {
-            scrollView.setBackgroundColor(Color.BLUE);
+            DrawableCompat.setTint(getBackground(), Color.BLUE);
         } else if (player.isOut()) {
-            scrollView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.colorPrimary));
         } else {
-            scrollView.setBackgroundColor(getResources().getColor(R.color.gray));
+            DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.gray));
         }
     }
 

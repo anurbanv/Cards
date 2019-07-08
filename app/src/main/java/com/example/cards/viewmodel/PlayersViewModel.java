@@ -2,7 +2,6 @@ package com.example.cards.viewmodel;
 
 import android.app.Application;
 
-import com.andrius.logutil.LogUtil;
 import com.example.cards.MainActivity;
 import com.example.cards.domain.Player;
 import com.example.cards.domain.PlayerState;
@@ -74,16 +73,6 @@ public class PlayersViewModel extends AndroidViewModel {
         }
     }
 
-    public Player getPreviousPlayer(Player player) {
-        List<Player> value = getPlayersInGame();
-        int index = value.indexOf(player);
-        if (index == 0) {
-            return value.get(value.size() - 1);
-        } else {
-            return value.get(index - 1);
-        }
-    }
-
     public Player getDefendingPlayer() {
         List<Player> value = getPlayersInGame();
         for (Player player : value) {
@@ -94,7 +83,7 @@ public class PlayersViewModel extends AndroidViewModel {
         throw new IllegalStateException("Defending player not found");
     }
 
-    public void finishRound(boolean tookHome) {
+    public boolean finishRound(boolean tookHome) {
         Player defendingPlayer = getDefendingPlayer();
 
         List<Player> allPlayers = getPlayersInGame();
@@ -103,21 +92,23 @@ public class PlayersViewModel extends AndroidViewModel {
             player.setState(PlayerState.NONE);
             player.checkIfOut();
         }
-        // todo investigate shift of players when one or more goes out
-        Player nextPlayer = getNextPlayer(defendingPlayer);
-        Player previousPlayer = getPreviousPlayer(nextPlayer);
-        nextPlayer.setState(PlayerState.DEFEND);
-        previousPlayer.setState(PlayerState.ATTACK);
 
-        LogUtil.d("---");
-        for (Player allPlayer : getAllPlayers()) {
-            String state;
-            if (allPlayer.isOut()) {
-                state = "out";
+        allPlayers = getPlayersInGame();
+
+        if (allPlayers.size() > 1) {
+            if (defendingPlayer.isOut() || tookHome) {
+                Player nextPlayer = getNextPlayer(defendingPlayer);
+                nextPlayer.setState(PlayerState.ATTACK);
+                Player nextPlayer1 = getNextPlayer(nextPlayer);
+                nextPlayer1.setState(PlayerState.DEFEND);
             } else {
-                state = allPlayer.getState().toString();
+                Player nextPlayer = getNextPlayer(defendingPlayer);
+                nextPlayer.setState(PlayerState.DEFEND);
+                defendingPlayer.setState(PlayerState.ATTACK);
             }
-            LogUtil.d(allPlayer.getId() + " " + state);
+            return false;
+        } else {
+            return true;
         }
     }
 

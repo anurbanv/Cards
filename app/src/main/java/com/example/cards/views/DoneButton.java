@@ -12,6 +12,8 @@ import androidx.appcompat.widget.AppCompatButton;
 
 public class DoneButton extends AppCompatButton {
 
+    private GameView.GameOverListener listener;
+
     public DoneButton(Context context) {
         super(context);
         init(context);
@@ -34,7 +36,10 @@ public class DoneButton extends AppCompatButton {
                 MainActivity.deckViewModel.placeCardToOutDeck(card);
             }
 
-            MainActivity.playersViewModel.finishRound(false);
+            boolean gameOver = MainActivity.playersViewModel.finishRound(false);
+            if (gameOver && listener != null) {
+                listener.onGameOver();
+            }
         });
     }
 
@@ -48,5 +53,9 @@ public class DoneButton extends AppCompatButton {
             return;
         }
         setEnabled(true);
+    }
+
+    public void setListener(GameView.GameOverListener listener) {
+        this.listener = listener;
     }
 }
