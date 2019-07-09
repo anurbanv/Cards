@@ -34,6 +34,11 @@ public class Save {
         FileUtil.writeText(file, jsonString);
     }
 
+    public static void restoreFromJsonString(String json) {
+        Save save = gson.fromJson(json, Save.class);
+        save.restoreState();
+    }
+
     private Save() {
         deckOfCards = deckViewModel.getDeck().getValue();
         outCards = deckViewModel.getOutCards().getValue();
