@@ -3,13 +3,16 @@ package com.example.cards;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andrius.logutil.LogUtil;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
@@ -21,6 +24,8 @@ public class HostRoomActivity extends AppCompatActivity {
 
     @BindView(R.id.etRoomId) EditText etRoomId;
     @BindView(R.id.btnHost) Button btnHost;
+    @BindView(R.id.etPlayerName) EditText etPlayerName;
+    @BindView(R.id.tvPlayers) TextView tvPlayers;
 
     private FirebaseFirestore db;
     private String roomId;
@@ -37,26 +42,35 @@ public class HostRoomActivity extends AppCompatActivity {
     }
 
     private void hostRoom() {
-        roomId = etRoomId.getText().toString().trim();
+        String roomId = etRoomId.getText().toString().trim();
         if (roomId.length() < 5) {
             Toast.makeText(this, "id min length is 5", Toast.LENGTH_SHORT).show();
             return;
         }
+        String playerName = etPlayerName.getText().toString().trim();
+        if (playerName.isEmpty()) {
+            Toast.makeText(this, "enter player name", Toast.LENGTH_SHORT).show();
+        }
+
+        this.roomId = roomId;
 
         etRoomId.setEnabled(false);
         btnHost.setEnabled(false);
+        etPlayerName.setEnabled(false);
 
+        List<String> playerNames = new ArrayList<>();
+        playerNames.add(playerName);
         Map<String, Object> game = new HashMap<>();
-        game.put("test", "test");
+        game.put("players", playerNames);
 
         DocumentReference games = db.collection("games").document(roomId);
         games.set(game)
                 .addOnSuccessListener(aVoid -> {
                     LogUtil.d("success");
+                    tvPlayers.setText(playerName);
                 }).addOnFailureListener(e -> {
             LogUtil.d("fail");
         });
-
     }
 
     @Override
