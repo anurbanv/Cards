@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn4Players) Button btn4Players;
     @BindView(R.id.btn6Players) Button btn6Players;
 
+    @BindView(R.id.btnHost) Button btnHost;
+
     public static DeckViewModel deckViewModel;
     public static PlayersViewModel playersViewModel;
     public static CurrentDragViewModel currentDragViewModel;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         btn2Players.setOnClickListener(v -> startGameActivity(2));
         btn4Players.setOnClickListener(v -> startGameActivity(4));
         btn6Players.setOnClickListener(v -> startGameActivity(6));
+
+        btnHost.setOnClickListener(v -> startActivity(new Intent(this, HostRoomActivity.class)));
     }
 
     private void startGameActivity(int playerCount) {
