@@ -1,6 +1,7 @@
 package com.example.cards;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -63,8 +64,8 @@ public class HostRoomActivity extends AppCompatActivity {
         Map<String, Object> game = new HashMap<>();
         game.put("players", playerNames);
 
-        DocumentReference games = db.collection("games").document(roomId);
-        games.set(game)
+        DocumentReference room = db.collection("games").document(roomId);
+        room.set(game)
                 .addOnSuccessListener(aVoid -> {
                     LogUtil.d("success");
                     tvPlayers.setText(playerName);
@@ -75,7 +76,7 @@ public class HostRoomActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (!roomId.isEmpty()) {
+        if (!TextUtils.isEmpty(roomId)) {
             DocumentReference room = db.collection("games").document(roomId);
             room.delete()
                     .addOnSuccessListener(aVoid -> {

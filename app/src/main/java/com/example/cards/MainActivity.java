@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn6Players) Button btn6Players;
 
     @BindView(R.id.btnHost) Button btnHost;
+    @BindView(R.id.btnJoin) Button btnJoin;
 
     public static DeckViewModel deckViewModel;
     public static PlayersViewModel playersViewModel;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         btn6Players.setOnClickListener(v -> startGameActivity(6));
 
         btnHost.setOnClickListener(v -> startActivity(new Intent(this, HostRoomActivity.class)));
+        btnJoin.setOnClickListener(v -> startActivity(new Intent(this, JoinRoomActivity.class)));
     }
 
     private void startGameActivity(int playerCount) {
