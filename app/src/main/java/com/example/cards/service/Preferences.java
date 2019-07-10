@@ -13,11 +13,11 @@ public class Preferences {
     }
 
     public void setHostedRoomId(String roomId) {
-        prefs.edit().putString("roomId", roomId).apply();
+        prefs.edit().putString("hostRoomId", roomId).apply();
     }
 
     public String getHostedRoomId() {
-        return prefs.getString("roomId", "");
+        return prefs.getString("hostRoomId", "");
     }
 
     public void setPlayerName(String playerName) {
@@ -26,5 +26,13 @@ public class Preferences {
 
     public String getPlayerName() {
         return prefs.getString("playerName", "");
+    }
+
+    public void setJoinRoomId(String roomId) {
+        prefs.edit().putString("joinRoomId", roomId).apply();
+    }
+
+    public String getJoinRoomId() {
+        return prefs.getString("joinRoomId", "");
     }
 }
