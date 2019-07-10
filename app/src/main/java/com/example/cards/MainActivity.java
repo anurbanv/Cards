@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.google.firebase.FirebaseApp;
 
 import java.io.File;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static CurrentDragViewModel currentDragViewModel;
     public static GameFieldViewModel gameFieldViewModel;
     public static File latestSave;
+    public static Preferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (latestSave == null) {
-            File appDir = getExternalFilesDir(null);
-            latestSave = new File(appDir, "latestSave.txt");
-        }
+        FirebaseApp.initializeApp(this);
 
         if (deckViewModel == null) {
             deckViewModel = ViewModelProviders.of(this).get(DeckViewModel.class);
@@ -56,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (gameFieldViewModel == null) {
             gameFieldViewModel = ViewModelProviders.of(this).get(GameFieldViewModel.class);
+        }
+
+        if (latestSave == null) {
+            File appDir = getExternalFilesDir(null);
+            latestSave = new File(appDir, "latestSave.txt");
+        }
+
+        if (prefs == null) {
+            prefs = new Preferences(this);
         }
 
         btn2Players.setOnClickListener(v -> startGameActivity(2));
