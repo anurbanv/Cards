@@ -11,20 +11,6 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btnSend"
-        android:text="send"
-        android:layout_toEndOf="@id/btnSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/btnReceive"
-        android:text="receive"
-        android:layout_toStartOf="@id/btnRestore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
         android:id="@+id/btnRestore"
         android:text="restore"
         android:layout_alignParentEnd="true"
