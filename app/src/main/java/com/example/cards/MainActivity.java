@@ -9,6 +9,7 @@ import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 import com.google.firebase.FirebaseApp;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static PlayersViewModel playersViewModel;
     public static CurrentDragViewModel currentDragViewModel;
     public static GameFieldViewModel gameFieldViewModel;
+    public static RoomViewModel roomViewModel;
     public static File latestSave;
     public static Preferences prefs;
 
@@ -55,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (gameFieldViewModel == null) {
             gameFieldViewModel = ViewModelProviders.of(this).get(GameFieldViewModel.class);
+        }
+
+        if (roomViewModel == null) {
+            roomViewModel = ViewModelProviders.of(this).get(RoomViewModel.class);
         }
 
         if (latestSave == null) {

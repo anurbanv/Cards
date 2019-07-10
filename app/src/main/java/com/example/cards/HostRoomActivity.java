@@ -42,40 +42,60 @@ public class HostRoomActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         prefs = MainActivity.prefs;
 
-        String hostedRoomId = prefs.getHostedRoomId();
+        MainActivity.roomViewModel.getRoom().observe(this, room -> {
+            if (room != null) {
+                String text = "";
+                for (String player : room.getPlayers()) {
+                    text += player + "\n";
+                }
+                tvPlayers.setText(text);
+            } else {
+                LogUtil.d("Room is null");
+            }
+        });
 
-        if (!hostedRoomId.isEmpty()) {
-            setInputEnabled(false);
-
-            etRoomId.setText(hostedRoomId);
-            etPlayerName.setText(prefs.getPlayerName());
-
-            DocumentReference room = db.collection("games").document(hostedRoomId);
-            room.addSnapshotListener((documentSnapshot, e) -> updateText(documentSnapshot));
-            room.get().addOnSuccessListener(this::updateText);
-        }
-
-        String joinRoomId = prefs.getJoinRoomId();
-
-        if (!joinRoomId.isEmpty()) {
-            setInputEnabled(false);
-            etRoomId.setText(joinRoomId);
-            etPlayerName.setText(prefs.getPlayerName());
-
-            DocumentReference room = db.collection("games").document(joinRoomId);
-            room.addSnapshotListener((documentSnapshot, e) -> updateText(documentSnapshot));
-            room.get().addOnSuccessListener(this::updateText);
-        }
+//        String hostedRoomId = prefs.getHostedRoomId();
+//
+//        if (!hostedRoomId.isEmpty()) {
+//            setInputEnabled(false);
+//
+//            etRoomId.setText(hostedRoomId);
+//            etPlayerName.setText(prefs.getPlayerName());
+//
+//            DocumentReference room = db.collection("games").document(hostedRoomId);
+//            room.addSnapshotListener((documentSnapshot, e) -> updateText(documentSnapshot));
+//            room.get().addOnSuccessListener(this::updateText);
+//        }
+//
+//        String joinRoomId = prefs.getJoinRoomId();
+//
+//        if (!joinRoomId.isEmpty()) {
+//            setInputEnabled(false);
+//            etRoomId.setText(joinRoomId);
+//            etPlayerName.setText(prefs.getPlayerName());
+//
+//            DocumentReference room = db.collection("games").document(joinRoomId);
+//            room.addSnapshotListener((documentSnapshot, e) -> updateText(documentSnapshot));
+//            room.get().addOnSuccessListener(this::updateText);
+//        }
 
         btnMultiPlayer.setOnClickListener(v -> {
-            setInputEnabled(false);
-            hostRoom();
+            String roomId = etRoomId.getText().toString().trim();
+            if (roomId.length() < 3) {
+                Toast.makeText(this, "id min length is 3", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            MainActivity.roomViewModel.createRoom(roomId, created -> {
+                if (!created) {
+                    Toast.makeText(this, "FAILED", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
-
-        btnJoin.setOnClickListener(v -> {
-            setInputEnabled(false);
-            joinRoom();
-        });
+//
+//        btnJoin.setOnClickListener(v -> {
+//            setInputEnabled(false);
+//            joinRoom();
+//        });
     }
 
     private void hostRoom() {
