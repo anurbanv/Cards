@@ -51,11 +51,15 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public void playerOut(Player player) {
-        if (player.getState() == PlayerState.ATTACK && getPlayersInGame().size() > 2) {
-            Player previousPlayer = getPreviousPlayer(player);
-            previousPlayer.setState(PlayerState.ATTACK);
+        if (getPlayersInGame().size() > 2) {
+            if (player.getState() == PlayerState.ATTACK) {
+                // next attacker
+                player.setState(PlayerState.NONE);
+            } else if (player.getState() == PlayerState.DEFEND) {
+                // next defender
+                player.setState(PlayerState.NONE);
+            }
         }
-        player.setPlayerOut();
     }
 
     public Player getNextPlayer(Player player) {
