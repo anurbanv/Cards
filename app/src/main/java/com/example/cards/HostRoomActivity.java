@@ -20,6 +20,7 @@ public class HostRoomActivity extends AppCompatActivity {
     @BindView(R.id.btnLeave) Button btnLeave;
     @BindView(R.id.etPlayerName) EditText etPlayerName;
     @BindView(R.id.roomView) RoomView roomView;
+    @BindView(R.id.btnStart) Button btnStart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +60,10 @@ public class HostRoomActivity extends AppCompatActivity {
                 etPlayerName.setText("");
             }
         }));
+
+        btnStart.setOnClickListener(v -> {
+
+        });
     }
 
     private void setInputEnabled(boolean enabled) {

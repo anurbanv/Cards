@@ -6,6 +6,7 @@ public class Room {
 
     private String roomId;
     private List<String> players;
+    private boolean started = false;
 
     public Room(String roomId, List<String> players) {
         this.roomId = roomId;
@@ -18,5 +19,13 @@ public class Room {
 
     public String getRoomId() {
         return roomId;
+    }
+
+    public void setStarted() {
+        started = true;
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 }
