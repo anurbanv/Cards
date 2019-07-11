@@ -2,11 +2,11 @@ package com.example.cards.viewmodel;
 
 import android.app.Application;
 
-import com.example.cards.MainActivity;
 import com.example.cards.domain.Room;
 import com.example.cards.service.Preferences;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,49 +26,114 @@ public class RoomViewModel extends AndroidViewModel {
 
     private MutableLiveData<Room> room = new MutableLiveData<>();
 
+    private ListenerRegistration listener;
+
     private FirebaseFirestore db;
     private Preferences prefs;
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
         db = FirebaseFirestore.getInstance();
-        prefs = MainActivity.prefs;
+        prefs = new Preferences(application);
     }
 
     public LiveData<Room> getRoom() {
         return room;
     }
 
-    public void createRoom(String roomId, Callback callback) {
+    public void initCloudObserver(String roomId) {
+        if (listener != null) {
+            listener.remove();
+        }
         DocumentReference room = db.collection("games").document(roomId);
-
-        checkIfRoomExists(room, exists -> {
-            if (exists) {
-                callback.onComplete(false);
-            } else {
-                List<String> playerNames = new ArrayList<>();
-                playerNames.add("testas");
-                Map<String, Object> game = new HashMap<>();
-                game.put("players", playerNames);
-
-                room.set(game).addOnCompleteListener(task -> {
-                    callback.onComplete(task.isSuccessful());
-                });
-            }
-        });
-
-        room.addSnapshotListener((documentSnapshot, e) -> {
+        listener = room.addSnapshotListener((documentSnapshot, e) -> {
             List<String> players = (List<String>) documentSnapshot.get("players");
             if (players != null) {
                 this.room.postValue(new Room(roomId, players));
+            } else {
+                this.room.postValue(null);
             }
         });
     }
 
-    private void checkIfRoomExists(DocumentReference room, Callback callback) {
+    public void joinRoom(String roomId, String playerName, Callback callback) {
+        if (roomId.length() < 4 || playerName.trim().isEmpty()) {
+            callback.onComplete(false);
+            return;
+        }
+
+        DocumentReference room = db.collection("games").document(roomId);
         room.get().addOnCompleteListener(task -> {
-            Object players = task.getResult().get("players");
-            callback.onComplete(players != null);
+            if (task.isSuccessful()) {
+                List<String> players = (List<String>) task.getResult().get("players");
+
+                if (players == null) {
+                    players = new ArrayList<>();
+                }
+
+                players.add(playerName);
+
+                Map<String, Object> game = new HashMap<>();
+                game.put("players", players);
+
+                initCloudObserver(roomId);
+
+                room.set(game).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        prefs.saveRoomSession(roomId, playerName);
+                        callback.onComplete(true);
+                    } else {
+                        callback.onComplete(false);
+                    }
+                });
+            } else {
+                callback.onComplete(false);
+            }
         });
+    }
+
+    public void leaveRoom(Callback callback) {
+        String roomId = prefs.getRoomId();
+        String playerName = prefs.getPlayerName();
+
+        if (roomId.isEmpty() || playerName.isEmpty()) {
+            callback.onComplete(false);
+            return;
+        }
+
+        DocumentReference room = db.collection("games").document(roomId);
+        room.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<String> players = (List<String>) task.getResult().get("players");
+                players.remove(playerName);
+
+                if (players.isEmpty()) {
+                    room.delete();
+                } else {
+                    Map<String, Object> game = new HashMap<>();
+                    game.put("players", players);
+
+                    room.set(game).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            prefs.saveRoomSession(roomId, playerName);
+                        }
+                    });
+                }
+                prefs.removeStoredSession();
+                this.room.postValue(null);
+                listener.remove();
+                callback.onComplete(true);
+            } else {
+                callback.onComplete(false);
+            }
+        });
+    }
+
+    public boolean restoreState() {
+        if (!prefs.getRoomId().isEmpty()) {
+            initCloudObserver(prefs.getRoomId());
+            return true;
+        }
+        return false;
     }
 }

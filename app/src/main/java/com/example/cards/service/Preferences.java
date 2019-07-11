@@ -12,27 +12,19 @@ public class Preferences {
         prefs = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
     }
 
-    public void setHostedRoomId(String roomId) {
-        prefs.edit().putString("hostRoomId", roomId).apply();
+    public void saveRoomSession(String roomId, String playerName) {
+        prefs.edit().putString("roomId", roomId).putString("playerName", playerName).apply();
     }
 
-    public String getHostedRoomId() {
-        return prefs.getString("hostRoomId", "");
+    public void removeStoredSession() {
+        prefs.edit().putString("roomId", "").putString("playerName", "").apply();
     }
 
-    public void setPlayerName(String playerName) {
-        prefs.edit().putString("playerName", playerName).apply();
+    public String getRoomId() {
+        return prefs.getString("roomId", "");
     }
 
     public String getPlayerName() {
         return prefs.getString("playerName", "");
-    }
-
-    public void setJoinRoomId(String roomId) {
-        prefs.edit().putString("joinRoomId", roomId).apply();
-    }
-
-    public String getJoinRoomId() {
-        return prefs.getString("joinRoomId", "");
     }
 }
