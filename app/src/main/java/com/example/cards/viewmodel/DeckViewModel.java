@@ -37,18 +37,27 @@ public class DeckViewModel extends AndroidViewModel {
 
     public Card takeCard() {
         DeckOfCards value = deck.getValue();
-        Card card = value.takeCard();
-        deck.postValue(value);
-        return card;
+        if (value != null) {
+            Card card = value.takeCard();
+            deck.postValue(value);
+            return card;
+        }
+        return null;
     }
 
     public void placeCardToOutDeck(Card card) {
         List<Card> value = outCards.getValue();
-        value.add(card);
-        outCards.postValue(value);
+        if (value != null) {
+            value.add(card);
+            outCards.postValue(value);
+        }
     }
 
     public boolean hasCards() {
-        return !deck.getValue().isEmpty();
+        DeckOfCards value = deck.getValue();
+        if (value != null) {
+            return !value.isEmpty();
+        }
+        return false;
     }
 }

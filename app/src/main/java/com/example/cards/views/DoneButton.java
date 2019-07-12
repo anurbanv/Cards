@@ -16,20 +16,20 @@ public class DoneButton extends AppCompatButton {
 
     public DoneButton(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public DoneButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public DoneButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
+    private void init() {
         setOnClickListener(v -> {
             List<Card> cards = MainActivity.gameFieldViewModel.removeAllCardsFromField();
             for (Card card : cards) {

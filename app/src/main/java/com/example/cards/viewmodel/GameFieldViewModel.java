@@ -36,15 +36,20 @@ public class GameFieldViewModel extends AndroidViewModel {
 
     public Card getAttackCardAtIndex(int index) {
         Card[] value = attackingCards.getValue();
-        return value[index];
+        if (value != null) {
+            return value[index];
+        }
+        return null;
     }
 
     public List<Card> getAttackingCardList() {
         List<Card> cards = new ArrayList<>();
         Card[] value = attackingCards.getValue();
-        for (Card card : value) {
-            if (card != null) {
-                cards.add(card);
+        if (value != null) {
+            for (Card card : value) {
+                if (card != null) {
+                    cards.add(card);
+                }
             }
         }
         return cards;
@@ -53,9 +58,11 @@ public class GameFieldViewModel extends AndroidViewModel {
     public List<Card> getDefendingCardList() {
         List<Card> cards = new ArrayList<>();
         Card[] value = defendingCards.getValue();
-        for (Card card : value) {
-            if (card != null) {
-                cards.add(card);
+        if (value != null) {
+            for (Card card : value) {
+                if (card != null) {
+                    cards.add(card);
+                }
             }
         }
         return cards;
@@ -63,14 +70,18 @@ public class GameFieldViewModel extends AndroidViewModel {
 
     public void setAttackingCard(Card card, int index) {
         Card[] value = attackingCards.getValue();
-        value[index] = card;
-        attackingCards.postValue(value);
+        if (value != null) {
+            value[index] = card;
+            attackingCards.postValue(value);
+        }
     }
 
     public void setDefendingCard(Card card, int index) {
         Card[] value = defendingCards.getValue();
-        value[index] = card;
-        defendingCards.postValue(value);
+        if (value != null) {
+            value[index] = card;
+            defendingCards.postValue(value);
+        }
     }
 
     public List<Card> removeAllCardsFromField() {

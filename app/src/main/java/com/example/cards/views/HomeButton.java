@@ -17,20 +17,20 @@ public class HomeButton extends AppCompatButton {
 
     public HomeButton(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public HomeButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public HomeButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
+    private void init() {
         setOnClickListener(v -> {
             List<Card> cards = MainActivity.gameFieldViewModel.removeAllCardsFromField();
             Player player = MainActivity.playersViewModel.getDefendingPlayer();
