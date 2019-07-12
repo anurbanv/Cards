@@ -5,11 +5,17 @@ import com.example.cards.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class Player {
+
+    public enum Action {
+        ATTACK, DEFEND, NONE
+    }
 
     private List<Card> hand;
     private int id;
-    private PlayerState state = PlayerState.NONE;
+    private Action action = Action.NONE;
     private boolean isOut = false;
 
     public Player(int id) {
@@ -43,13 +49,13 @@ public class Player {
         MainActivity.playersViewModel.updatePlayers();
     }
 
-    public PlayerState getState() {
-        return state;
+    public Action getAction() {
+        return action;
     }
 
-    public void setState(PlayerState state) {
-        if (this.state != state) {
-            this.state = state;
+    public void setAction(Action action) {
+        if (this.action != action) {
+            this.action = action;
             MainActivity.playersViewModel.updatePlayers();
         }
     }
@@ -66,11 +72,13 @@ public class Player {
         isOut = true;
     }
 
+
+    @NonNull
     @Override
     public String toString() {
         return "Player{" +
                 ", id=" + id +
-                ", state=" + state +
+                ", action=" + action +
                 ", isOut=" + isOut +
                 '}';
     }

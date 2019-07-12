@@ -13,7 +13,7 @@ public class DeckOfCards {
     public DeckOfCards() {
         cardStack = new Stack<>();
         List<Card> cardList = new ArrayList<>();
-        for (Suite value : Suite.values()) {
+        for (Card.Suite value : Card.Suite.values()) {
             for (int i = 6; i < 10; i++) {
                 Card card = new Card(value, i);
                 cardList.add(card);
@@ -23,7 +23,7 @@ public class DeckOfCards {
         lastCard = cardList.get(0);
         for (Card card : cardList) {
             if (card.getSuite() == lastCard.getSuite()) {
-                card.setStrong(true);
+                card.setCardAsStrong();
             }
             cardStack.push(card);
         }

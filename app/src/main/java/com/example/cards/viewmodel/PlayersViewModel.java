@@ -3,7 +3,6 @@ package com.example.cards.viewmodel;
 import android.app.Application;
 
 import com.example.cards.domain.Player;
-import com.example.cards.domain.PlayerState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +25,18 @@ public class PlayersViewModel extends AndroidViewModel {
         return players;
     }
 
-    public List<Player> getPlayerList() {
+    private List<Player> getPlayerList() {
         return players.getValue();
     }
 
     public List<Player> getPlayersInGame() {
         List<Player> playing = new ArrayList<>();
         List<Player> value = players.getValue();
-        for (Player player : value) {
-            if (!player.isOut()) {
-                playing.add(player);
+        if (value != null) {
+            for (Player player : value) {
+                if (!player.isOut()) {
+                    playing.add(player);
+                }
             }
         }
         return playing;
@@ -43,12 +44,12 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public void setDefendingPlayer(Player player) {
         for (Player player1 : getPlayerList()) {
-            player1.setState(PlayerState.NONE);
+            player1.setAction(Player.Action.NONE);
         }
-        player.setState(PlayerState.DEFEND);
+        player.setAction(Player.Action.DEFEND);
         defendingPlayer = player;
         if (getPlayersInGame().size() > 1) {
-            getPreviousPlayerInGame(player).setState(PlayerState.ATTACK);
+            getPreviousPlayerInGame(player).setAction(Player.Action.ATTACK);
         }
     }
 
@@ -58,8 +59,10 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public void addPlayer(Player player) {
         List<Player> value = players.getValue();
-        value.add(player);
-        players.postValue(value);
+        if (value != null) {
+            value.add(player);
+            players.postValue(value);
+        }
     }
 
     public void updatePlayers() {
@@ -104,7 +107,7 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public void attackingPlayerOut(Player player) {
         if (getPlayersInGame().size() > 2) {
-            getPreviousPlayerInGame(player).setState(PlayerState.ATTACK);
+            getPreviousPlayerInGame(player).setAction(Player.Action.ATTACK);
         }
     }
 
@@ -134,7 +137,7 @@ public class PlayersViewModel extends AndroidViewModel {
         return nextPlayer;
     }
 
-    public Player getPreviousPlayerInGame(Player player) {
+    private Player getPreviousPlayerInGame(Player player) {
         if (getPlayersInGame().size() < 2) {
             throw new IllegalStateException("Cannot find next player (playing size = 1)");
         }

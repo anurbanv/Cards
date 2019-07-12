@@ -1,6 +1,12 @@
 package com.example.cards.domain;
 
+import androidx.annotation.NonNull;
+
 public class Card {
+
+    public enum Suite {
+        HEARTS, CLUBS, SPADES, DIAMONDS
+    }
 
     private Suite suite;
     private int number;
@@ -38,10 +44,11 @@ public class Card {
         return strong;
     }
 
-    public void setStrong(boolean strong) {
-        this.strong = strong;
+    void setCardAsStrong() {
+        strong = true;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Card{" +

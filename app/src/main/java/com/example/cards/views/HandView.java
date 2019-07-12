@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
-import com.example.cards.domain.PlayerState;
 
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -53,9 +52,9 @@ public abstract class HandView extends LinearLayout {
         if (player.isOut()) {
             DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.colorPrimary));
         } else {
-            if (player.getState() == PlayerState.ATTACK) {
+            if (player.getAction() == Player.Action.ATTACK) {
                 DrawableCompat.setTint(getBackground(), Color.RED);
-            } else if (player.getState() == PlayerState.DEFEND) {
+            } else if (player.getAction() == Player.Action.DEFEND) {
                 DrawableCompat.setTint(getBackground(), Color.BLUE);
             } else {
                 DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.gray));

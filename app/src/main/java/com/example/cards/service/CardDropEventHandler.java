@@ -4,7 +4,6 @@ import com.andrius.logutil.LogUtil;
 import com.example.cards.MainActivity;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
-import com.example.cards.domain.PlayerState;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class CardDropEventHandler {
 
         Player defendingPlayer = MainActivity.playersViewModel.getDefendingPlayer();
 
-        if (cardOwner.getState() == PlayerState.ATTACK) {
+        if (cardOwner.getAction() == Player.Action.ATTACK) {
             int cardsToDefend = attackCards.size() - defendCards.size();
             int handSize = defendingPlayer.getHand().size();
             if (handSize - cardsToDefend > 0) {
@@ -48,7 +47,7 @@ public class CardDropEventHandler {
             } else {
                 LogUtil.w("Defending player has no cards");
             }
-        } else if (cardOwner.getState() == PlayerState.DEFEND) {
+        } else if (cardOwner.getAction() == Player.Action.DEFEND) {
 
             if (defendCards.isEmpty() && !attackCards.isEmpty()) {
 
@@ -89,7 +88,7 @@ public class CardDropEventHandler {
 
     private void defendEvent() {
         boolean success = false;
-        if (cardOwner.getState() == PlayerState.DEFEND) {
+        if (cardOwner.getAction() == Player.Action.DEFEND) {
             Card cardToDefend = MainActivity.gameFieldViewModel.getAttackCardAtIndex(cell);
             if (cardToDefend != null) {
                 if (cardToDefend.getSuite() == card.getSuite()) {
