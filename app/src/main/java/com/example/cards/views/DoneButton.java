@@ -36,8 +36,10 @@ public class DoneButton extends AppCompatButton {
                 MainActivity.deckViewModel.placeCardToOutDeck(card);
             }
 
-            boolean gameOver = MainActivity.playersViewModel.finishRound(false);
-            if (gameOver && listener != null) {
+            MainActivity.playersViewModel.playerDefended();
+
+            boolean gameFinished = MainActivity.playersViewModel.isGameFinished();
+            if (gameFinished && listener != null) {
                 listener.onGameOver();
             }
         });

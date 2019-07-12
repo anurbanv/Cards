@@ -52,7 +52,7 @@ public class CardDropEventHandler {
 
             if (defendCards.isEmpty() && !attackCards.isEmpty()) {
 
-                Player nextPlayer = MainActivity.playersViewModel.getNextPlayer(defendingPlayer);
+                Player nextPlayer = MainActivity.playersViewModel.getNextPlayerInGame(defendingPlayer);
 
                 if (nextPlayer.getHand().size() >= attackCards.size() + 1) {
                     boolean allSameNumber = true;

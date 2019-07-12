@@ -36,9 +36,9 @@ public class Player {
 
     public void removeCard(Card card) {
         hand.remove(card);
-        if (hand.isEmpty() && !MainActivity.deckViewModel.hasCards()) {
-            MainActivity.playersViewModel.playerOut(this);
-            isOut = true;
+        if (cannotPlay()) {
+            MainActivity.playersViewModel.attackingPlayerOut(this);
+            setOut();
         }
         MainActivity.playersViewModel.updatePlayers();
     }
@@ -54,7 +54,24 @@ public class Player {
         }
     }
 
+    public boolean cannotPlay() {
+        return hand.isEmpty() && !MainActivity.deckViewModel.hasCards();
+    }
+
     public boolean isOut() {
         return isOut;
+    }
+
+    public void setOut() {
+        isOut = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                ", id=" + id +
+                ", state=" + state +
+                ", isOut=" + isOut +
+                '}';
     }
 }

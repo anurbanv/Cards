@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData;
 public class PlayersViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Player>> players = new MutableLiveData<>();
+    private Player defendingPlayer;
 
     public PlayersViewModel(@NonNull Application application) {
         super(application);
@@ -23,6 +24,10 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<Player>> getPlayers() {
         return players;
+    }
+
+    public List<Player> getPlayerList() {
+        return players.getValue();
     }
 
     public List<Player> getPlayersInGame() {
@@ -36,6 +41,17 @@ public class PlayersViewModel extends AndroidViewModel {
         return playing;
     }
 
+    public void setDefendingPlayer(Player player) {
+        for (Player player1 : getPlayerList()) {
+            player1.setState(PlayerState.NONE);
+        }
+        player.setState(PlayerState.DEFEND);
+        defendingPlayer = player;
+        if (getPlayersInGame().size() > 1) {
+            getPreviousPlayerInGame(player).setState(PlayerState.ATTACK);
+        }
+    }
+
     public void reset() {
         players.setValue(new ArrayList<>());
     }
@@ -46,108 +62,96 @@ public class PlayersViewModel extends AndroidViewModel {
         players.postValue(value);
     }
 
-    public void updatePlayers(){
+    public void updatePlayers() {
         players.postValue(players.getValue());
     }
 
-    public void playerOut(Player player) {
-        if (getPlayersInGame().size() > 2) {
-            if (player.getState() == PlayerState.ATTACK) {
-                // next attacker
-                player.setState(PlayerState.NONE);
-            } else if (player.getState() == PlayerState.DEFEND) {
-                // next defender
-                player.setState(PlayerState.NONE);
-            }
-        }
-    }
-
-    public Player getNextPlayer(Player player) {
-        List<Player> value = getPlayers().getValue();
-
-        if (getPlayersInGame().size() < 2) {
-            return player;
-        }
-
-        int index = value.indexOf(player);
-        if (index != -1) {
-            Player nextPlayer = null;
-            while (nextPlayer == null || nextPlayer.isOut()) {
-                if (index == value.size() - 1) {
-                    index = 0;
-                } else {
-                    index++;
-                }
-                nextPlayer = value.get(index);
-            }
-            return nextPlayer;
-        }
-        return player;
-    }
-
-    public Player getPreviousPlayer(Player player) {
-        List<Player> value = getPlayersInGame();
-        int index = value.indexOf(player);
-        if (index == 0) {
-            return value.get(value.size() - 1);
-        } else {
-            return value.get(index - 1);
-        }
-    }
-
     public Player getDefendingPlayer() {
-        List<Player> value = getPlayers().getValue();
-        for (Player player : value) {
-            if (player.getState() == PlayerState.DEFEND && !player.isOut()) {
-                return player;
-            }
+        if (defendingPlayer == null) {
+            throw new IllegalStateException("defending player not found");
         }
-        throw new IllegalStateException("Defending player not found");
+        return defendingPlayer;
     }
 
-    public boolean finishRound(boolean tookHome) {
-        Player defendingPlayer = getDefendingPlayer();
+    public void playerTookHome() {
+        if (getPlayersInGame().size() > 1) {
+            Player nextPlayer = getNextPlayerInGame(defendingPlayer);
+            setDefendingPlayer(getNextPlayerInGame(nextPlayer));
+        }
+    }
 
-        List<Player> allPlayers = getPlayersInGame();
-
-        for (Player player : allPlayers) {
-            player.setState(PlayerState.NONE);
+    public void playerDefended() {
+        if (defendingPlayer.cannotPlay()) {
+            defendingPlayer.setOut();
         }
 
-        allPlayers = getPlayersInGame();
-
-        if (allPlayers.size() > 1) {
-            if (defendingPlayer.isOut() || tookHome) {
-                Player nextPlayer = getNextPlayer(defendingPlayer);
-                nextPlayer.setState(PlayerState.ATTACK);
-                Player nextPlayer1 = getNextPlayer(nextPlayer);
-                nextPlayer1.setState(PlayerState.DEFEND);
+        if (getPlayersInGame().size() > 1) {
+            if (defendingPlayer.isOut()) {
+                Player nextPlayer = getNextPlayerInGame(defendingPlayer);
+                setDefendingPlayer(getNextPlayerInGame(nextPlayer));
             } else {
-                Player nextPlayer = getNextPlayer(defendingPlayer);
-                nextPlayer.setState(PlayerState.DEFEND);
-                defendingPlayer.setState(PlayerState.ATTACK);
+                setDefendingPlayer(getNextPlayerInGame(defendingPlayer));
             }
-            return false;
-        } else {
-            return true;
         }
     }
 
     public void shiftDefendingPlayer() {
-        Player defendingPlayer = getDefendingPlayer();
+        if (getPlayersInGame().size() > 1) {
+            Player nextPlayer = getNextPlayerInGame(defendingPlayer);
+            setDefendingPlayer(nextPlayer);
+        }
+    }
 
-        List<Player> playersList = getPlayersInGame();
-        for (Player player : playersList) {
-            player.setState(PlayerState.NONE);
+    public void attackingPlayerOut(Player player) {
+        if (getPlayersInGame().size() > 2) {
+            getPreviousPlayerInGame(player).setState(PlayerState.ATTACK);
+        }
+    }
+
+    public boolean isGameFinished() {
+        return getPlayersInGame().size() <= 1;
+    }
+
+    public Player getNextPlayerInGame(Player player) {
+        if (getPlayersInGame().size() < 2) {
+            throw new IllegalStateException("Cannot find next player (playing size = 1)");
         }
 
-        playersList = getPlayersInGame();
+        List<Player> playerList = getPlayerList();
 
-        if (playersList.size() > 1) {
-            Player nextPlayer = getNextPlayer(defendingPlayer);
-            Player previousPlayer = getPreviousPlayer(nextPlayer);
-            nextPlayer.setState(PlayerState.DEFEND);
-            previousPlayer.setState(PlayerState.ATTACK);
+        int index = playerList.indexOf(player);
+        if (index == -1) {
+            throw new IllegalStateException("Cannot find player in list");
         }
+
+        index = (index + 1) % playerList.size();
+        Player nextPlayer = playerList.get(index);
+
+        while (nextPlayer.isOut()) {
+            index = (index + 1) % playerList.size();
+            nextPlayer = playerList.get(index);
+        }
+        return nextPlayer;
+    }
+
+    public Player getPreviousPlayerInGame(Player player) {
+        if (getPlayersInGame().size() < 2) {
+            throw new IllegalStateException("Cannot find next player (playing size = 1)");
+        }
+
+        List<Player> playerList = getPlayerList();
+        int index = playerList.indexOf(player);
+        if (index == -1) {
+            throw new IllegalStateException("Cannot find player in list");
+        }
+
+        index = index == 0 ? playerList.size() - 1 : index - 1;
+        Player previousPlayer = playerList.get(index);
+
+        while (previousPlayer.isOut()) {
+            index = index == 0 ? playerList.size() - 1 : index - 1;
+            previousPlayer = playerList.get(index);
+        }
+        return previousPlayer;
     }
 }

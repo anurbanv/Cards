@@ -10,7 +10,6 @@ import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
-import com.example.cards.domain.PlayerState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,10 +137,7 @@ public class GameView extends LinearLayout {
             }
         }
 
-        Player nextPlayer = playersViewModel.getNextPlayer(cardOwner);
-
-        cardOwner.setState(PlayerState.ATTACK);
-        nextPlayer.setState(PlayerState.DEFEND);
+        playersViewModel.setDefendingPlayer(playersViewModel.getNextPlayerInGame(cardOwner));
     }
 
     private void initPlayerViews(int count) {

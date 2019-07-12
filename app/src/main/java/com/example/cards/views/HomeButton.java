@@ -38,8 +38,10 @@ public class HomeButton extends AppCompatButton {
                 player.addCardToHand(card);
             }
 
-            boolean gameOver = MainActivity.playersViewModel.finishRound(true);
-            if (gameOver && listener != null) {
+            MainActivity.playersViewModel.playerTookHome();
+
+            boolean gameFinished = MainActivity.playersViewModel.isGameFinished();
+            if (gameFinished && listener != null) {
                 listener.onGameOver();
             }
         });
