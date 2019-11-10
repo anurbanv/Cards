@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.example.cards.R;
 import com.example.cards.domain.Room;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,15 +43,17 @@ public class RoomView extends LinearLayout {
     }
 
     public void update(Room room) {
-        if (room == null) {
-            tvPlayers.setText("no room");
+        if (room == null || room.getPlayers().isEmpty()) {
+            tvPlayers.setText("empty");
             return;
         }
+
         List<String> players = room.getPlayers();
-        String text = "RoomId: " + room.getRoomId() + "\n";
+        String text = "";
         for (String player : players) {
             text += player + "\n";
         }
-        tvPlayers.setText(text);
+        String substring = text.substring(0, text.length() - 1);
+        tvPlayers.setText(substring);
     }
 }

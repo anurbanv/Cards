@@ -3,12 +3,13 @@ package com.example.cards;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.cards.domain.Save;
-import com.example.cards.views.GameView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cards.domain.Save;
+import com.example.cards.views.GameView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,6 +33,17 @@ public class GameActivity extends AppCompatActivity {
 
         if (count == 0) {
             finish();
+        }
+
+        boolean multiPlayer = getIntent().getBooleanExtra("multiPlayer", false);
+
+        if (multiPlayer) {
+//            roomViewModel.getRoom().observe(this, room -> {
+//                String savedState = room.getGameState();
+//                if (!TextUtils.isEmpty(savedState)) {
+//                    Save.restoreFromString(room.getGameState());
+//                }
+//            });
         }
 
         deckViewModel.getDeck().observe(this, deckOfCards -> gameView.updateDeck(deckOfCards));

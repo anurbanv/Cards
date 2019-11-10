@@ -27,12 +27,22 @@ public class Save {
         save.restoreState();
     }
 
+    public static void restoreFromString(String jsonString) {
+        Save save = gson.fromJson(jsonString, Save.class);
+        save.restoreState();
+    }
+
     public static void saveToFileSystem() {
         Save save = new Save();
         String jsonString = gson.toJson(save);
         File file = MainActivity.latestSave;
         FileUtil.createFile(file);
         FileUtil.writeText(file, jsonString);
+    }
+
+    public static String getGameState() {
+        Save save = new Save();
+        return gson.toJson(save);
     }
 
     private Save() {

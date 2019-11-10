@@ -3,13 +3,15 @@ package com.example.cards.views;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.example.cards.MainActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 
 import java.util.List;
 
-import androidx.appcompat.widget.AppCompatButton;
+import static com.example.cards.MainActivity.gameFieldViewModel;
+import static com.example.cards.MainActivity.playersViewModel;
 
 public class HomeButton extends AppCompatButton {
 
@@ -32,15 +34,15 @@ public class HomeButton extends AppCompatButton {
 
     private void init() {
         setOnClickListener(v -> {
-            List<Card> cards = MainActivity.gameFieldViewModel.removeAllCardsFromField();
-            Player player = MainActivity.playersViewModel.getDefendingPlayer();
+            List<Card> cards = gameFieldViewModel.removeAllCardsFromField();
+            Player player = playersViewModel.getDefendingPlayer();
             for (Card card : cards) {
                 player.addCardToHand(card);
             }
 
-            MainActivity.playersViewModel.playerTookHome();
+            playersViewModel.playerTookHome();
 
-            boolean gameFinished = MainActivity.playersViewModel.isGameFinished();
+            boolean gameFinished = playersViewModel.isGameFinished();
             if (gameFinished && listener != null) {
                 listener.onGameOver();
             }

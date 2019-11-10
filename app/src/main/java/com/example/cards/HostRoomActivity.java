@@ -3,15 +3,17 @@ package com.example.cards;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cards.service.Preferences;
 import com.example.cards.views.RoomView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.cards.MainActivity.roomViewModel;
 
 public class HostRoomActivity extends AppCompatActivity {
 
@@ -30,14 +32,28 @@ public class HostRoomActivity extends AppCompatActivity {
 
         Preferences prefs = MainActivity.prefs;
 
-        MainActivity.roomViewModel.getRoom().observe(this, room -> roomView.update(room));
-
-        boolean restored = MainActivity.roomViewModel.restoreState();
-        if (restored) {
-            etRoomId.setText(prefs.getRoomId());
-            etPlayerName.setText(prefs.getPlayerName());
-            setInputEnabled(false);
+        if (prefs.isSavedSession()) {
+            roomViewModel.restoreRoom((created, message) -> {
+                if (created) {
+                    setInputEnabled(false);
+                    etRoomId.setText(prefs.getRoomId());
+                    etPlayerName.setText(prefs.getPlayerName());
+                } else {
+                    prefs.removeStoredSession();
+                }
+            });
         }
+
+        roomViewModel.getRoom().observe(this, room -> {
+            roomView.update(room);
+//            if (room != null && room.isStarted() && !activityRunning) {
+//                activityRunning = true;
+//                Intent intent = new Intent(this, GameActivity.class);
+//                intent.putExtra("count", 2);
+//                intent.putExtra("multiPlayer", true);
+//                startActivity(intent);
+//            }
+        });
 
         btnJoin.setOnClickListener(v -> {
             String roomId = etRoomId.getText().toString().trim();
@@ -45,25 +61,45 @@ public class HostRoomActivity extends AppCompatActivity {
 
             setInputEnabled(false);
 
-            MainActivity.roomViewModel.joinRoom(roomId, playerName, created -> {
+            roomViewModel.joinRoom(roomId, playerName, (created, message) -> {
                 if (!created) {
-                    Toast.makeText(this, "FAILED", Toast.LENGTH_SHORT).show();
+                    etRoomId.setText("");
+                    etPlayerName.setText("");
                     setInputEnabled(true);
+                } else {
+                    prefs.saveRoomSession(roomId, playerName);
                 }
             });
         });
 
-        btnLeave.setOnClickListener(v -> MainActivity.roomViewModel.leaveRoom(success -> {
-            if (success) {
-                setInputEnabled(true);
-                etRoomId.setText("");
-                etPlayerName.setText("");
-            }
-        }));
+        btnLeave.setOnClickListener(v -> {
+            String roomId = prefs.getRoomId();
+            String playerName = prefs.getPlayerName();
+            roomViewModel.leaveRoom(roomId, playerName, (success, msg) -> {
+                if (success) {
+                    setInputEnabled(true);
+                    etRoomId.setText("");
+                    etPlayerName.setText("");
+                    prefs.removeStoredSession();
+                }
+            });
+        });
 
         btnStart.setOnClickListener(v -> {
 
         });
+
+//        btnStart.setOnClickListener(v -> roomViewModel.startGame((created, message) -> {
+////            LogUtil.i(message);
+////            if (created) {
+////                roomViewModel.postGameState(new RoomViewModel.Callback() {
+////                    @Override
+////                    public void onComplete(boolean created, String message) {
+////
+////                    }
+////                });
+////            }
+//        }));
     }
 
     private void setInputEnabled(boolean enabled) {

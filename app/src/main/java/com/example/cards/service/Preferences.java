@@ -27,4 +27,8 @@ public class Preferences {
     public String getPlayerName() {
         return prefs.getString("playerName", "");
     }
+
+    public boolean isSavedSession() {
+        return !getRoomId().isEmpty() && !getPlayerName().isEmpty();
+    }
 }

@@ -2,14 +2,14 @@ package com.example.cards.viewmodel;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.cards.domain.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
 
 public class PlayersViewModel extends AndroidViewModel {
 
@@ -122,7 +122,7 @@ public class PlayersViewModel extends AndroidViewModel {
 
         List<Player> playerList = getPlayerList();
 
-        int index = playerList.indexOf(player);
+        int index = getPlayerIndex(playerList, player);
         if (index == -1) {
             throw new IllegalStateException("Cannot find player in list");
         }
@@ -135,6 +135,16 @@ public class PlayersViewModel extends AndroidViewModel {
             nextPlayer = playerList.get(index);
         }
         return nextPlayer;
+    }
+
+    private int getPlayerIndex(List<Player> players, Player player) {
+        for (int i = 0; i < players.size(); i++) {
+            Player player1 = players.get(i);
+            if (player1.getId() == player.getId()) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private Player getPreviousPlayerInGame(Player player) {

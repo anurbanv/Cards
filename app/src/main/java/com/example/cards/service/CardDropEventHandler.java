@@ -7,6 +7,8 @@ import com.example.cards.domain.Player;
 
 import java.util.List;
 
+import static com.example.cards.MainActivity.currentDragViewModel;
+
 public class CardDropEventHandler {
 
     private int cell;
@@ -16,8 +18,8 @@ public class CardDropEventHandler {
     public void initEvent(boolean attacking, int cell) {
         this.cell = cell;
 
-        card = MainActivity.currentDragViewModel.getCurrentDrag();
-        cardOwner = MainActivity.currentDragViewModel.getCardOwner();
+        card = currentDragViewModel.getCurrentDrag();
+        cardOwner = currentDragViewModel.getCardOwner();
 
         if (attacking) {
             attackEvent();
