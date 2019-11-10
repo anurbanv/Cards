@@ -1,6 +1,7 @@
 package com.example.cards.domain;
 
 import com.andrius.fileutil.FileUtil;
+import com.andrius.logutil.LogUtil;
 import com.example.cards.MainActivity;
 import com.google.gson.Gson;
 
@@ -43,10 +44,15 @@ public class Save {
     }
 
     private void restoreState() {
-        deckViewModel.getDeck().setValue(deckOfCards);
-        deckViewModel.getOutCards().setValue(outCards);
-        playersViewModel.getPlayers().setValue(players);
-        gameFieldViewModel.getAttackingCards().setValue(attacking);
-        gameFieldViewModel.getDefendingCards().setValue(defending);
+        List<Player> currentPlayers = playersViewModel.getPlayers().getValue();
+        if (currentPlayers != null && players.size() == currentPlayers.size()) {
+            deckViewModel.getDeck().setValue(deckOfCards);
+            deckViewModel.getOutCards().setValue(outCards);
+            playersViewModel.getPlayers().setValue(players);
+            gameFieldViewModel.getAttackingCards().setValue(attacking);
+            gameFieldViewModel.getDefendingCards().setValue(defending);
+        } else {
+            LogUtil.w("Cannot restore state with different players size");
+        }
     }
 }
