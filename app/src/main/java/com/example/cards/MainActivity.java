@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void resetModels() {
+    public static void resetModels() {
         deckViewModel.reset();
         playersViewModel.reset();
         gameFieldViewModel.reset();

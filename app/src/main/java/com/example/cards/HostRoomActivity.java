@@ -1,5 +1,6 @@
 package com.example.cards;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,8 @@ public class HostRoomActivity extends AppCompatActivity {
     @BindView(R.id.roomView) RoomView roomView;
     @BindView(R.id.btnStart) Button btnStart;
 
+    private boolean activityRunning = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,14 +48,17 @@ public class HostRoomActivity extends AppCompatActivity {
         }
 
         roomViewModel.getRoom().observe(this, room -> {
+            if (room == null) {
+                activityRunning = false;
+            }
             roomView.update(room);
-//            if (room != null && room.isStarted() && !activityRunning) {
-//                activityRunning = true;
-//                Intent intent = new Intent(this, GameActivity.class);
-//                intent.putExtra("count", 2);
-//                intent.putExtra("multiPlayer", true);
-//                startActivity(intent);
-//            }
+            if (room != null && room.isStarted() && !activityRunning) {
+                activityRunning = true;
+                Intent intent = new Intent(this, GameActivity.class);
+                intent.putExtra("count", 2);
+                intent.putExtra("multiPlayer", true);
+                startActivity(intent);
+            }
         });
 
         btnJoin.setOnClickListener(v -> {
@@ -86,7 +92,9 @@ public class HostRoomActivity extends AppCompatActivity {
         });
 
         btnStart.setOnClickListener(v -> {
+            roomViewModel.startGame((created, message) -> {
 
+            });
         });
 
 //        btnStart.setOnClickListener(v -> roomViewModel.startGame((created, message) -> {

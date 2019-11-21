@@ -74,4 +74,10 @@ public class GameActivity extends AppCompatActivity {
 
         gameView.startGame(count);
     }
+
+    @Override
+    protected void onDestroy() {
+        MainActivity.resetModels();
+        super.onDestroy();
+    }
 }

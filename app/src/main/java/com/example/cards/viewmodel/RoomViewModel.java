@@ -10,10 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.cards.domain.Room;
 import com.example.cards.domain.Save;
 import com.example.cards.service.Preferences;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -153,20 +151,12 @@ public class RoomViewModel extends AndroidViewModel {
             return;
         }
 
-        DocumentReference room = db.collection("games").document(roomId);
-
-        Task<DocumentSnapshot> documentSnapshotTask = room.get();
-
-        documentSnapshotTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<String> players = (List<String>) task.getResult().get("players");
-                Map<String, Object> game = new HashMap<>();
-                game.put("players", players);
-                game.put("started", true);
-                room.set(game);
-                callback.onComplete(true, "Created");
-            } else {
-                callback.onComplete(false, "Failed to complete task");
+        DocumentReference roomRef = gamesRef.document(roomId);
+        roomRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                Room room = new Room(task.getResult());
+                room.setStarted();
+                roomRef.set(room.getObjectMap());
             }
         });
     }
