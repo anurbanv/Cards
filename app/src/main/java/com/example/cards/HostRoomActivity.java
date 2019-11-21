@@ -96,18 +96,6 @@ public class HostRoomActivity extends AppCompatActivity {
 
             });
         });
-
-//        btnStart.setOnClickListener(v -> roomViewModel.startGame((created, message) -> {
-////            LogUtil.i(message);
-////            if (created) {
-////                roomViewModel.postGameState(new RoomViewModel.Callback() {
-////                    @Override
-////                    public void onComplete(boolean created, String message) {
-////
-////                    }
-////                });
-////            }
-//        }));
     }
 
     private void setInputEnabled(boolean enabled) {

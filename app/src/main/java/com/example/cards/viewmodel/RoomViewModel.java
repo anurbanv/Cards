@@ -15,10 +15,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class RoomViewModel extends AndroidViewModel {
 
     public interface Callback {
@@ -29,13 +25,12 @@ public class RoomViewModel extends AndroidViewModel {
 
     private ListenerRegistration listener;
 
-    private FirebaseFirestore db;
     private CollectionReference gamesRef;
     private Preferences prefs;
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         gamesRef = db.collection("games");
         prefs = new Preferences(application);
         room.postValue(null);
@@ -169,26 +164,13 @@ public class RoomViewModel extends AndroidViewModel {
             return;
         }
 
-        DocumentReference room = db.collection("games").document(roomId);
-        room.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<String> players = (List<String>) task.getResult().get("players");
-                Map<String, Object> game = new HashMap<>();
-                game.put("players", players);
-                game.put("gameState", Save.getGameState());
-                room.set(game);
-                callback.onComplete(true, "Created");
-            } else {
-                callback.onComplete(false, "Failed to complete task");
+        DocumentReference roomRef = gamesRef.document(roomId);
+        roomRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                Room room = new Room(task.getResult());
+                room.setGameState(Save.getGameState());
+                roomRef.set(room.getObjectMap());
             }
         });
-    }
-
-    public boolean isStarted() {
-        if (room != null) {
-            Room value = room.getValue();
-            return value.isStarted();
-        }
-        return false;
     }
 }

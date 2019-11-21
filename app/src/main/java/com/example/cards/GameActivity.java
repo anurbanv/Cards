@@ -16,12 +16,14 @@ import butterknife.ButterKnife;
 import static com.example.cards.MainActivity.deckViewModel;
 import static com.example.cards.MainActivity.gameFieldViewModel;
 import static com.example.cards.MainActivity.playersViewModel;
+import static com.example.cards.MainActivity.roomViewModel;
 
 public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.gameView) GameView gameView;
     @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnRestore) Button btnRestore;
+    @BindView(R.id.btnPost) Button btnPost;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +47,20 @@ public class GameActivity extends AppCompatActivity {
 //                }
 //            });
         }
+
+        btnPost.setOnClickListener(v -> {
+            if (multiPlayer) {
+                roomViewModel.postGameState((created, message) -> {
+
+                });
+            }
+        });
+
+        roomViewModel.getRoom().observe(this, room -> {
+            if (multiPlayer && room != null) {
+                if (!room.getGameState().isEmpty()) Save.restoreFromString(room.getGameState());
+            }
+        });
 
         deckViewModel.getDeck().observe(this, deckOfCards -> gameView.updateDeck(deckOfCards));
         deckViewModel.getOutCards().observe(this, cards -> gameView.updateDeck(cards));
