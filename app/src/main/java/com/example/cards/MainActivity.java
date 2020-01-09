@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         btn4Players.setOnClickListener(v -> startGameActivity(4));
         btn6Players.setOnClickListener(v -> startGameActivity(6));
 
-        btnMultiPlayer.setOnClickListener(v -> startActivity(new Intent(this, HostRoomActivity.class)));
+        btnMultiPlayer.setOnClickListener(v -> startActivity(new Intent(this, JoinRoomActivity.class)));
     }
 
     private void startGameActivity(int playerCount) {
