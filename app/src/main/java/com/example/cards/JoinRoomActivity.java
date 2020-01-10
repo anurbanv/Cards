@@ -1,7 +1,7 @@
 package com.example.cards;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cards.service.Preferences;
 import com.example.cards.service.RoomService;
 
 import butterknife.BindView;
@@ -28,7 +29,16 @@ public class JoinRoomActivity extends AppCompatActivity {
 
         etRoomId.setText("12345");
 
-        RoomService roomService = new RoomService();
+        RoomService roomService = new RoomService(this);
+
+        Preferences prefs = new Preferences(this);
+
+        if (prefs.isSavedSession()) {
+            setInputEnabled(false);
+            etRoomId.setText(prefs.getRoomId());
+            etPlayerName.setText(prefs.getPlayerName());
+            roomService.reJoinRoom(this::onJoinedRoom);
+        }
 
         btnJoin.setOnClickListener(v -> {
             setInputEnabled(false);
@@ -36,19 +46,18 @@ public class JoinRoomActivity extends AppCompatActivity {
             String playerName = etPlayerName.getText().toString();
             String roomId = etRoomId.getText().toString();
 
-            roomService.joinRoom(playerName, roomId, success -> {
-                if (success) {
-                    new Handler().postDelayed(() -> roomService.leaveRoom(success1 -> {
-                        if (success1) {
-                            setInputEnabled(true);
-                        }
-                    }), 3000);
-                } else {
-                    setInputEnabled(true);
-                    Toast.makeText(this, "Input invalid", Toast.LENGTH_SHORT).show();
-                }
-            });
+            roomService.joinRoom(roomId, playerName, this::onJoinedRoom);
         });
+    }
+
+    private void onJoinedRoom(boolean success) {
+        if (success) {
+            startActivity(new Intent(this, LobbyActivity.class));
+            finish();
+        } else {
+            setInputEnabled(true);
+            Toast.makeText(this, "Failed to join", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setInputEnabled(boolean enabled) {

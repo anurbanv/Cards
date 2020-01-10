@@ -19,6 +19,7 @@
         <activity android:name=".GameActivity" />
         <activity android:name=".HostRoomActivity" />
         <activity android:name=".JoinRoomActivity" />
+        <activity android:name=".LobbyActivity" />
     </application>
 
 </manifest>

@@ -6,16 +6,16 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/etPlayerName"
-        android:hint="Player Name"
+        android:id="@+id/etRoomId"
+        android:hint="Room ID"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:importantForAutofill="no" />
 
     <EditText
-        android:id="@+id/etRoomId"
-        android:hint="Room ID"
+        android:id="@+id/etPlayerName"
+        android:hint="Player Name"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
