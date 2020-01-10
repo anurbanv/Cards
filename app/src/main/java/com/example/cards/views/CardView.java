@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.cards.MainActivity;
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+
 import com.example.cards.R;
+import com.example.cards.activities.MainActivity;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 
-import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

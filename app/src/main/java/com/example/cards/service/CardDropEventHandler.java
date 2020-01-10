@@ -1,13 +1,13 @@
 package com.example.cards.service;
 
 import com.andrius.logutil.LogUtil;
-import com.example.cards.MainActivity;
+import com.example.cards.activities.MainActivity;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 
 import java.util.List;
 
-import static com.example.cards.MainActivity.currentDragViewModel;
+import static com.example.cards.activities.MainActivity.currentDragViewModel;
 
 public class CardDropEventHandler {
 

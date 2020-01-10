@@ -1,4 +1,4 @@
-package com.example.cards;
+package com.example.cards.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,14 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cards.R;
 import com.example.cards.service.Preferences;
 import com.example.cards.views.RoomView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.cards.MainActivity.roomViewModel;
+import static com.example.cards.activities.MainActivity.roomViewModel;
 
 public class HostRoomActivity extends AppCompatActivity {
 

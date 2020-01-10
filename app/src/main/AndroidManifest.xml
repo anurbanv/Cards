@@ -9,18 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameActivity" />
-        <activity android:name=".HostRoomActivity" />
-        <activity android:name=".JoinRoomActivity" />
-        <activity android:name=".LobbyActivity" />
-        <activity android:name=".NewGameActivity" />
+        <activity android:name=".activities.GameActivity" />
+        <activity android:name=".activities.HostRoomActivity" />
+        <activity android:name=".activities.JoinRoomActivity" />
+        <activity android:name=".activities.LobbyActivity" />
+        <activity android:name=".activities.NewGameActivity" />
     </application>
 
 </manifest>

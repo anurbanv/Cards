@@ -9,8 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andrius.logutil.LogUtil;
-import com.example.cards.MainActivity;
 import com.example.cards.R;
+import com.example.cards.activities.MainActivity;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;

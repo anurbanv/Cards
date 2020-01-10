@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
@@ -14,13 +16,12 @@ import com.example.cards.domain.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.cards.MainActivity.deckViewModel;
-import static com.example.cards.MainActivity.gameFieldViewModel;
-import static com.example.cards.MainActivity.playersViewModel;
+import static com.example.cards.activities.MainActivity.deckViewModel;
+import static com.example.cards.activities.MainActivity.gameFieldViewModel;
+import static com.example.cards.activities.MainActivity.playersViewModel;
 
 public class GameView extends LinearLayout {
 

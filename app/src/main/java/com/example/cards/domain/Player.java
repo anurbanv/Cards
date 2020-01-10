@@ -1,11 +1,11 @@
 package com.example.cards.domain;
 
-import com.example.cards.MainActivity;
+import androidx.annotation.NonNull;
+
+import com.example.cards.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 public class Player {
 

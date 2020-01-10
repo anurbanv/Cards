@@ -10,8 +10,8 @@ import com.example.cards.domain.Player;
 
 import java.util.List;
 
-import static com.example.cards.MainActivity.gameFieldViewModel;
-import static com.example.cards.MainActivity.playersViewModel;
+import static com.example.cards.activities.MainActivity.gameFieldViewModel;
+import static com.example.cards.activities.MainActivity.playersViewModel;
 
 public class HomeButton extends AppCompatButton {
 

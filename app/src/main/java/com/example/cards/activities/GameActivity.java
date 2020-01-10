@@ -1,4 +1,4 @@
-package com.example.cards;
+package com.example.cards.activities;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -7,16 +7,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cards.R;
 import com.example.cards.domain.Save;
 import com.example.cards.views.GameView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.cards.MainActivity.deckViewModel;
-import static com.example.cards.MainActivity.gameFieldViewModel;
-import static com.example.cards.MainActivity.playersViewModel;
-import static com.example.cards.MainActivity.roomViewModel;
+import static com.example.cards.activities.MainActivity.deckViewModel;
+import static com.example.cards.activities.MainActivity.gameFieldViewModel;
+import static com.example.cards.activities.MainActivity.playersViewModel;
+import static com.example.cards.activities.MainActivity.roomViewModel;
 
 public class GameActivity extends AppCompatActivity {
 

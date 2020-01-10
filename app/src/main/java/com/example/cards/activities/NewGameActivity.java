@@ -1,4 +1,4 @@
-package com.example.cards;
+package com.example.cards.activities;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.cards.R;
 import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.NewRoomViewModel;
 

@@ -3,12 +3,12 @@ package com.example.cards.views;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.example.cards.MainActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
+import com.example.cards.activities.MainActivity;
 import com.example.cards.domain.Card;
 
 import java.util.List;
-
-import androidx.appcompat.widget.AppCompatButton;
 
 public class DoneButton extends AppCompatButton {
 

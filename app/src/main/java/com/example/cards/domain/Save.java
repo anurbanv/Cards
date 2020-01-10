@@ -2,15 +2,15 @@ package com.example.cards.domain;
 
 import com.andrius.fileutil.FileUtil;
 import com.andrius.logutil.LogUtil;
-import com.example.cards.MainActivity;
+import com.example.cards.activities.MainActivity;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.List;
 
-import static com.example.cards.MainActivity.deckViewModel;
-import static com.example.cards.MainActivity.gameFieldViewModel;
-import static com.example.cards.MainActivity.playersViewModel;
+import static com.example.cards.activities.MainActivity.deckViewModel;
+import static com.example.cards.activities.MainActivity.gameFieldViewModel;
+import static com.example.cards.activities.MainActivity.playersViewModel;
 
 public class Save {
 
