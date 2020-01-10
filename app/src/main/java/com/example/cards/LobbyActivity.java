@@ -5,8 +5,12 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.example.cards.service.Preferences;
 import com.example.cards.service.RoomService;
+import com.example.cards.viewmodel.NewRoomViewModel;
+import com.example.cards.views.RoomView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -14,6 +18,9 @@ import butterknife.ButterKnife;
 public class LobbyActivity extends AppCompatActivity {
 
     @BindView(R.id.btnLeave) Button btnLeave;
+    @BindView(R.id.roomView) RoomView roomView;
+
+    NewRoomViewModel newRoomViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +30,24 @@ public class LobbyActivity extends AppCompatActivity {
 
         RoomService roomService = new RoomService(this);
 
+        Preferences prefs = new Preferences(this);
+
+        newRoomViewModel = ViewModelProviders.of(this).get(NewRoomViewModel.class);
+
+        String roomId = prefs.getRoomId();
+
+        newRoomViewModel.initCloudObserver(roomId);
+
+        newRoomViewModel.getRoom().observe(this, room -> {
+            roomView.update(room);
+        });
+
         btnLeave.setOnClickListener(v -> roomService.leaveRoom(success -> finish()));
+    }
+
+    @Override
+    protected void onDestroy() {
+        newRoomViewModel.removeListener();
+        super.onDestroy();
     }
 }
