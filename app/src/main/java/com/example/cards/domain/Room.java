@@ -34,6 +34,10 @@ public class Room {
         return roomId;
     }
 
+    public void setGameStarted(boolean started) {
+        this.started = started;
+    }
+
     public void setStarted() {
         started = true;
     }

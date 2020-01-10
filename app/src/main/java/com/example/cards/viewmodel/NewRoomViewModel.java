@@ -20,6 +20,7 @@ public class NewRoomViewModel extends AndroidViewModel {
     private MutableLiveData<Room> room = new MutableLiveData<>();
 
     private ListenerRegistration listener;
+    private DocumentReference roomRef;
 
     public NewRoomViewModel(@NonNull Application application) {
         super(application);
@@ -35,7 +36,7 @@ public class NewRoomViewModel extends AndroidViewModel {
         if (listener != null) {
             listener.remove();
         }
-        DocumentReference roomRef = gamesRef.document(roomId);
+        roomRef = gamesRef.document(roomId);
         listener = roomRef.addSnapshotListener((documentSnapshot, e) -> {
             if (documentSnapshot != null) this.room.postValue(new Room(documentSnapshot));
         });
@@ -45,5 +46,15 @@ public class NewRoomViewModel extends AndroidViewModel {
         if (listener != null) {
             listener.remove();
         }
+    }
+
+    public void setGameStarted(boolean started) {
+        roomRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                Room room = new Room(task.getResult());
+                room.setGameStarted(started);
+                roomRef.set(room.getObjectMap());
+            }
+        });
     }
 }

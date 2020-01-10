@@ -1,7 +1,9 @@
 package com.example.cards;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +20,11 @@ import butterknife.ButterKnife;
 public class LobbyActivity extends AppCompatActivity {
 
     @BindView(R.id.btnLeave) Button btnLeave;
+    @BindView(R.id.btnStart) Button btnStart;
+    @BindView(R.id.tvStarted) TextView tvStarted;
     @BindView(R.id.roomView) RoomView roomView;
 
-    NewRoomViewModel newRoomViewModel;
+    private NewRoomViewModel newRoomViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,9 +44,15 @@ public class LobbyActivity extends AppCompatActivity {
 
         newRoomViewModel.getRoom().observe(this, room -> {
             roomView.update(room);
+            if (room.isStarted()) {
+                startActivity(new Intent(this, NewGameActivity.class));
+            }
+            tvStarted.setText("Started: " + room.isStarted());
         });
 
         btnLeave.setOnClickListener(v -> roomService.leaveRoom(success -> finish()));
+
+        btnStart.setOnClickListener(v -> newRoomViewModel.setGameStarted(true));
     }
 
     @Override
