@@ -25,6 +25,7 @@ abstract class CardView extends LinearLayout {
     @BindView(R.id.tvNumber) TextView tvNumber;
     @BindView(R.id.tvNumberBottom) TextView tvNumberBottom;
     @BindView(R.id.icon) View icon;
+    @BindView(R.id.iconBottom) View iconBottom;
     @BindView(R.id.background) View background;
 
     private Card card;
@@ -96,6 +97,7 @@ abstract class CardView extends LinearLayout {
 
         Drawable drawable = getResources().getDrawable(resId);
         icon.setBackground(drawable);
+        iconBottom.setBackground(drawable);
 
         int textColor = color ? getResources().getColor(R.color.red) : Color.BLACK;
         tvNumber.setTextColor(textColor);

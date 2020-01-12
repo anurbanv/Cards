@@ -15,7 +15,6 @@
         android:id="@+id/tvNumber"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
@@ -23,9 +22,10 @@
 
     <View
         android:id="@+id/icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_centerInParent="true"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentEnd="true"
         tools:background="@drawable/ic_heart" />
 
     <TextView
@@ -33,11 +33,20 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
         android:gravity="center"
         android:rotation="180"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
         tools:text="1" />
+
+    <View
+        android:id="@+id/iconBottom"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:rotation="180"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        tools:background="@drawable/ic_heart" />
 
 </RelativeLayout>

@@ -22,7 +22,7 @@
         <com.example.cards.views.GameFieldView
             android:id="@+id/gameField"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="200dp" />
 
         <com.example.cards.views.DoneButton
             android:id="@+id/btnDone"
