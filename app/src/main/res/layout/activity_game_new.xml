@@ -10,4 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <com.example.cards.views.GameView
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

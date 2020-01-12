@@ -7,11 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.service.CardDropEventHandler;
+import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.GameFieldViewModel;
+import com.example.cards.viewmodel.PlayersViewModel;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,6 +25,7 @@ public class GameFieldView extends LinearLayout {
     @BindView(R.id.llDefendField) LinearLayout llDefendField;
 
     private CardDropEventHandler handler;
+    private CurrentDragViewModel currentDragViewModel;
 
     public GameFieldView(Context context) {
         super(context);
@@ -42,10 +47,14 @@ public class GameFieldView extends LinearLayout {
         View root = inflater.inflate(R.layout.game_field, this, true);
         ButterKnife.bind(this, root);
 
-        handler = new CardDropEventHandler();
-
         initCells(llAttackField);
         initCells(llDefendField);
+    }
+
+    public void setViewModels(CurrentDragViewModel currentDragViewModel,
+                              GameFieldViewModel gameFieldViewModel,
+                              PlayersViewModel playersViewModel) {
+        handler = new CardDropEventHandler(currentDragViewModel, gameFieldViewModel, playersViewModel);
     }
 
     private void initCells(LinearLayout container) {
@@ -63,7 +72,7 @@ public class GameFieldView extends LinearLayout {
             cell.removeCard();
             Card card = cards[i];
             if (card != null) {
-                CardView cardView = new CardViewVertical(getContext(), card);
+                CardView cardView = new CardViewVertical(getContext(), card, currentDragViewModel);
                 cell.setCard(cardView);
             }
         }
@@ -75,7 +84,7 @@ public class GameFieldView extends LinearLayout {
             cell.removeCard();
             Card card = cards[i];
             if (card != null) {
-                CardView cardView = new CardViewVertical(getContext(), card);
+                CardView cardView = new CardViewVertical(getContext(), card, currentDragViewModel);
                 cell.setCard(cardView);
             }
         }

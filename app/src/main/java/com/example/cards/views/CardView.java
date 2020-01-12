@@ -13,9 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 
 import com.example.cards.R;
-import com.example.cards.activities.MainActivity;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
+import com.example.cards.viewmodel.CurrentDragViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,18 +28,21 @@ abstract class CardView extends LinearLayout {
     @BindView(R.id.background) View background;
 
     private Card card;
+    private CurrentDragViewModel currentDragViewModel;
     private Player owner;
 
-    public CardView(Context context, Card card, Player owner) {
+    public CardView(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
         super(context);
         this.card = card;
         this.owner = owner;
+        this.currentDragViewModel = currentDragViewModel;
         init(context);
     }
 
-    public CardView(Context context, Card card) {
+    public CardView(Context context, Card card, CurrentDragViewModel currentDragViewModel) {
         super(context);
         this.card = card;
+        this.currentDragViewModel = currentDragViewModel;
         init(context);
     }
 
@@ -64,7 +67,7 @@ abstract class CardView extends LinearLayout {
             setOnLongClickListener(v -> {
                 DragShadowBuilder shadowBuilder = new DragShadowBuilder(v);
                 v.startDrag(null, shadowBuilder, v, 0);
-                MainActivity.currentDragViewModel.setCurrentDrag(card, owner);
+                currentDragViewModel.setCurrentDrag(card, owner);
                 return true;
             });
         }

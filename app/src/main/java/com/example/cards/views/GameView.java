@@ -12,6 +12,10 @@ import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
+import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
+import com.example.cards.viewmodel.GameFieldViewModel;
+import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.cards.activities.MainActivity.deckViewModel;
-import static com.example.cards.activities.MainActivity.gameFieldViewModel;
-import static com.example.cards.activities.MainActivity.playersViewModel;
-
 public class GameView extends LinearLayout {
+
+    private DeckViewModel deckViewModel;
+    private GameFieldViewModel gameFieldViewModel;
+    private PlayersViewModel playersViewModel;
+    private CurrentDragViewModel currentDragViewModel;
 
     public void setGameOverListener(GameOverListener gameOverListener) {
         btnHome.setListener(gameOverListener);
@@ -71,6 +76,19 @@ public class GameView extends LinearLayout {
         ButterKnife.bind(this, root);
     }
 
+    public void setViewModels(DeckViewModel deckViewModel, GameFieldViewModel gameFieldViewModel,
+                              PlayersViewModel playersViewModel, CurrentDragViewModel currentDragViewModel) {
+        this.deckViewModel = deckViewModel;
+        this.gameFieldViewModel = gameFieldViewModel;
+        this.playersViewModel = playersViewModel;
+        this.currentDragViewModel = currentDragViewModel;
+
+        deckView.setViewModels(playersViewModel, deckViewModel, currentDragViewModel);
+        btnHome.setViewModels(gameFieldViewModel, playersViewModel);
+        btnDone.setViewModels(gameFieldViewModel, playersViewModel);
+        gameField.setViewModels(currentDragViewModel, gameFieldViewModel, playersViewModel);
+    }
+
     public void updateDeck(DeckOfCards deck) {
         deckView.update(deck);
     }
@@ -104,9 +122,12 @@ public class GameView extends LinearLayout {
 
     public void startGame(int count) {
         initPlayerViews(count);
+        for (HandView playerHand : playerHands) {
+            playerHand.setViewModel(currentDragViewModel);
+        }
 
         for (int i = 0; i < count; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, playersViewModel, deckViewModel);
             playersViewModel.addPlayer(player);
         }
 

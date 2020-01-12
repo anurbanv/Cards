@@ -3,11 +3,12 @@ package com.example.cards.views;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.Nullable;
+
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
-
-import androidx.annotation.Nullable;
+import com.example.cards.viewmodel.CurrentDragViewModel;
 
 public class HandViewVertical extends HandView {
 
@@ -29,7 +30,7 @@ public class HandViewVertical extends HandView {
     }
 
     @Override
-    CardView getCardView(Context context, Card card, Player player) {
-        return new CardViewHorizontal(getContext(), card, player);
+    CardView getCardView(Context context, Card card, Player player, CurrentDragViewModel currentDragViewModel) {
+        return new CardViewHorizontal(getContext(), card, player, currentDragViewModel);
     }
 }

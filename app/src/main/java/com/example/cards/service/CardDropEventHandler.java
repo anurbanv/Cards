@@ -1,19 +1,30 @@
 package com.example.cards.service;
 
 import com.andrius.logutil.LogUtil;
-import com.example.cards.activities.MainActivity;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
+import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.GameFieldViewModel;
+import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
-
-import static com.example.cards.activities.MainActivity.currentDragViewModel;
 
 public class CardDropEventHandler {
 
     private int cell;
     private Card card;
     private Player cardOwner;
+    private CurrentDragViewModel currentDragViewModel;
+    private GameFieldViewModel gameFieldViewModel;
+    private PlayersViewModel playersViewModel;
+
+    public CardDropEventHandler(CurrentDragViewModel currentDragViewModel,
+                                GameFieldViewModel gameFieldViewModel,
+                                PlayersViewModel playersViewModel) {
+        this.currentDragViewModel = currentDragViewModel;
+        this.gameFieldViewModel = gameFieldViewModel;
+        this.playersViewModel = playersViewModel;
+    }
 
     public void initEvent(boolean attacking, int cell) {
         this.cell = cell;
@@ -29,11 +40,11 @@ public class CardDropEventHandler {
     }
 
     private void attackEvent() {
-        List<Card> attackCards = MainActivity.gameFieldViewModel.getAttackingCardList();
-        List<Card> defendCards = MainActivity.gameFieldViewModel.getDefendingCardList();
+        List<Card> attackCards = gameFieldViewModel.getAttackingCardList();
+        List<Card> defendCards = gameFieldViewModel.getDefendingCardList();
         boolean success = false;
 
-        Player defendingPlayer = MainActivity.playersViewModel.getDefendingPlayer();
+        Player defendingPlayer = playersViewModel.getDefendingPlayer();
 
         if (cardOwner.getAction() == Player.Action.ATTACK) {
             int cardsToDefend = attackCards.size() - defendCards.size();
@@ -53,7 +64,7 @@ public class CardDropEventHandler {
 
             if (defendCards.isEmpty() && !attackCards.isEmpty()) {
 
-                Player nextPlayer = MainActivity.playersViewModel.getNextPlayerInGame(defendingPlayer);
+                Player nextPlayer = playersViewModel.getNextPlayerInGame(defendingPlayer);
 
                 if (nextPlayer.getHand().size() >= attackCards.size() + 1) {
                     boolean allSameNumber = true;
@@ -65,8 +76,8 @@ public class CardDropEventHandler {
                     }
                     if (allSameNumber) {
                         cardOwner.removeCard(card);
-                        MainActivity.gameFieldViewModel.setAttackingCard(card, cell);
-                        MainActivity.playersViewModel.shiftDefendingPlayer();
+                        gameFieldViewModel.setAttackingCard(card, cell);
+                        playersViewModel.shiftDefendingPlayer();
                     } else {
                         LogUtil.w("Not all cards are number " + card.getNumber());
                     }
@@ -82,7 +93,7 @@ public class CardDropEventHandler {
 
         if (success) {
             cardOwner.removeCard(card);
-            MainActivity.gameFieldViewModel.setAttackingCard(card, cell);
+            gameFieldViewModel.setAttackingCard(card, cell);
         } else {
             LogUtil.w("Cannot place this card " + card.toString());
         }
@@ -91,7 +102,7 @@ public class CardDropEventHandler {
     private void defendEvent() {
         boolean success = false;
         if (cardOwner.getAction() == Player.Action.DEFEND) {
-            Card cardToDefend = MainActivity.gameFieldViewModel.getAttackCardAtIndex(cell);
+            Card cardToDefend = gameFieldViewModel.getAttackCardAtIndex(cell);
             if (cardToDefend != null) {
                 if (cardToDefend.getSuite() == card.getSuite()) {
                     if (card.getNumber() > cardToDefend.getNumber()) {
@@ -113,7 +124,7 @@ public class CardDropEventHandler {
 
         if (success) {
             cardOwner.removeCard(card);
-            MainActivity.gameFieldViewModel.setDefendingCard(card, cell);
+            gameFieldViewModel.setDefendingCard(card, cell);
         }
     }
 

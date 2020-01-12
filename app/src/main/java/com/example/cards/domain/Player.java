@@ -2,7 +2,8 @@ package com.example.cards.domain;
 
 import androidx.annotation.NonNull;
 
-import com.example.cards.activities.MainActivity;
+import com.example.cards.viewmodel.DeckViewModel;
+import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,15 @@ public class Player {
 
     private List<Card> hand;
     private int id;
+    private PlayersViewModel playersViewModel;
+    private DeckViewModel deckViewModel;
     private Action action = Action.NONE;
     private boolean isOut = false;
 
-    public Player(int id) {
+    public Player(int id, PlayersViewModel playersViewModel, DeckViewModel deckViewModel) {
         this.id = id;
+        this.playersViewModel = playersViewModel;
+        this.deckViewModel = deckViewModel;
         hand = new ArrayList<>();
     }
 
@@ -37,16 +42,16 @@ public class Player {
 
     public void addCardToHand(Card card) {
         hand.add(card);
-        MainActivity.playersViewModel.updatePlayers();
+        playersViewModel.updatePlayers();
     }
 
     public void removeCard(Card card) {
         hand.remove(card);
         if (cannotPlay()) {
-            MainActivity.playersViewModel.attackingPlayerOut(this);
+            playersViewModel.attackingPlayerOut(this);
             setOut();
         }
-        MainActivity.playersViewModel.updatePlayers();
+        playersViewModel.updatePlayers();
     }
 
     public Action getAction() {
@@ -56,12 +61,12 @@ public class Player {
     public void setAction(Action action) {
         if (this.action != action) {
             this.action = action;
-            MainActivity.playersViewModel.updatePlayers();
+            playersViewModel.updatePlayers();
         }
     }
 
     public boolean cannotPlay() {
-        return hand.isEmpty() && !MainActivity.deckViewModel.hasCards();
+        return hand.isEmpty() && !deckViewModel.hasCards();
     }
 
     public boolean isOut() {

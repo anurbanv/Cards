@@ -3,20 +3,21 @@ package com.example.cards.views;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.Nullable;
+
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
-
-import androidx.annotation.Nullable;
+import com.example.cards.viewmodel.CurrentDragViewModel;
 
 public class CardViewVertical extends CardView {
 
-    public CardViewVertical(Context context, Card card, Player owner) {
-        super(context, card, owner);
+    public CardViewVertical(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
+        super(context, card, owner, currentDragViewModel);
     }
 
-    public CardViewVertical(Context context, Card card) {
-        super(context, card);
+    public CardViewVertical(Context context, Card card, CurrentDragViewModel currentDragViewModel) {
+        super(context, card, currentDragViewModel);
     }
 
     public CardViewVertical(Context context, @Nullable AttributeSet attrs) {
