@@ -1,4 +1,4 @@
-package com.example.cards.views;
+package com.example.cards.views.card_view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,13 +14,11 @@ import androidx.core.view.ViewCompat;
 
 import com.example.cards.R;
 import com.example.cards.domain.Card;
-import com.example.cards.domain.Player;
-import com.example.cards.viewmodel.CurrentDragViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-abstract class CardView extends LinearLayout {
+public abstract class CardView extends LinearLayout {
 
     @BindView(R.id.tvNumber) TextView tvNumber;
     @BindView(R.id.tvNumberBottom) TextView tvNumberBottom;
@@ -29,21 +27,10 @@ abstract class CardView extends LinearLayout {
     @BindView(R.id.background) View background;
 
     private Card card;
-    private CurrentDragViewModel currentDragViewModel;
-    private Player owner;
 
-    public CardView(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
+    public CardView(Context context, Card card) {
         super(context);
         this.card = card;
-        this.owner = owner;
-        this.currentDragViewModel = currentDragViewModel;
-        init(context);
-    }
-
-    public CardView(Context context, Card card, CurrentDragViewModel currentDragViewModel) {
-        super(context);
-        this.card = card;
-        this.currentDragViewModel = currentDragViewModel;
         init(context);
     }
 
@@ -63,15 +50,6 @@ abstract class CardView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(getResId(), this, true);
         ButterKnife.bind(this, root);
-
-        if (owner != null) {
-            setOnLongClickListener(v -> {
-                DragShadowBuilder shadowBuilder = new DragShadowBuilder(v);
-                v.startDrag(null, shadowBuilder, v, 0);
-                currentDragViewModel.setCurrentDrag(card, owner);
-                return true;
-            });
-        }
 
         tvNumber.setText(card.getNumberText());
         tvNumberBottom.setText(card.getNumberText());
@@ -107,5 +85,9 @@ abstract class CardView extends LinearLayout {
             ViewCompat.setBackgroundTintList(background,
                     getResources().getColorStateList(R.color.cyan));
         }
+    }
+
+    public Card getCard() {
+        return card;
     }
 }

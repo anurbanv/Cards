@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.cards.R;
+import com.example.cards.views.card_view.CardView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -15,6 +15,8 @@ import com.example.cards.service.CardDropEventHandler;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.views.card_view.CardView;
+import com.example.cards.views.card_view.CardViewVer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +27,6 @@ public class GameFieldView extends LinearLayout {
     @BindView(R.id.llDefendField) LinearLayout llDefendField;
 
     private CardDropEventHandler handler;
-    private CurrentDragViewModel currentDragViewModel;
 
     public GameFieldView(Context context) {
         super(context);
@@ -72,7 +73,7 @@ public class GameFieldView extends LinearLayout {
             cell.removeCard();
             Card card = cards[i];
             if (card != null) {
-                CardView cardView = new CardViewVertical(getContext(), card, currentDragViewModel);
+                CardView cardView = new CardViewVer(getContext(), card);
                 cell.setCard(cardView);
             }
         }
@@ -84,7 +85,7 @@ public class GameFieldView extends LinearLayout {
             cell.removeCard();
             Card card = cards[i];
             if (card != null) {
-                CardView cardView = new CardViewVertical(getContext(), card, currentDragViewModel);
+                CardView cardView = new CardViewVer(getContext(), card);
                 cell.setCard(cardView);
             }
         }

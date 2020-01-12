@@ -23,9 +23,9 @@
 
     <View
         android:id="@+id/icon"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_margin="5dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_margin="4dp"
         android:rotation="270"
         tools:background="@drawable/ic_heart" />
 
@@ -42,9 +42,9 @@
 
     <View
         android:id="@+id/iconBottom"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_margin="5dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_margin="4dp"
         android:rotation="90"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

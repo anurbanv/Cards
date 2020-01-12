@@ -16,6 +16,7 @@ import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.views.card_view.CardViewVer;
 
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class DeckView extends LinearLayout {
         }
         tvDeckCount.setText(String.valueOf(deck.cardCount()));
         lastCard.removeAllViews();
-        lastCard.addView(new CardViewVertical(getContext(), deck.getLastCard(), currentDragViewModel));
+        lastCard.addView(new CardViewVer(getContext(), deck.getLastCard()));
     }
 
     public void update(List<Card> outCards) {

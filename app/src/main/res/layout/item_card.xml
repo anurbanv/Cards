@@ -22,18 +22,18 @@
 
     <View
         android:id="@+id/icon"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_margin="5dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
         tools:background="@drawable/ic_heart" />
 
     <TextView
         android:id="@+id/tvNumberBottom"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:rotation="180"
         android:textStyle="bold"
@@ -42,11 +42,10 @@
 
     <View
         android:id="@+id/iconBottom"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:rotation="180"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
+        android:layout_margin="4dp"
         tools:background="@drawable/ic_heart" />
 
 </RelativeLayout>

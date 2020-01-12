@@ -14,6 +14,7 @@ import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.views.card_view.CardView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

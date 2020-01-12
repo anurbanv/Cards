@@ -9,6 +9,8 @@ import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.views.card_view.CardView;
+import com.example.cards.views.card_view.CardViewDragHor;
 
 public class HandViewVertical extends HandView {
 
@@ -31,6 +33,6 @@ public class HandViewVertical extends HandView {
 
     @Override
     CardView getCardView(Context context, Card card, Player player, CurrentDragViewModel currentDragViewModel) {
-        return new CardViewHorizontal(getContext(), card, player, currentDragViewModel);
+        return new CardViewDragHor(getContext(), card, player, currentDragViewModel);
     }
 }
