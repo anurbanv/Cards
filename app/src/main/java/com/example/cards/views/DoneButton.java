@@ -7,17 +7,17 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.cards.domain.Card;
 import com.example.cards.viewmodel.BattleFieldViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
-
-import static com.example.cards.activities.MainActivity.deckViewModel;
 
 public class DoneButton extends AppCompatButton {
 
     private GameView.GameOverListener listener;
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
+    private DeckViewModel deckViewModel;
 
     public DoneButton(Context context) {
         super(context);
@@ -50,9 +50,12 @@ public class DoneButton extends AppCompatButton {
         });
     }
 
-    public void setViewModels(BattleFieldViewModel battleFieldViewModel, PlayersViewModel playersViewModel) {
+    public void setViewModels(BattleFieldViewModel battleFieldViewModel,
+                              PlayersViewModel playersViewModel,
+                              DeckViewModel deckViewModel) {
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
+        this.deckViewModel = deckViewModel;
     }
 
     public void update(List<Card> defending, List<Card> attacking) {

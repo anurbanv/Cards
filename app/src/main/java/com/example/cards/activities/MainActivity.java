@@ -5,14 +5,9 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.cards.R;
 import com.example.cards.service.Preferences;
-import com.example.cards.viewmodel.CurrentDragViewModel;
-import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.PlayersViewModel;
-import com.example.cards.viewmodel.RoomViewModel;
 import com.google.firebase.FirebaseApp;
 
 import java.io.File;
@@ -28,10 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.btnMultiPlayer) Button btnMultiPlayer;
 
-    public static DeckViewModel deckViewModel;
-    public static PlayersViewModel playersViewModel;
-    public static CurrentDragViewModel currentDragViewModel;
-    public static RoomViewModel roomViewModel;
     public static File latestSave;
     public static Preferences prefs;
 
@@ -42,22 +33,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         FirebaseApp.initializeApp(this);
-
-        if (deckViewModel == null) {
-            deckViewModel = ViewModelProviders.of(this).get(DeckViewModel.class);
-        }
-
-        if (playersViewModel == null) {
-            playersViewModel = ViewModelProviders.of(this).get(PlayersViewModel.class);
-        }
-
-        if (currentDragViewModel == null) {
-            currentDragViewModel = ViewModelProviders.of(this).get(CurrentDragViewModel.class);
-        }
-
-        if (roomViewModel == null) {
-            roomViewModel = ViewModelProviders.of(this).get(RoomViewModel.class);
-        }
 
         if (latestSave == null) {
             File appDir = getExternalFilesDir(null);
@@ -76,14 +51,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startGameActivity(int playerCount) {
-        resetModels();
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("count", playerCount);
+        Intent intent = new Intent(this, NewGameActivity.class);
+        intent.putExtra("playerCount", playerCount);
         startActivity(intent);
-    }
-
-    public static void resetModels() {
-        deckViewModel.reset();
-        playersViewModel.reset();
     }
 }

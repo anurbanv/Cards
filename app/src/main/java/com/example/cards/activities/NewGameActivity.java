@@ -25,12 +25,20 @@ public class NewGameActivity extends AppCompatActivity {
     @BindView(R.id.gameView) GameView gameView;
 
     private NewRoomViewModel newRoomViewModel;
+    private boolean multiPlayer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_new);
         ButterKnife.bind(this);
+
+        int playerCount = getIntent().getIntExtra("playerCount", 0);
+        multiPlayer = getIntent().getBooleanExtra("multiPlayer", false);
+
+        if (playerCount == 0) {
+            finish();
+        }
 
         ViewModelProvider provider = ViewModelProviders.of(this);
         DeckViewModel deckViewModel = provider.get(DeckViewModel.class);
@@ -61,20 +69,24 @@ public class NewGameActivity extends AppCompatActivity {
 
         Preferences prefs = new Preferences(this);
 
-        newRoomViewModel.initCloudObserver(prefs.getRoomId());
+        String roomId = prefs.getRoomId();
 
-        newRoomViewModel.getRoom().observe(this, room -> {
-            if (!room.isStarted()) {
-                finish();
-            }
-        });
+        if (multiPlayer && roomId != null) {
+            newRoomViewModel.initCloudObserver(roomId);
 
-        gameView.postDelayed(() -> gameView.startGame(2), 1000);
+            newRoomViewModel.getRoom().observe(this, room -> {
+                if (!room.isStarted()) {
+                    finish();
+                }
+            });
+        }
+
+        gameView.postDelayed(() -> gameView.startGame(playerCount), 1000);
     }
 
     @Override
     protected void onDestroy() {
-        newRoomViewModel.setGameStarted(false);
+        if (multiPlayer) newRoomViewModel.setGameStarted(false);
         super.onDestroy();
     }
 }

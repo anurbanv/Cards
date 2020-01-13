@@ -46,7 +46,10 @@ public class LobbyActivity extends AppCompatActivity {
         newRoomViewModel.getRoom().observe(this, room -> {
             roomView.update(room);
             if (room.isStarted()) {
-                startActivity(new Intent(this, NewGameActivity.class));
+                Intent intent = new Intent(this, NewGameActivity.class);
+                intent.putExtra("multiPlayer", true);
+                intent.putExtra("playerCount", 2);
+                startActivity(intent);
             }
             tvStarted.setText("Started: " + room.isStarted());
         });

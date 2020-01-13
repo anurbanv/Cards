@@ -1,15 +1,11 @@
 package com.example.cards.domain;
 
 import com.andrius.fileutil.FileUtil;
-import com.andrius.logutil.LogUtil;
 import com.example.cards.activities.MainActivity;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.List;
-
-import static com.example.cards.activities.MainActivity.deckViewModel;
-import static com.example.cards.activities.MainActivity.playersViewModel;
 
 public class Save {
 
@@ -45,23 +41,23 @@ public class Save {
     }
 
     private Save() {
-        deckOfCards = deckViewModel.getDeck().getValue();
-        outCards = deckViewModel.getOutCards().getValue();
-        players = playersViewModel.getPlayers().getValue();
+//        deckOfCards = deckViewModel.getDeck().getValue();
+//        outCards = deckViewModel.getOutCards().getValue();
+//        players = playersViewModel.getPlayers().getValue();
         //attacking = gameFieldViewModel.getAttackingCards().getValue();
         //defending = gameFieldViewModel.getDefendingCards().getValue();
     }
 
     private void restoreState() {
-        List<Player> currentPlayers = playersViewModel.getPlayers().getValue();
-        if (currentPlayers != null && players.size() == currentPlayers.size()) {
-            deckViewModel.getDeck().setValue(deckOfCards);
-            deckViewModel.getOutCards().setValue(outCards);
-            playersViewModel.getPlayers().setValue(players);
-            //gameFieldViewModel.getAttackingCards().setValue(attacking);
-            //gameFieldViewModel.getDefendingCards().setValue(defending);
-        } else {
-            LogUtil.w("Cannot restore state with different players size");
-        }
+//        List<Player> currentPlayers = playersViewModel.getPlayers().getValue();
+//        if (currentPlayers != null && players.size() == currentPlayers.size()) {
+//            deckViewModel.getDeck().setValue(deckOfCards);
+//            deckViewModel.getOutCards().setValue(outCards);
+//            playersViewModel.getPlayers().setValue(players);
+//            //gameFieldViewModel.getAttackingCards().setValue(attacking);
+//            //gameFieldViewModel.getDefendingCards().setValue(defending);
+//        } else {
+//            LogUtil.w("Cannot restore state with different players size");
+//        }
     }
 }
