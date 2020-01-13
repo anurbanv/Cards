@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.cards.R;
 import com.example.cards.service.Preferences;
+import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.views.GameView;
@@ -34,17 +34,16 @@ public class NewGameActivity extends AppCompatActivity {
 
         ViewModelProvider provider = ViewModelProviders.of(this);
         DeckViewModel deckViewModel = provider.get(DeckViewModel.class);
-        GameFieldViewModel gameFieldViewModel = provider.get(GameFieldViewModel.class);
         PlayersViewModel playersViewModel = provider.get(PlayersViewModel.class);
         CurrentDragViewModel currentDragViewModel = provider.get(CurrentDragViewModel.class);
+        BattleFieldViewModel battleFieldViewModel = provider.get(BattleFieldViewModel.class);
 
-        gameView.setViewModels(deckViewModel, gameFieldViewModel, playersViewModel, currentDragViewModel);
+        gameView.setViewModels(deckViewModel, battleFieldViewModel, playersViewModel, currentDragViewModel);
 
         deckViewModel.getDeck().observe(this, deckOfCards -> gameView.updateDeck(deckOfCards));
         deckViewModel.getOutCards().observe(this, cards -> gameView.updateDeck(cards));
         playersViewModel.getPlayers().observe(this, players -> gameView.updatePlayers(players));
-        gameFieldViewModel.getAttackingCards().observe(this, cards -> gameView.updateAttackCards(cards));
-        gameFieldViewModel.getDefendingCards().observe(this, cards -> gameView.updateDefendCards(cards));
+        battleFieldViewModel.getCells().observe(this, cells -> gameView.updateCells(cells));
 
         gameView.setGameOverListener(() -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this)

@@ -15,7 +15,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.cards.activities.MainActivity.deckViewModel;
-import static com.example.cards.activities.MainActivity.gameFieldViewModel;
 import static com.example.cards.activities.MainActivity.playersViewModel;
 import static com.example.cards.activities.MainActivity.roomViewModel;
 
@@ -68,11 +67,11 @@ public class GameActivity extends AppCompatActivity {
 
         playersViewModel.getPlayers().observe(this, players -> gameView.updatePlayers(players));
 
-        gameFieldViewModel.getAttackingCards().observe(this, cards ->
-                gameView.updateAttackCards(cards));
-
-        gameFieldViewModel.getDefendingCards().observe(this, cards ->
-                gameView.updateDefendCards(cards));
+//        gameFieldViewModel.getAttackingCards().observe(this, cards ->
+//                gameView.updateAttackCards(cards));
+//
+//        gameFieldViewModel.getDefendingCards().observe(this, cards ->
+//                gameView.updateDefendCards(cards));
 
         gameView.setGameOverListener(() -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this)

@@ -10,11 +10,12 @@ import androidx.annotation.Nullable;
 
 import com.example.cards.R;
 import com.example.cards.domain.Card;
+import com.example.cards.domain.Cell;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
+import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 public class GameView extends LinearLayout {
 
     private DeckViewModel deckViewModel;
-    private GameFieldViewModel gameFieldViewModel;
+    private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
     private CurrentDragViewModel currentDragViewModel;
 
@@ -34,6 +35,8 @@ public class GameView extends LinearLayout {
         btnHome.setListener(gameOverListener);
         btnDone.setListener(gameOverListener);
     }
+
+
 
     public interface GameOverListener {
         void onGameOver();
@@ -51,7 +54,8 @@ public class GameView extends LinearLayout {
     @BindView(R.id.btnHome) HomeButton btnHome;
     @BindView(R.id.btnDone) DoneButton btnDone;
 
-    @BindView(R.id.gameField) GameFieldView gameField;
+    @BindView(R.id.battleField) BattleFieldView battleField;
+
 
     private List<HandView> playerHands;
 
@@ -76,17 +80,17 @@ public class GameView extends LinearLayout {
         ButterKnife.bind(this, root);
     }
 
-    public void setViewModels(DeckViewModel deckViewModel, GameFieldViewModel gameFieldViewModel,
+    public void setViewModels(DeckViewModel deckViewModel, BattleFieldViewModel battleFieldViewModel,
                               PlayersViewModel playersViewModel, CurrentDragViewModel currentDragViewModel) {
         this.deckViewModel = deckViewModel;
-        this.gameFieldViewModel = gameFieldViewModel;
+        this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
         this.currentDragViewModel = currentDragViewModel;
 
         deckView.setViewModels(playersViewModel, deckViewModel, currentDragViewModel);
-        btnHome.setViewModels(gameFieldViewModel, playersViewModel);
-        btnDone.setViewModels(gameFieldViewModel, playersViewModel);
-        gameField.setViewModels(currentDragViewModel, gameFieldViewModel, playersViewModel);
+        btnHome.setViewModels(battleFieldViewModel, playersViewModel);
+        btnDone.setViewModels(battleFieldViewModel, playersViewModel);
+        battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel);
     }
 
     public void updateDeck(DeckOfCards deck) {
@@ -97,20 +101,12 @@ public class GameView extends LinearLayout {
         deckView.update(outCards);
     }
 
-    public void updateAttackCards(Card[] cards) {
-        btnHome.update(gameFieldViewModel.getDefendingCardList(),
-                gameFieldViewModel.getAttackingCardList());
-        btnDone.update(gameFieldViewModel.getDefendingCardList(),
-                gameFieldViewModel.getAttackingCardList());
-        gameField.updateAttackCells(cards);
-    }
-
-    public void updateDefendCards(Card[] cards) {
-        btnDone.update(gameFieldViewModel.getDefendingCardList(),
-                gameFieldViewModel.getAttackingCardList());
-        btnHome.update(gameFieldViewModel.getDefendingCardList(),
-                gameFieldViewModel.getAttackingCardList());
-        gameField.updateDefendCells(cards);
+    public void updateCells(List<Cell> cells) {
+        btnHome.update(battleFieldViewModel.getDefendingCardList(),
+                battleFieldViewModel.getAttackingCardList());
+        btnDone.update(battleFieldViewModel.getDefendingCardList(),
+                battleFieldViewModel.getAttackingCardList());
+        battleField.update(cells);
     }
 
     public void updatePlayers(List<Player> players) {

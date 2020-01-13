@@ -11,7 +11,6 @@ import com.example.cards.R;
 import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.google.firebase.FirebaseApp;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     public static DeckViewModel deckViewModel;
     public static PlayersViewModel playersViewModel;
     public static CurrentDragViewModel currentDragViewModel;
-    public static GameFieldViewModel gameFieldViewModel;
     public static RoomViewModel roomViewModel;
     public static File latestSave;
     public static Preferences prefs;
@@ -55,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentDragViewModel == null) {
             currentDragViewModel = ViewModelProviders.of(this).get(CurrentDragViewModel.class);
-        }
-
-        if (gameFieldViewModel == null) {
-            gameFieldViewModel = ViewModelProviders.of(this).get(GameFieldViewModel.class);
         }
 
         if (roomViewModel == null) {
@@ -91,6 +85,5 @@ public class MainActivity extends AppCompatActivity {
     public static void resetModels() {
         deckViewModel.reset();
         playersViewModel.reset();
-        gameFieldViewModel.reset();
     }
 }

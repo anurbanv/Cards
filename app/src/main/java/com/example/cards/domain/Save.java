@@ -9,7 +9,6 @@ import java.io.File;
 import java.util.List;
 
 import static com.example.cards.activities.MainActivity.deckViewModel;
-import static com.example.cards.activities.MainActivity.gameFieldViewModel;
 import static com.example.cards.activities.MainActivity.playersViewModel;
 
 public class Save {
@@ -49,8 +48,8 @@ public class Save {
         deckOfCards = deckViewModel.getDeck().getValue();
         outCards = deckViewModel.getOutCards().getValue();
         players = playersViewModel.getPlayers().getValue();
-        attacking = gameFieldViewModel.getAttackingCards().getValue();
-        defending = gameFieldViewModel.getDefendingCards().getValue();
+        //attacking = gameFieldViewModel.getAttackingCards().getValue();
+        //defending = gameFieldViewModel.getDefendingCards().getValue();
     }
 
     private void restoreState() {
@@ -59,8 +58,8 @@ public class Save {
             deckViewModel.getDeck().setValue(deckOfCards);
             deckViewModel.getOutCards().setValue(outCards);
             playersViewModel.getPlayers().setValue(players);
-            gameFieldViewModel.getAttackingCards().setValue(attacking);
-            gameFieldViewModel.getDefendingCards().setValue(defending);
+            //gameFieldViewModel.getAttackingCards().setValue(attacking);
+            //gameFieldViewModel.getDefendingCards().setValue(defending);
         } else {
             LogUtil.w("Cannot restore state with different players size");
         }

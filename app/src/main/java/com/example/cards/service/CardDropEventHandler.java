@@ -3,8 +3,8 @@ package com.example.cards.service;
 import com.andrius.logutil.LogUtil;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
+import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
-import com.example.cards.viewmodel.GameFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
@@ -15,14 +15,14 @@ public class CardDropEventHandler {
     private Card card;
     private Player cardOwner;
     private CurrentDragViewModel currentDragViewModel;
-    private GameFieldViewModel gameFieldViewModel;
+    private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
 
     public CardDropEventHandler(CurrentDragViewModel currentDragViewModel,
-                                GameFieldViewModel gameFieldViewModel,
+                                BattleFieldViewModel battleFieldViewModel,
                                 PlayersViewModel playersViewModel) {
         this.currentDragViewModel = currentDragViewModel;
-        this.gameFieldViewModel = gameFieldViewModel;
+        this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
     }
 
@@ -40,8 +40,8 @@ public class CardDropEventHandler {
     }
 
     private void attackEvent() {
-        List<Card> attackCards = gameFieldViewModel.getAttackingCardList();
-        List<Card> defendCards = gameFieldViewModel.getDefendingCardList();
+        List<Card> attackCards = battleFieldViewModel.getAttackingCardList();
+        List<Card> defendCards = battleFieldViewModel.getDefendingCardList();
         boolean success = false;
 
         Player defendingPlayer = playersViewModel.getDefendingPlayer();
@@ -76,7 +76,7 @@ public class CardDropEventHandler {
                     }
                     if (allSameNumber) {
                         cardOwner.removeCard(card);
-                        gameFieldViewModel.setAttackingCard(card, cell);
+                        battleFieldViewModel.setAttackingCard(card, cell);
                         playersViewModel.shiftDefendingPlayer();
                     } else {
                         LogUtil.w("Not all cards are number " + card.getNumber());
@@ -93,7 +93,7 @@ public class CardDropEventHandler {
 
         if (success) {
             cardOwner.removeCard(card);
-            gameFieldViewModel.setAttackingCard(card, cell);
+            battleFieldViewModel.setAttackingCard(card, cell);
         } else {
             LogUtil.w("Cannot place this card " + card.toString());
         }
@@ -102,7 +102,7 @@ public class CardDropEventHandler {
     private void defendEvent() {
         boolean success = false;
         if (cardOwner.getAction() == Player.Action.DEFEND) {
-            Card cardToDefend = gameFieldViewModel.getAttackCardAtIndex(cell);
+            Card cardToDefend = battleFieldViewModel.getAttackCardAtIndex(cell);
             if (cardToDefend != null) {
                 if (cardToDefend.getSuite() == card.getSuite()) {
                     if (card.getNumber() > cardToDefend.getNumber()) {
@@ -124,7 +124,7 @@ public class CardDropEventHandler {
 
         if (success) {
             cardOwner.removeCard(card);
-            gameFieldViewModel.setDefendingCard(card, cell);
+            battleFieldViewModel.setDefendingCard(card, cell);
         }
     }
 

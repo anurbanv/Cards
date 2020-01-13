@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.cards.domain.Card;
-import com.example.cards.viewmodel.GameFieldViewModel;
+import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import static com.example.cards.activities.MainActivity.deckViewModel;
 public class DoneButton extends AppCompatButton {
 
     private GameView.GameOverListener listener;
-    private GameFieldViewModel gameFieldViewModel;
+    private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
 
     public DoneButton(Context context) {
@@ -36,7 +36,7 @@ public class DoneButton extends AppCompatButton {
 
     private void init() {
         setOnClickListener(v -> {
-            List<Card> cards = gameFieldViewModel.removeAllCardsFromField();
+            List<Card> cards = battleFieldViewModel.removeAllCardsFromField();
             for (Card card : cards) {
                 deckViewModel.placeCardToOutDeck(card);
             }
@@ -50,8 +50,8 @@ public class DoneButton extends AppCompatButton {
         });
     }
 
-    public void setViewModels(GameFieldViewModel gameFieldViewModel, PlayersViewModel playersViewModel) {
-        this.gameFieldViewModel = gameFieldViewModel;
+    public void setViewModels(BattleFieldViewModel battleFieldViewModel, PlayersViewModel playersViewModel) {
+        this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
     }
 
