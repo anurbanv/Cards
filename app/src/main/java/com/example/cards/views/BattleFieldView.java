@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class BattleFieldView extends LinearLayout {
 
-    @BindView(R.id.container) LinearLayout container;
+    @BindView(R.id.grid) GridLayout grid;
 
     private CardDropEventHandler handler;
 
@@ -46,7 +47,7 @@ public class BattleFieldView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.battle_field, this, true);
         ButterKnife.bind(this, root);
-        initCells(container);
+        initCells();
     }
 
     public void setViewModels(CurrentDragViewModel currentDragViewModel,
@@ -55,17 +56,17 @@ public class BattleFieldView extends LinearLayout {
         handler = new CardDropEventHandler(currentDragViewModel, battleFieldViewModel, playersViewModel);
     }
 
-    private void initCells(LinearLayout container) {
+    private void initCells() {
         for (int i = 0; i < 6; i++) {
             CellViewNew cellView = new CellViewNew(getContext(), i);
             cellView.setOnDragListener(new FieldDropListener(i));
-            container.addView(cellView);
+            grid.addView(cellView);
         }
     }
 
     public void update(List<Cell> cells) {
         for (int i = 0; i < 6; i++) {
-            CellViewNew cellView = (CellViewNew) container.getChildAt(i);
+            CellViewNew cellView = (CellViewNew) grid.getChildAt(i);
             Cell cell = cells.get(i);
             cellView.update(cell);
         }
@@ -82,7 +83,7 @@ public class BattleFieldView extends LinearLayout {
         @Override
         public boolean onDrag(View v, DragEvent event) {
             if (event.getAction() == DragEvent.ACTION_DROP) {
-                CellViewNew cellView = (CellViewNew) container.getChildAt(cell);
+                CellViewNew cellView = (CellViewNew) grid.getChildAt(cell);
                 handler.initEvent(cellView.isEmpty(), cell);
             }
             return true;

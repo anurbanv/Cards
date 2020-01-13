@@ -3,23 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     android:background="@drawable/corners_gray"
     android:elevation="4dp"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="4dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.example.cards.views.HiddenCardView
-            android:id="@+id/btnDeck"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="8dp" />
+            android:layout_height="60dp">
+
+            <RelativeLayout
+                android:id="@+id/lastCard"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:alpha="0.7" />
+
+            <com.example.cards.views.HiddenCardView
+                android:id="@+id/btnDeck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:elevation="8dp" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tvDeckCount"
@@ -32,24 +47,16 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/lastCard"
-        android:layout_width="60dp"
-        android:layout_height="100dp"
-        android:alpha="0.5"
-        android:gravity="center_horizontal" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <com.example.cards.views.HiddenCardView
+        <com.example.cards.views.HiddenCardViewVer
             android:id="@+id/outCards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/lastCard"
             android:alpha="0.5"
             android:elevation="8dp" />
 

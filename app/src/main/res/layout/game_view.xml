@@ -10,26 +10,35 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:orientation="horizontal">
-
-        <com.example.cards.views.HomeButton
-            android:id="@+id/btnHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="home" />
+        android:orientation="vertical">
 
         <com.example.cards.views.BattleFieldView
             android:id="@+id/battleField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <com.example.cards.views.DoneButton
-            android:id="@+id/btnDone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="done" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.example.cards.views.HomeButton
+                android:id="@+id/btnHome"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="home" />
+
+            <com.example.cards.views.DoneButton
+                android:id="@+id/btnDone"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="done" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
