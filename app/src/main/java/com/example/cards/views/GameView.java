@@ -123,7 +123,7 @@ public class GameView extends LinearLayout {
         }
 
         for (int i = 0; i < count; i++) {
-            Player player = new Player(i, playersViewModel, deckViewModel);
+            Player player = new Player(i);
             playersViewModel.addPlayer(player);
         }
 
@@ -133,7 +133,7 @@ public class GameView extends LinearLayout {
             for (Player player : playersList) {
                 if (deckViewModel.hasCards()) {
                     Card card = deckViewModel.takeCard();
-                    player.addCardToHand(card);
+                    playersViewModel.addCardToPlayersHand(player, card);
                 }
             }
         }

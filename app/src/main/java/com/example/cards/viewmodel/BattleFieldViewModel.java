@@ -34,6 +34,39 @@ public class BattleFieldViewModel extends AndroidViewModel {
         cells.setValue(cellList);
     }
 
+    public void postFieldState(List<Card> attackCards, List<Card> defendCards) {
+        List<Cell> cells = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Cell cell = new Cell();
+            cell.setAttackCard(attackCards.get(i));
+            cell.setDefendCard(defendCards.get(i));
+            cells.add(cell);
+        }
+        this.cells.postValue(cells);
+    }
+
+    public List<Card> getAttackCards() {
+        List<Card> cards = new ArrayList<>();
+        List<Cell> value = cells.getValue();
+        if (value != null) {
+            for (Cell cell : value) {
+                cards.add(cell.getAttackCard());
+            }
+        }
+        return cards;
+    }
+
+    public List<Card> getDefendCards() {
+        List<Card> cards = new ArrayList<>();
+        List<Cell> value = cells.getValue();
+        if (value != null) {
+            for (Cell cell : value) {
+                cards.add(cell.getDefendCard());
+            }
+        }
+        return cards;
+    }
+
     public List<Card> getAttackingCardList() {
         List<Card> cards = new ArrayList<>();
         List<Cell> value = cells.getValue();

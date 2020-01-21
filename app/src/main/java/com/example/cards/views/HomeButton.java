@@ -38,7 +38,7 @@ public class HomeButton extends AppCompatButton {
             List<Card> cards = battleFieldViewModel.removeAllCardsFromField();
             Player player = playersViewModel.getDefendingPlayer();
             for (Card card : cards) {
-                player.addCardToHand(card);
+                playersViewModel.addCardToPlayersHand(player, card);
             }
 
             playersViewModel.playerTookHome();

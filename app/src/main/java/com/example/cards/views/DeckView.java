@@ -58,7 +58,7 @@ public class DeckView extends LinearLayout {
                 while (player.getHand().size() < 6) {
                     if (deckViewModel.hasCards()) {
                         Card card = deckViewModel.takeCard();
-                        player.addCardToHand(card);
+                        playersViewModel.addCardToPlayersHand(player, card);
                     } else {
                         LogUtil.w("Deck ran out of cards");
                         break;

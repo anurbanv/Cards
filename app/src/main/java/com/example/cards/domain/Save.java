@@ -2,6 +2,9 @@ package com.example.cards.domain;
 
 import com.andrius.fileutil.FileUtil;
 import com.example.cards.activities.MainActivity;
+import com.example.cards.viewmodel.BattleFieldViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
+import com.example.cards.viewmodel.PlayersViewModel;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -9,55 +12,58 @@ import java.util.List;
 
 public class Save {
 
-    private static Gson gson = new Gson();
+    private static transient Gson gson = new Gson();
     private DeckOfCards deckOfCards;
     private List<Card> outCards;
     private List<Player> players;
-    private Card[] attacking;
-    private Card[] defending;
+    private List<Card> attackCards;
+    private List<Card> defendCards;
 
-    public static void restoreFromFileSystem() {
+//    public static void restoreFromFileSystem() {
+//        String jsonString = FileUtil.readFileText(MainActivity.latestSave);
+//        Save save = gson.fromJson(jsonString, Save.class);
+//        save.restoreState();
+//    }
+//
+//    public static void restoreFromString(String jsonString) {
+//        Save save = gson.fromJson(jsonString, Save.class);
+//        save.restoreState();
+//    }
+//
+//    public static String getGameState() {
+//        Save save = new Save();
+//        return gson.toJson(save);
+//    }
+    public static Save getStoredSave() {
+        if (MainActivity.latestSave == null) {
+            throw new IllegalArgumentException("no save");
+        }
         String jsonString = FileUtil.readFileText(MainActivity.latestSave);
-        Save save = gson.fromJson(jsonString, Save.class);
-        save.restoreState();
+        return gson.fromJson(jsonString, Save.class);
     }
 
-    public static void restoreFromString(String jsonString) {
-        Save save = gson.fromJson(jsonString, Save.class);
-        save.restoreState();
+    public Save(DeckOfCards deckOfCards, List<Card> outCards, List<Player> players,
+                 List<Card> attackCards, List<Card> defendCards) {
+        this.deckOfCards = deckOfCards;
+        this.outCards = outCards;
+        this.players = players;
+        this.attackCards = attackCards;
+        this.defendCards = defendCards;
     }
 
-    public static void saveToFileSystem() {
-        Save save = new Save();
-        String jsonString = gson.toJson(save);
+    public void saveToFileSystem() {
+        String jsonString = gson.toJson(this);
         File file = MainActivity.latestSave;
+        FileUtil.deleteFile(file);
         FileUtil.createFile(file);
         FileUtil.writeText(file, jsonString);
     }
 
-    public static String getGameState() {
-        Save save = new Save();
-        return gson.toJson(save);
-    }
-
-    private Save() {
-//        deckOfCards = deckViewModel.getDeck().getValue();
-//        outCards = deckViewModel.getOutCards().getValue();
-//        players = playersViewModel.getPlayers().getValue();
-        //attacking = gameFieldViewModel.getAttackingCards().getValue();
-        //defending = gameFieldViewModel.getDefendingCards().getValue();
-    }
-
-    private void restoreState() {
-//        List<Player> currentPlayers = playersViewModel.getPlayers().getValue();
-//        if (currentPlayers != null && players.size() == currentPlayers.size()) {
-//            deckViewModel.getDeck().setValue(deckOfCards);
-//            deckViewModel.getOutCards().setValue(outCards);
-//            playersViewModel.getPlayers().setValue(players);
-//            //gameFieldViewModel.getAttackingCards().setValue(attacking);
-//            //gameFieldViewModel.getDefendingCards().setValue(defending);
-//        } else {
-//            LogUtil.w("Cannot restore state with different players size");
-//        }
+    public void restoreState(DeckViewModel deckViewModel, PlayersViewModel playersViewModel,
+                              BattleFieldViewModel battleFieldViewModel) {
+        deckViewModel.getDeck().postValue(deckOfCards);
+        deckViewModel.getOutCards().postValue(outCards);
+        playersViewModel.getPlayers().postValue(players);
+        battleFieldViewModel.postFieldState(attackCards, defendCards);
     }
 }

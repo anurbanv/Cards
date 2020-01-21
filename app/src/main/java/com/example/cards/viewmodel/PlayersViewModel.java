@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class PlayersViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Player>> players = new MutableLiveData<>();
     private Player defendingPlayer;
+    private DeckViewModel deckViewModel;
 
     public PlayersViewModel(@NonNull Application application) {
         super(application);
@@ -23,6 +25,10 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<Player>> getPlayers() {
         return players;
+    }
+
+    public void setDeckViewModel(DeckViewModel deckViewModel) {
+        this.deckViewModel = deckViewModel;
     }
 
     private List<Player> getPlayerList() {
@@ -44,16 +50,39 @@ public class PlayersViewModel extends AndroidViewModel {
 
     public void setDefendingPlayer(Player player) {
         for (Player player1 : getPlayerList()) {
-            player1.setAction(Player.Action.NONE);
+            setPlayerAction(player1, Player.Action.NONE);
         }
-        player.setAction(Player.Action.DEFEND);
+        setPlayerAction(player, Player.Action.DEFEND);
         defendingPlayer = player;
         if (getPlayersInGame().size() > 1) {
-            getPreviousPlayerInGame(player).setAction(Player.Action.ATTACK);
+            Player previousPlayerInGame = getPreviousPlayerInGame(player);
+            setPlayerAction(previousPlayerInGame, Player.Action.ATTACK);
         }
     }
 
-    public void reset() {
+    private void setPlayerAction(Player player, Player.Action action) {
+        player.setAction(action);
+        updatePlayers();
+    }
+
+    public void addCardToPlayersHand(Player player, Card card) {
+        player.addCardToHand(card);
+        updatePlayers();
+    }
+
+    public void removeCardFromPlayersHand(Player player, Card card) {
+        player.removeCard(card);
+        if (playerCannotPlay(player)) {
+            attackingPlayerOut(player);
+        }
+        updatePlayers();
+    }
+
+    private boolean playerCannotPlay(Player player) {
+        return player.getHand().isEmpty() && !deckViewModel.hasCards();
+    }
+
+    private void reset() {
         players.setValue(new ArrayList<>());
     }
 
@@ -65,7 +94,7 @@ public class PlayersViewModel extends AndroidViewModel {
         }
     }
 
-    public void updatePlayers() {
+    private void updatePlayers() {
         players.postValue(players.getValue());
     }
 
@@ -84,7 +113,7 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public void playerDefended() {
-        if (defendingPlayer.cannotPlay()) {
+        if (playerCannotPlay(defendingPlayer)) {
             defendingPlayer.setOut();
         }
 
@@ -105,9 +134,11 @@ public class PlayersViewModel extends AndroidViewModel {
         }
     }
 
-    public void attackingPlayerOut(Player player) {
+    private void attackingPlayerOut(Player player) {
+        player.setOut();
         if (getPlayersInGame().size() > 2) {
-            getPreviousPlayerInGame(player).setAction(Player.Action.ATTACK);
+            Player previousPlayerInGame = getPreviousPlayerInGame(player);
+            setPlayerAction(previousPlayerInGame, Player.Action.ATTACK);
         }
     }
 

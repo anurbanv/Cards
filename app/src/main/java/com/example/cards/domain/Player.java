@@ -2,9 +2,6 @@ package com.example.cards.domain;
 
 import androidx.annotation.NonNull;
 
-import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.PlayersViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +13,11 @@ public class Player {
 
     private List<Card> hand;
     private int id;
-    private PlayersViewModel playersViewModel;
-    private DeckViewModel deckViewModel;
     private Action action = Action.NONE;
     private boolean isOut = false;
 
-    public Player(int id, PlayersViewModel playersViewModel, DeckViewModel deckViewModel) {
+    public Player(int id) {
         this.id = id;
-        this.playersViewModel = playersViewModel;
-        this.deckViewModel = deckViewModel;
         hand = new ArrayList<>();
     }
 
@@ -42,16 +35,10 @@ public class Player {
 
     public void addCardToHand(Card card) {
         hand.add(card);
-        playersViewModel.updatePlayers();
     }
 
     public void removeCard(Card card) {
         hand.remove(card);
-        if (cannotPlay()) {
-            playersViewModel.attackingPlayerOut(this);
-            setOut();
-        }
-        playersViewModel.updatePlayers();
     }
 
     public Action getAction() {
@@ -61,12 +48,7 @@ public class Player {
     public void setAction(Action action) {
         if (this.action != action) {
             this.action = action;
-            playersViewModel.updatePlayers();
         }
-    }
-
-    public boolean cannotPlay() {
-        return hand.isEmpty() && !deckViewModel.hasCards();
     }
 
     public boolean isOut() {
@@ -76,7 +58,6 @@ public class Player {
     public void setOut() {
         isOut = true;
     }
-
 
     @NonNull
     @Override

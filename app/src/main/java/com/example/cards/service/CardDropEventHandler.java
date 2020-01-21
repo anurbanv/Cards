@@ -75,7 +75,7 @@ public class CardDropEventHandler {
                         }
                     }
                     if (allSameNumber) {
-                        cardOwner.removeCard(card);
+                        playersViewModel.removeCardFromPlayersHand(cardOwner, card);
                         battleFieldViewModel.setAttackingCard(card, cell);
                         playersViewModel.shiftDefendingPlayer();
                     } else {
@@ -92,7 +92,7 @@ public class CardDropEventHandler {
         }
 
         if (success) {
-            cardOwner.removeCard(card);
+            playersViewModel.removeCardFromPlayersHand(cardOwner, card);
             battleFieldViewModel.setAttackingCard(card, cell);
         } else {
             LogUtil.w("Cannot place this card " + card.toString());
@@ -123,7 +123,7 @@ public class CardDropEventHandler {
         }
 
         if (success) {
-            cardOwner.removeCard(card);
+            playersViewModel.removeCardFromPlayersHand(cardOwner, card);
             battleFieldViewModel.setDefendingCard(card, cell);
         }
     }

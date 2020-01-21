@@ -1,6 +1,7 @@
 package com.example.cards.activities;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.cards.R;
+import com.example.cards.domain.Save;
 import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
@@ -23,6 +25,9 @@ import butterknife.ButterKnife;
 public class NewGameActivity extends AppCompatActivity {
 
     @BindView(R.id.gameView) GameView gameView;
+
+    @BindView(R.id.btnSave) Button btnSave;
+    @BindView(R.id.btnRestore) Button btnRestore;
 
     private NewRoomViewModel newRoomViewModel;
     private boolean multiPlayer;
@@ -43,6 +48,7 @@ public class NewGameActivity extends AppCompatActivity {
         ViewModelProvider provider = ViewModelProviders.of(this);
         DeckViewModel deckViewModel = provider.get(DeckViewModel.class);
         PlayersViewModel playersViewModel = provider.get(PlayersViewModel.class);
+        playersViewModel.setDeckViewModel(deckViewModel);
         CurrentDragViewModel currentDragViewModel = provider.get(CurrentDragViewModel.class);
         BattleFieldViewModel battleFieldViewModel = provider.get(BattleFieldViewModel.class);
 
@@ -65,6 +71,20 @@ public class NewGameActivity extends AppCompatActivity {
             builder.create().show();
         });
 
+        btnSave.setOnClickListener(v -> {
+            Save save = new Save(deckViewModel.getDeck().getValue(),
+                    deckViewModel.getOutCards().getValue(),
+                    playersViewModel.getPlayers().getValue(),
+                    battleFieldViewModel.getAttackCards(),
+                    battleFieldViewModel.getDefendCards());
+            save.saveToFileSystem();
+        });
+
+        btnRestore.setOnClickListener(v -> {
+            Save storedSave = Save.getStoredSave();
+            storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel);
+        });
+
         newRoomViewModel = ViewModelProviders.of(this).get(NewRoomViewModel.class);
 
         Preferences prefs = new Preferences(this);
@@ -81,7 +101,7 @@ public class NewGameActivity extends AppCompatActivity {
             });
         }
 
-        gameView.postDelayed(() -> gameView.startGame(playerCount), 1000);
+        gameView.startGame(playerCount);
     }
 
     @Override
