@@ -86,9 +86,9 @@ public class GameView extends LinearLayout {
         this.playersViewModel = playersViewModel;
         this.currentDragViewModel = currentDragViewModel;
 
-        deckView.setViewModels(playersViewModel, deckViewModel);
-        btnHome.setViewModels(battleFieldViewModel, playersViewModel);
-        btnDone.setViewModels(battleFieldViewModel, playersViewModel, deckViewModel);
+        deckView.setViewModels(playersViewModel, deckViewModel, roomViewModel);
+        btnHome.setViewModels(battleFieldViewModel, playersViewModel, roomViewModel);
+        btnDone.setViewModels(battleFieldViewModel, playersViewModel, deckViewModel, roomViewModel);
         battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel, roomViewModel);
     }
 

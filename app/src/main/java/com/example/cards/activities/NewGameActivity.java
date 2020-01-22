@@ -1,13 +1,8 @@
 package com.example.cards.activities;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.cards.R;
 import com.example.cards.domain.Save;
@@ -19,6 +14,11 @@ import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.views.GameView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -98,6 +98,12 @@ public class NewGameActivity extends AppCompatActivity {
             newRoomViewModel.getRoom().observe(this, room -> {
                 if (!room.isStarted()) {
                     finish();
+                } else {
+                    String gameState = room.getGameState();
+                    if (!TextUtils.isEmpty(gameState)) {
+                        Save save = Save.getSaveFromJson(gameState);
+                        save.restoreState(deckViewModel, playersViewModel, battleFieldViewModel);
+                    }
                 }
             });
         }

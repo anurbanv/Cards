@@ -129,6 +129,7 @@ public class CardDropEventHandler {
         if (success) {
             playersViewModel.removeCardFromPlayersHand(cardOwner, card);
             battleFieldViewModel.setDefendingCard(card, cell);
+            roomViewModel.postGameState();
         }
     }
 

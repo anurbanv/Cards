@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.example.cards.domain.Card;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
+import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class DoneButton extends AppCompatButton {
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
     private DeckViewModel deckViewModel;
+    private NewRoomViewModel roomViewModel;
 
     public DoneButton(Context context) {
         super(context);
@@ -47,15 +49,17 @@ public class DoneButton extends AppCompatButton {
             if (gameFinished && listener != null) {
                 listener.onGameOver();
             }
+            roomViewModel.postGameState();
         });
     }
 
     public void setViewModels(BattleFieldViewModel battleFieldViewModel,
                               PlayersViewModel playersViewModel,
-                              DeckViewModel deckViewModel) {
+                              DeckViewModel deckViewModel, NewRoomViewModel roomViewModel) {
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
         this.deckViewModel = deckViewModel;
+        this.roomViewModel = roomViewModel;
     }
 
     public void update(List<Card> defending, List<Card> attacking) {

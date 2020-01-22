@@ -42,6 +42,10 @@ public class Save {
         return gson.fromJson(jsonString, Save.class);
     }
 
+    public static Save getSaveFromJson(String json) {
+        return gson.fromJson(json, Save.class);
+    }
+
     public Save(DeckOfCards deckOfCards, List<Card> outCards, List<Player> players,
                 List<Card> attackCards, List<Card> defendCards) {
         this.deckOfCards = deckOfCards;

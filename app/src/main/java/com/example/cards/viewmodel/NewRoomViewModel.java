@@ -71,6 +71,9 @@ public class NewRoomViewModel extends AndroidViewModel {
     }
 
     public void postGameState() {
+        if (roomRef == null) {
+            return;
+        }
         roomRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 Room room = new Room(task.getResult());

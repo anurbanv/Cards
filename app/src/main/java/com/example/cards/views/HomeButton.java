@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
+import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class HomeButton extends AppCompatButton {
     private GameView.GameOverListener listener;
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
+    private NewRoomViewModel roomViewModel;
 
     public HomeButton(Context context) {
         super(context);
@@ -47,12 +49,15 @@ public class HomeButton extends AppCompatButton {
             if (gameFinished && listener != null) {
                 listener.onGameOver();
             }
+            roomViewModel.postGameState();
         });
     }
 
-    public void setViewModels(BattleFieldViewModel battleFieldViewModel, PlayersViewModel playersViewModel) {
+    public void setViewModels(BattleFieldViewModel battleFieldViewModel, PlayersViewModel playersViewModel,
+                              NewRoomViewModel roomViewModel) {
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
+        this.roomViewModel = roomViewModel;
     }
 
     public void update(List<Card> defending, List<Card> attacking) {
