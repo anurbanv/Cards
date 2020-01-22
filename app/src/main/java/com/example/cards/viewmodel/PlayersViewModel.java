@@ -15,7 +15,6 @@ import java.util.List;
 public class PlayersViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Player>> players = new MutableLiveData<>();
-    private Player defendingPlayer;
     private DeckViewModel deckViewModel;
 
     public PlayersViewModel(@NonNull Application application) {
@@ -53,7 +52,6 @@ public class PlayersViewModel extends AndroidViewModel {
             setPlayerAction(player1, Player.Action.NONE);
         }
         setPlayerAction(player, Player.Action.DEFEND);
-        defendingPlayer = player;
         if (getPlayersInGame().size() > 1) {
             Player previousPlayerInGame = getPreviousPlayerInGame(player);
             setPlayerAction(previousPlayerInGame, Player.Action.ATTACK);
@@ -98,40 +96,42 @@ public class PlayersViewModel extends AndroidViewModel {
         players.postValue(players.getValue());
     }
 
-    public Player getDefendingPlayer() {
-        if (defendingPlayer == null) {
-            throw new IllegalStateException("defending player not found");
-        }
-        return defendingPlayer;
-    }
-
     public void playerTookHome() {
         if (getPlayersInGame().size() > 1) {
-            Player nextPlayer = getNextPlayerInGame(defendingPlayer);
+            Player nextPlayer = getNextPlayerInGame(getDefendingPlayer());
             setDefendingPlayer(getNextPlayerInGame(nextPlayer));
         }
     }
 
     public void playerDefended() {
-        if (playerCannotPlay(defendingPlayer)) {
-            defendingPlayer.setOut();
+        if (playerCannotPlay(getDefendingPlayer())) {
+            getDefendingPlayer().setOut();
         }
 
         if (getPlayersInGame().size() > 1) {
-            if (defendingPlayer.isOut()) {
-                Player nextPlayer = getNextPlayerInGame(defendingPlayer);
+            if (getDefendingPlayer().isOut()) {
+                Player nextPlayer = getNextPlayerInGame(getDefendingPlayer());
                 setDefendingPlayer(getNextPlayerInGame(nextPlayer));
             } else {
-                setDefendingPlayer(getNextPlayerInGame(defendingPlayer));
+                setDefendingPlayer(getNextPlayerInGame(getDefendingPlayer()));
             }
         }
     }
 
     public void shiftDefendingPlayer() {
         if (getPlayersInGame().size() > 1) {
-            Player nextPlayer = getNextPlayerInGame(defendingPlayer);
+            Player nextPlayer = getNextPlayerInGame(getDefendingPlayer());
             setDefendingPlayer(nextPlayer);
         }
+    }
+
+    public Player getDefendingPlayer() {
+        for (Player player : getPlayerList()) {
+            if (player.getAction() == Player.Action.DEFEND) {
+                return player;
+            }
+        }
+        throw new IllegalArgumentException("no defend player found");
     }
 
     private void attackingPlayerOut(Player player) {

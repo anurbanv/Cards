@@ -75,8 +75,7 @@ public class CardDropEventHandler {
                         }
                     }
                     if (allSameNumber) {
-                        playersViewModel.removeCardFromPlayersHand(cardOwner, card);
-                        battleFieldViewModel.setAttackingCard(card, cell);
+                        success = true;
                         playersViewModel.shiftDefendingPlayer();
                     } else {
                         LogUtil.w("Not all cards are number " + card.getNumber());
