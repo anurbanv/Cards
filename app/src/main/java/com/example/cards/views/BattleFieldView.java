@@ -15,6 +15,7 @@ import com.example.cards.domain.Cell;
 import com.example.cards.service.CardDropEventHandler;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
@@ -52,8 +53,10 @@ public class BattleFieldView extends LinearLayout {
 
     public void setViewModels(CurrentDragViewModel currentDragViewModel,
                               BattleFieldViewModel battleFieldViewModel,
-                              PlayersViewModel playersViewModel) {
-        handler = new CardDropEventHandler(currentDragViewModel, battleFieldViewModel, playersViewModel);
+                              PlayersViewModel playersViewModel,
+                              NewRoomViewModel roomViewModel) {
+        handler = new CardDropEventHandler(currentDragViewModel, battleFieldViewModel,
+                playersViewModel, roomViewModel);
     }
 
     private void initCells() {

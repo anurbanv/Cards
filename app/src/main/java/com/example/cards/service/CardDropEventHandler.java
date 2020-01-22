@@ -5,6 +5,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.List;
@@ -17,13 +18,16 @@ public class CardDropEventHandler {
     private CurrentDragViewModel currentDragViewModel;
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
+    private NewRoomViewModel roomViewModel;
 
     public CardDropEventHandler(CurrentDragViewModel currentDragViewModel,
                                 BattleFieldViewModel battleFieldViewModel,
-                                PlayersViewModel playersViewModel) {
+                                PlayersViewModel playersViewModel,
+                                NewRoomViewModel roomViewModel) {
         this.currentDragViewModel = currentDragViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
+        this.roomViewModel = roomViewModel;
     }
 
     public void initEvent(boolean attacking, int cell) {
@@ -93,6 +97,7 @@ public class CardDropEventHandler {
         if (success) {
             playersViewModel.removeCardFromPlayersHand(cardOwner, card);
             battleFieldViewModel.setAttackingCard(card, cell);
+            roomViewModel.postGameState();
         } else {
             LogUtil.w("Cannot place this card " + card.toString());
         }

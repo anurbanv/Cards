@@ -19,7 +19,7 @@ public class Save {
     private List<Card> attackCards;
     private List<Card> defendCards;
 
-//    public static void restoreFromFileSystem() {
+    //    public static void restoreFromFileSystem() {
 //        String jsonString = FileUtil.readFileText(MainActivity.latestSave);
 //        Save save = gson.fromJson(jsonString, Save.class);
 //        save.restoreState();
@@ -43,7 +43,7 @@ public class Save {
     }
 
     public Save(DeckOfCards deckOfCards, List<Card> outCards, List<Player> players,
-                 List<Card> attackCards, List<Card> defendCards) {
+                List<Card> attackCards, List<Card> defendCards) {
         this.deckOfCards = deckOfCards;
         this.outCards = outCards;
         this.players = players;
@@ -51,16 +51,28 @@ public class Save {
         this.defendCards = defendCards;
     }
 
+    public Save(DeckViewModel deckViewModel, PlayersViewModel playersViewModel,
+                BattleFieldViewModel battleFieldViewModel) {
+        this.deckOfCards = deckViewModel.getDeck().getValue();
+        this.outCards = deckViewModel.getOutCards().getValue();
+        this.players = playersViewModel.getPlayers().getValue();
+        this.attackCards = battleFieldViewModel.getAttackCards();
+        this.defendCards = battleFieldViewModel.getDefendCards();
+    }
+
     public void saveToFileSystem() {
-        String jsonString = gson.toJson(this);
         File file = MainActivity.latestSave;
         FileUtil.deleteFile(file);
         FileUtil.createFile(file);
-        FileUtil.writeText(file, jsonString);
+        FileUtil.writeText(file, getJsonString());
+    }
+
+    public String getJsonString() {
+        return gson.toJson(this);
     }
 
     public void restoreState(DeckViewModel deckViewModel, PlayersViewModel playersViewModel,
-                              BattleFieldViewModel battleFieldViewModel) {
+                             BattleFieldViewModel battleFieldViewModel) {
         deckViewModel.getDeck().postValue(deckOfCards);
         deckViewModel.getOutCards().postValue(outCards);
         playersViewModel.getPlayers().postValue(players);

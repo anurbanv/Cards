@@ -16,6 +16,7 @@ import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
+import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 
 import java.util.ArrayList;
@@ -36,8 +37,6 @@ public class GameView extends LinearLayout {
         btnDone.setListener(gameOverListener);
     }
 
-
-
     public interface GameOverListener {
         void onGameOver();
     }
@@ -55,7 +54,6 @@ public class GameView extends LinearLayout {
     @BindView(R.id.btnDone) DoneButton btnDone;
 
     @BindView(R.id.battleField) BattleFieldView battleField;
-
 
     private List<HandView> playerHands;
 
@@ -81,7 +79,8 @@ public class GameView extends LinearLayout {
     }
 
     public void setViewModels(DeckViewModel deckViewModel, BattleFieldViewModel battleFieldViewModel,
-                              PlayersViewModel playersViewModel, CurrentDragViewModel currentDragViewModel) {
+                              PlayersViewModel playersViewModel, CurrentDragViewModel currentDragViewModel,
+                              NewRoomViewModel roomViewModel) {
         this.deckViewModel = deckViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
@@ -90,7 +89,7 @@ public class GameView extends LinearLayout {
         deckView.setViewModels(playersViewModel, deckViewModel);
         btnHome.setViewModels(battleFieldViewModel, playersViewModel);
         btnDone.setViewModels(battleFieldViewModel, playersViewModel, deckViewModel);
-        battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel);
+        battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel, roomViewModel);
     }
 
     public void updateDeck(DeckOfCards deck) {

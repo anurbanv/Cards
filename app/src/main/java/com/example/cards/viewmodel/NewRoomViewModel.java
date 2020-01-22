@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cards.domain.Room;
+import com.example.cards.domain.Save;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +23,10 @@ public class NewRoomViewModel extends AndroidViewModel {
     private ListenerRegistration listener;
     private DocumentReference roomRef;
 
+    private DeckViewModel deckViewModel;
+    private PlayersViewModel playersViewModel;
+    private BattleFieldViewModel battleFieldViewModel;
+
     public NewRoomViewModel(@NonNull Application application) {
         super(application);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -30,6 +35,13 @@ public class NewRoomViewModel extends AndroidViewModel {
 
     public LiveData<Room> getRoom() {
         return room;
+    }
+
+    public void setViewModels(DeckViewModel deckViewModel, PlayersViewModel playersViewModel,
+                              BattleFieldViewModel battleFieldViewModel) {
+        this.deckViewModel = deckViewModel;
+        this.playersViewModel = playersViewModel;
+        this.battleFieldViewModel = battleFieldViewModel;
     }
 
     public void initCloudObserver(String roomId) {
@@ -53,6 +65,17 @@ public class NewRoomViewModel extends AndroidViewModel {
             if (task.isSuccessful() && task.getResult() != null) {
                 Room room = new Room(task.getResult());
                 room.setGameStarted(started);
+                roomRef.set(room.getObjectMap());
+            }
+        });
+    }
+
+    public void postGameState() {
+        roomRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                Room room = new Room(task.getResult());
+                Save save = new Save(deckViewModel, playersViewModel, battleFieldViewModel);
+                room.setGameState(save);
                 roomRef.set(room.getObjectMap());
             }
         });

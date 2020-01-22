@@ -51,8 +51,11 @@ public class NewGameActivity extends AppCompatActivity {
         playersViewModel.setDeckViewModel(deckViewModel);
         CurrentDragViewModel currentDragViewModel = provider.get(CurrentDragViewModel.class);
         BattleFieldViewModel battleFieldViewModel = provider.get(BattleFieldViewModel.class);
+        newRoomViewModel = ViewModelProviders.of(this).get(NewRoomViewModel.class);
+        newRoomViewModel.setViewModels(deckViewModel, playersViewModel, battleFieldViewModel);
 
-        gameView.setViewModels(deckViewModel, battleFieldViewModel, playersViewModel, currentDragViewModel);
+        gameView.setViewModels(deckViewModel, battleFieldViewModel, playersViewModel,
+                currentDragViewModel, newRoomViewModel);
 
         deckViewModel.getDeck().observe(this, deckOfCards -> gameView.updateDeck(deckOfCards));
         deckViewModel.getOutCards().observe(this, cards -> gameView.updateDeck(cards));
@@ -84,8 +87,6 @@ public class NewGameActivity extends AppCompatActivity {
             Save storedSave = Save.getStoredSave();
             storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel);
         });
-
-        newRoomViewModel = ViewModelProviders.of(this).get(NewRoomViewModel.class);
 
         Preferences prefs = new Preferences(this);
 

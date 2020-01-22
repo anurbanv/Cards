@@ -80,4 +80,7 @@ public class Room {
         return result;
     }
 
+    public void setGameState(Save save) {
+        this.gameState = save.getJsonString();
+    }
 }
