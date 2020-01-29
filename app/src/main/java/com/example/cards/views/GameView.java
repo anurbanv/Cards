@@ -174,8 +174,8 @@ public class GameView extends LinearLayout {
                 player6.setVisibility(GONE);
             } else if (count < 5) {
                 playerHands.add(player1);
-                playerHands.add(player2);
-                player3.setVisibility(GONE);
+                player2.setVisibility(GONE);
+                playerHands.add(player3);
                 playerHands.add(player4);
                 playerHands.add(player5);
                 player6.setVisibility(GONE);

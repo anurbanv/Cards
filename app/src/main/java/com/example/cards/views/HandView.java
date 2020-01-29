@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,8 @@ import butterknife.ButterKnife;
 public abstract class HandView extends LinearLayout {
 
     @BindView(R.id.llCards) LinearLayout llCards;
+    @BindView(R.id.btnInfo) Button btnInfo;
+
     private CurrentDragViewModel currentDragViewModel;
 
     public HandView(Context context) {
