@@ -2,12 +2,15 @@ package com.example.cards.domain;
 
 import com.andrius.fileutil.FileUtil;
 import com.example.cards.activities.MainActivity;
+import com.example.cards.service.PlayersService;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Save {
@@ -18,6 +21,7 @@ public class Save {
     private List<Player> players;
     private List<Card> attackCards;
     private List<Card> defendCards;
+    private transient PlayersService playersService = new PlayersService();
 
     //    public static void restoreFromFileSystem() {
 //        String jsonString = FileUtil.readFileText(MainActivity.latestSave);
@@ -62,6 +66,20 @@ public class Save {
         this.players = playersViewModel.getPlayers().getValue();
         this.attackCards = battleFieldViewModel.getAttackCards();
         this.defendCards = battleFieldViewModel.getDefendCards();
+    }
+
+    public Save(int playerCount) {
+        DeckOfCards deckOfCards = new DeckOfCards();
+        this.deckOfCards = deckOfCards;
+        this.outCards = new ArrayList<>();
+        List<Player> players = playersService.getNewPlayersList(playerCount);
+        playersService.fillPlayersHands(players, deckOfCards);
+        Player attacker = playersService.getPlayerWithLowestStrongCard(players);
+        Player defender = playersService.getNextPlayerInGame(players, attacker);
+        playersService.setDefendingPlayer(players, defender);
+        this.players = players;
+        this.attackCards = new ArrayList<>(Collections.nCopies(6, null));
+        this.defendCards = new ArrayList<>(Collections.nCopies(6, null));
     }
 
     public void saveToFileSystem() {

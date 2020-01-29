@@ -30,6 +30,8 @@ public class JoinRoomActivity extends AppCompatActivity {
 
         etRoomId.setText("12345");
 
+        etPlayerName.setText(String.valueOf(System.currentTimeMillis()));
+
         RoomService roomService = new RoomService(this);
 
         Preferences prefs = new Preferences(this);

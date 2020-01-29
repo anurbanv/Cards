@@ -50,7 +50,10 @@ public class NewRoomViewModel extends AndroidViewModel {
         }
         roomRef = gamesRef.document(roomId);
         listener = roomRef.addSnapshotListener((documentSnapshot, e) -> {
-            if (documentSnapshot != null) this.room.postValue(new Room(documentSnapshot));
+            if (documentSnapshot != null) {
+                Room room = new Room(documentSnapshot);
+                this.room.postValue(room);
+            }
         });
     }
 
@@ -65,6 +68,9 @@ public class NewRoomViewModel extends AndroidViewModel {
             if (task.isSuccessful() && task.getResult() != null) {
                 Room room = new Room(task.getResult());
                 room.setGameStarted(started);
+                if (started){
+                    room.setGameState(new Save(2));
+                }
                 roomRef.set(room.getObjectMap());
             }
         });

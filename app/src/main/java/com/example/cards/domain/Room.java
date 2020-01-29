@@ -11,7 +11,7 @@ public class Room {
 
     private String roomId;
     private List<String> players;
-    private boolean started = false;
+    private boolean started;
     private String gameState;
 
     public Room(DocumentSnapshot result) {

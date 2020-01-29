@@ -115,10 +115,15 @@ public class GameView extends LinearLayout {
         }
     }
 
-    public void startGame(int count) {
+    public void startGame(int count, boolean multiPlayer) {
         initPlayerViews(count);
+
         for (HandView playerHand : playerHands) {
             playerHand.setViewModel(currentDragViewModel);
+        }
+
+        if (multiPlayer) {
+            return;
         }
 
         for (int i = 0; i < count; i++) {

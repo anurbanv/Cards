@@ -44,4 +44,8 @@ public class DeckOfCards {
     public boolean isEmpty() {
         return cardStack.isEmpty();
     }
+
+    public boolean hasCards() {
+        return !cardStack.isEmpty();
+    }
 }

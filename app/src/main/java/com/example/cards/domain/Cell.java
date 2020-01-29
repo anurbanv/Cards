@@ -5,7 +5,6 @@ public class Cell {
     private Card attackCard;
     private Card defendCard;
 
-
     public Card getAttackCard() {
         return attackCard;
     }
