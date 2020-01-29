@@ -115,6 +115,8 @@ public class NewGameActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (multiPlayer) {
             newRoomViewModel.setGameStarted(false);
+        } else {
+            super.onBackPressed();
         }
     }
 }
