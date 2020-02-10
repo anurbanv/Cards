@@ -10,6 +10,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.views.card_view.CardDragVerView;
+import com.example.cards.views.card_view.CardHiddenVerView;
 import com.example.cards.views.card_view.CardView;
 
 public class HandViewHorizontal extends HandView {
@@ -34,5 +35,10 @@ public class HandViewHorizontal extends HandView {
     @Override
     CardView getCardView(Context context, Card card, Player player, CurrentDragViewModel currentDragViewModel) {
         return new CardDragVerView(getContext(), card, player, currentDragViewModel);
+    }
+
+    @Override
+    CardView getCardHiddenView(Context context) {
+        return new CardHiddenVerView(context);
     }
 }

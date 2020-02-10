@@ -120,6 +120,7 @@ public class GameView extends LinearLayout {
 
         for (HandView playerHand : playerHands) {
             playerHand.setViewModel(currentDragViewModel);
+            playerHand.setIsMultiPlayer(multiPlayer);
         }
 
         if (multiPlayer) {

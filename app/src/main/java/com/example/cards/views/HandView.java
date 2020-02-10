@@ -15,6 +15,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
+import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.views.card_view.CardView;
 
@@ -28,6 +29,8 @@ public abstract class HandView extends LinearLayout {
 
     private CurrentDragViewModel currentDragViewModel;
     private Player player;
+    private boolean multiPlayer = false;
+    private Preferences preferences;
 
     public HandView(Context context) {
         super(context);
@@ -49,11 +52,17 @@ public abstract class HandView extends LinearLayout {
         View view = inflater.inflate(getLayoutId(), this, true);
         ButterKnife.bind(this, view);
 
+        preferences = new Preferences(context);
+
         btnInfo.setOnClickListener(v -> showDialog(context));
     }
 
     public void setViewModel(CurrentDragViewModel currentDragViewModel) {
         this.currentDragViewModel = currentDragViewModel;
+    }
+
+    public void setIsMultiPlayer(boolean multiPlayer) {
+        this.multiPlayer = multiPlayer;
     }
 
     abstract int getLayoutId();
@@ -62,7 +71,7 @@ public abstract class HandView extends LinearLayout {
         this.player = player;
         llCards.removeAllViews();
         for (Card card : player.getHand()) {
-            llCards.addView(getCardView(getContext(), card, player, currentDragViewModel));
+            llCards.addView(getCardViewToAdd(getContext(), card, player, currentDragViewModel));
         }
 
         if (player.isOut()) {
@@ -78,8 +87,21 @@ public abstract class HandView extends LinearLayout {
         }
     }
 
-    abstract CardView getCardView(Context context, Card card, Player player, CurrentDragViewModel currentDragViewModel);
+    abstract CardView getCardView(Context context, Card card, Player player,
+                                  CurrentDragViewModel currentDragViewModel);
 
+    abstract CardView getCardHiddenView(Context context);
+
+    private CardView getCardViewToAdd(Context context, Card card, Player player,
+                                      CurrentDragViewModel currentDragViewModel) {
+        if (multiPlayer) {
+            String playerName = preferences.getPlayerName();
+            if (playerName.equals(player.getName())) {
+                return getCardHiddenView(context);
+            }
+        }
+        return getCardView(context, card, player, currentDragViewModel);
+    }
 
     private void showDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
