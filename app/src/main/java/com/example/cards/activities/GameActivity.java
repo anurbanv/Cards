@@ -84,12 +84,13 @@ public class GameActivity extends AppCompatActivity {
             save.saveToFileSystem();
         });
 
+        Preferences prefs = new Preferences(this);
+        String playerName = prefs.getPlayerName();
+
         btnRestore.setOnClickListener(v -> {
             Save storedSave = Save.getStoredSave();
-            storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel);
+            storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel, playerName);
         });
-
-        Preferences prefs = new Preferences(this);
 
         String roomId = prefs.getRoomId();
 
@@ -103,7 +104,7 @@ public class GameActivity extends AppCompatActivity {
                     String gameState = room.getGameState();
                     if (!TextUtils.isEmpty(gameState)) {
                         Save save = Save.getSaveFromJson(gameState);
-                        save.restoreState(deckViewModel, playersViewModel, battleFieldViewModel);
+                        save.restoreState(deckViewModel, playersViewModel, battleFieldViewModel, playerName);
                     }
                 }
             });

@@ -21,23 +21,7 @@ public class Save {
     private List<Player> players;
     private List<Card> attackCards;
     private List<Card> defendCards;
-    private transient PlayersService playersService = new PlayersService();
 
-    //    public static void restoreFromFileSystem() {
-//        String jsonString = FileUtil.readFileText(MainActivity.latestSave);
-//        Save save = gson.fromJson(jsonString, Save.class);
-//        save.restoreState();
-//    }
-//
-//    public static void restoreFromString(String jsonString) {
-//        Save save = gson.fromJson(jsonString, Save.class);
-//        save.restoreState();
-//    }
-//
-//    public static String getGameState() {
-//        Save save = new Save();
-//        return gson.toJson(save);
-//    }
     public static Save getStoredSave() {
         if (MainActivity.latestSave == null) {
             throw new IllegalArgumentException("no save");
@@ -68,13 +52,15 @@ public class Save {
         this.defendCards = battleFieldViewModel.getDefendCards();
     }
 
-    public Save(int playerCount, List<String> playerNames) {
+    public Save(int playerCount, List<String> playerNames, String playerName) {
         DeckOfCards deckOfCards = new DeckOfCards();
         this.deckOfCards = deckOfCards;
         this.outCards = new ArrayList<>();
+        PlayersService playersService = new PlayersService();
         List<Player> players = playersService.getNewPlayersList(playerCount);
         playersService.fillPlayersHands(players, deckOfCards);
         playersService.setPlayerNames(players, playerNames);
+        playersService.cyclePlayersToPosition(players, playerName);
         Player attacker = playersService.getPlayerWithLowestStrongCard(players);
         Player defender = playersService.getNextPlayerInGame(players, attacker);
         playersService.setDefendingPlayer(players, defender);
@@ -95,9 +81,11 @@ public class Save {
     }
 
     public void restoreState(DeckViewModel deckViewModel, PlayersViewModel playersViewModel,
-                             BattleFieldViewModel battleFieldViewModel) {
+                             BattleFieldViewModel battleFieldViewModel, String playerName) {
+        PlayersService playersService = new PlayersService();
         deckViewModel.getDeck().postValue(deckOfCards);
         deckViewModel.getOutCards().postValue(outCards);
+        playersService.cyclePlayersToPosition(players, playerName);
         playersViewModel.getPlayers().postValue(players);
         battleFieldViewModel.postFieldState(attackCards, defendCards);
     }

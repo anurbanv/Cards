@@ -1,7 +1,5 @@
 package com.example.cards.domain;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,13 +66,13 @@ public class Player {
         this.name = name;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "Player{" +
                 ", id=" + id +
                 ", action=" + action +
                 ", isOut=" + isOut +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -96,7 +96,7 @@ public abstract class HandView extends LinearLayout {
                                       CurrentDragViewModel currentDragViewModel) {
         if (multiPlayer) {
             String playerName = preferences.getPlayerName();
-            if (playerName.equals(player.getName())) {
+            if (!playerName.equals(player.getName())) {
                 return getCardHiddenView(context);
             }
         }

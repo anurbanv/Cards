@@ -13,6 +13,14 @@ public class PlayersService {
 
     }
 
+    public void cyclePlayersToPosition(List<Player> allPlayers, String playerName) {
+        while (!allPlayers.get(0).getName().equals(playerName)) {
+            Player lastPlayer = allPlayers.get(allPlayers.size() - 1);
+            allPlayers.remove(lastPlayer);
+            allPlayers.add(0, lastPlayer);
+        }
+    }
+
     public void fillPlayersHands(List<Player> allPlayers, DeckOfCards deckOfCards) {
         while (deckOfCards.hasCards()) {
             boolean allHandsFull = true;

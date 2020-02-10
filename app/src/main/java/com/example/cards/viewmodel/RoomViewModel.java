@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cards.domain.Room;
 import com.example.cards.domain.Save;
+import com.example.cards.service.Preferences;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,11 +27,13 @@ public class RoomViewModel extends AndroidViewModel {
     private DeckViewModel deckViewModel;
     private PlayersViewModel playersViewModel;
     private BattleFieldViewModel battleFieldViewModel;
+    private Preferences preferences;
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         gamesRef = db.collection("games");
+        preferences = new Preferences(application);
     }
 
     public LiveData<Room> getRoom() {
@@ -69,7 +72,8 @@ public class RoomViewModel extends AndroidViewModel {
                 Room room = new Room(task.getResult());
                 room.setGameStarted(started);
                 if (started) {
-                    room.setGameState(new Save(2, room.getPlayers()));
+                    String playerName = preferences.getPlayerName();
+                    room.setGameState(new Save(2, room.getPlayers(), playerName));
                 }
                 roomRef.set(room.getObjectMap());
             }

@@ -109,8 +109,12 @@ public class GameView extends LinearLayout {
     }
 
     public void updatePlayers(List<Player> players) {
-        for (Player player : players) {
-            HandView handView = playerHands.get(player.getId());
+        if (players.isEmpty()) {
+            return;
+        }
+        for (int i = 0; i < playerHands.size(); i++) {
+            HandView handView = playerHands.get(i);
+            Player player = players.get(i);
             handView.update(player);
         }
     }
