@@ -1,6 +1,9 @@
 package com.example.cards.views.card_view;
 
 import android.content.Context;
+import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
 
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
@@ -16,6 +19,14 @@ public abstract class CardDragView extends CardOpenView {
         this.owner = owner;
         this.currentDragViewModel = currentDragViewModel;
         init();
+    }
+
+    public CardDragView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CardDragView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     private void init() {
