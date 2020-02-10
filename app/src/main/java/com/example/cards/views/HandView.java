@@ -1,5 +1,6 @@
 package com.example.cards.views;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -26,6 +27,7 @@ public abstract class HandView extends LinearLayout {
     @BindView(R.id.btnInfo) Button btnInfo;
 
     private CurrentDragViewModel currentDragViewModel;
+    private Player player;
 
     public HandView(Context context) {
         super(context);
@@ -46,6 +48,8 @@ public abstract class HandView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(getLayoutId(), this, true);
         ButterKnife.bind(this, view);
+
+        btnInfo.setOnClickListener(v -> showDialog(context));
     }
 
     public void setViewModel(CurrentDragViewModel currentDragViewModel) {
@@ -55,6 +59,7 @@ public abstract class HandView extends LinearLayout {
     abstract int getLayoutId();
 
     public void update(Player player) {
+        this.player = player;
         llCards.removeAllViews();
         for (Card card : player.getHand()) {
             llCards.addView(getCardView(getContext(), card, player, currentDragViewModel));
@@ -74,4 +79,11 @@ public abstract class HandView extends LinearLayout {
     }
 
     abstract CardView getCardView(Context context, Card card, Player player, CurrentDragViewModel currentDragViewModel);
+
+
+    private void showDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("MSG " + player.getId());
+        builder.create().show();
+    }
 }
