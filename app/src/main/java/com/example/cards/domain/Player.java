@@ -44,6 +44,10 @@ public class Player {
         return action;
     }
 
+    public boolean isAttacking() {
+        return action == Action.ATTACK;
+    }
+
     public void setAction(Action action) {
         if (this.action != action) {
             this.action = action;

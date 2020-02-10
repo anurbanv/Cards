@@ -1,5 +1,8 @@
 package com.example.cards.service;
 
+import android.text.TextUtils;
+
+import com.andrius.logutil.LogUtil;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
@@ -14,6 +17,10 @@ public class PlayersService {
     }
 
     public void cyclePlayersToPosition(List<Player> allPlayers, String playerName) {
+        if (TextUtils.isEmpty(playerName)) {
+            LogUtil.d("Player name is empty (cannot cycle)");
+            return;
+        }
         while (!allPlayers.get(0).getName().equals(playerName)) {
             Player lastPlayer = allPlayers.get(allPlayers.size() - 1);
             allPlayers.remove(lastPlayer);

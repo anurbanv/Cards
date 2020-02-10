@@ -30,7 +30,7 @@ public class CardDropEventHandler {
         this.roomViewModel = roomViewModel;
     }
 
-    public void initEvent(boolean attacking, int cell) {
+    public void initDragEvent(boolean attacking, int cell) {
         this.cell = cell;
 
         card = currentDragViewModel.getCurrentDrag();
@@ -41,6 +41,34 @@ public class CardDropEventHandler {
         } else {
             defendEvent();
         }
+    }
+
+    public void initClickEvent(Card card, Player cardOwner) {
+        int firstEmptyCell = getFirstEmptyCell();
+        if (firstEmptyCell == -1) {
+            LogUtil.w("No empty cells for attack event");
+        }
+
+        this.cell = firstEmptyCell;
+        this.card = card;
+        this.cardOwner = cardOwner;
+
+        if (cardOwner.isAttacking()) {
+            attackEvent();
+        } else {
+            LogUtil.w("Click event is only for attacking player");
+        }
+    }
+
+    private int getFirstEmptyCell() {
+        List<Card> attackCards = battleFieldViewModel.getAttackCards();
+        for (int i = 0; i < attackCards.size(); i++) {
+            Card card = attackCards.get(i);
+            if (card == null) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void attackEvent() {

@@ -16,7 +16,10 @@ import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.service.Preferences;
+import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.card_view.CardView;
 
 import butterknife.BindView;
@@ -28,6 +31,9 @@ public abstract class HandView extends LinearLayout {
     @BindView(R.id.btnInfo) Button btnInfo;
 
     private CurrentDragViewModel currentDragViewModel;
+    private BattleFieldViewModel battleFieldViewModel;
+    private PlayersViewModel playersViewModel;
+    private RoomViewModel roomViewModel;
     private Player player;
     private boolean multiPlayer = false;
     private Preferences preferences;
@@ -57,8 +63,14 @@ public abstract class HandView extends LinearLayout {
         btnInfo.setOnClickListener(v -> showDialog(context));
     }
 
-    public void setViewModel(CurrentDragViewModel currentDragViewModel) {
+    public void setViewModel(CurrentDragViewModel currentDragViewModel,
+                             BattleFieldViewModel battleFieldViewModel,
+                             PlayersViewModel playersViewModel,
+                             RoomViewModel roomViewModel) {
         this.currentDragViewModel = currentDragViewModel;
+        this.battleFieldViewModel = battleFieldViewModel;
+        this.playersViewModel = playersViewModel;
+        this.roomViewModel = roomViewModel;
     }
 
     public void setIsMultiPlayer(boolean multiPlayer) {
@@ -71,7 +83,7 @@ public abstract class HandView extends LinearLayout {
         this.player = player;
         llCards.removeAllViews();
         for (Card card : player.getHand()) {
-            llCards.addView(getCardViewToAdd(getContext(), card, player, currentDragViewModel));
+            llCards.addView(getCardViewToAdd(getContext(), card, player));
         }
 
         if (player.isOut()) {
@@ -88,19 +100,22 @@ public abstract class HandView extends LinearLayout {
     }
 
     abstract CardView getCardView(Context context, Card card, Player player,
-                                  CurrentDragViewModel currentDragViewModel);
+                                  CurrentDragViewModel currentDragViewModel,
+                                  BattleFieldViewModel battleFieldViewModel,
+                                  PlayersViewModel playersViewModel,
+                                  RoomViewModel roomViewModel);
 
     abstract CardView getCardHiddenView(Context context);
 
-    private CardView getCardViewToAdd(Context context, Card card, Player player,
-                                      CurrentDragViewModel currentDragViewModel) {
+    private CardView getCardViewToAdd(Context context, Card card, Player player) {
         if (multiPlayer) {
             String playerName = preferences.getPlayerName();
             if (!playerName.equals(player.getName())) {
                 return getCardHiddenView(context);
             }
         }
-        return getCardView(context, card, player, currentDragViewModel);
+        return getCardView(context, card, player, currentDragViewModel, battleFieldViewModel,
+                playersViewModel, roomViewModel);
     }
 
     private void showDialog(Context context) {

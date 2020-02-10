@@ -31,6 +31,7 @@ public class GameView extends LinearLayout {
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
     private CurrentDragViewModel currentDragViewModel;
+    private RoomViewModel roomViewModel;
 
     public void setGameOverListener(GameOverListener gameOverListener) {
         btnHome.setListener(gameOverListener);
@@ -79,12 +80,14 @@ public class GameView extends LinearLayout {
     }
 
     public void setViewModels(DeckViewModel deckViewModel, BattleFieldViewModel battleFieldViewModel,
-                              PlayersViewModel playersViewModel, CurrentDragViewModel currentDragViewModel,
+                              PlayersViewModel playersViewModel,
+                              CurrentDragViewModel currentDragViewModel,
                               RoomViewModel roomViewModel) {
         this.deckViewModel = deckViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
         this.currentDragViewModel = currentDragViewModel;
+        this.roomViewModel = roomViewModel;
 
         deckView.setViewModels(playersViewModel, deckViewModel, roomViewModel);
         btnHome.setViewModels(battleFieldViewModel, playersViewModel, roomViewModel);
@@ -123,7 +126,8 @@ public class GameView extends LinearLayout {
         initPlayerViews(count);
 
         for (HandView playerHand : playerHands) {
-            playerHand.setViewModel(currentDragViewModel);
+            playerHand.setViewModel(currentDragViewModel, battleFieldViewModel,
+                    playersViewModel, roomViewModel);
             playerHand.setIsMultiPlayer(multiPlayer);
         }
 

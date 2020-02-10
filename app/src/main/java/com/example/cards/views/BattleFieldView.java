@@ -87,7 +87,7 @@ public class BattleFieldView extends LinearLayout {
         public boolean onDrag(View v, DragEvent event) {
             if (event.getAction() == DragEvent.ACTION_DROP) {
                 CellView cellView = (CellView) grid.getChildAt(cell);
-                handler.initEvent(cellView.isEmpty(), cell);
+                handler.initDragEvent(cellView.isEmpty(), cell);
             }
             return true;
         }
