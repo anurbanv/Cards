@@ -6,12 +6,12 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 
-public abstract class CardViewDrag extends CardView {
+public abstract class CardDragView extends CardOpenView {
 
     private Player owner;
     private CurrentDragViewModel currentDragViewModel;
 
-    public CardViewDrag(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
+    public CardDragView(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
         super(context, card);
         this.owner = owner;
         this.currentDragViewModel = currentDragViewModel;

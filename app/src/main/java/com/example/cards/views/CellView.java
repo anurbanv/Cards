@@ -14,9 +14,9 @@ import androidx.annotation.Nullable;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Cell;
+import com.example.cards.views.card_view.CardHorView;
+import com.example.cards.views.card_view.CardVerView;
 import com.example.cards.views.card_view.CardView;
-import com.example.cards.views.card_view.CardViewHor;
-import com.example.cards.views.card_view.CardViewVer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +56,7 @@ public class CellView extends RelativeLayout {
     private void setAttackCard(Card card) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
-        CardView cardView = new CardViewVer(getContext(), card);
+        CardView cardView = new CardVerView(getContext(), card);
         cardView.setLayoutParams(params);
         container.addView(cardView);
     }
@@ -64,7 +64,7 @@ public class CellView extends RelativeLayout {
     private void setDefendCard(Card card) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         params.gravity = Gravity.BOTTOM;
-        CardView cardView = new CardViewHor(getContext(), card);
+        CardView cardView = new CardHorView(getContext(), card);
         cardView.setLayoutParams(params);
         container.addView(cardView);
     }

@@ -5,14 +5,14 @@ import android.content.Context;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 
-public class CardViewHor extends CardView {
+public class CardVerView extends CardOpenView {
 
-    public CardViewHor(Context context, Card card) {
+    public CardVerView(Context context, Card card) {
         super(context, card);
     }
 
     @Override
     int getResId() {
-        return R.layout.item_card_rotated;
+        return R.layout.item_card;
     }
 }

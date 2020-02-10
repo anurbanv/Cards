@@ -7,9 +7,9 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 
-public class CardViewDragHor extends CardViewDrag {
+public class CardDragHorView extends CardDragView {
 
-    public CardViewDragHor(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
+    public CardDragHorView(Context context, Card card, Player owner, CurrentDragViewModel currentDragViewModel) {
         super(context, card, owner, currentDragViewModel);
     }
 

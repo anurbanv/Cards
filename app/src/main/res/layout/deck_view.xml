@@ -30,7 +30,7 @@
                 tools:layout_height="60dp"
                 tools:layout_width="40dp" />
 
-            <com.example.cards.views.HiddenCardView
+            <com.example.cards.views.card_view.CardHiddenHorView
                 android:id="@+id/btnDeck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <com.example.cards.views.HiddenCardViewVer
+        <com.example.cards.views.card_view.CardHiddenVerView
             android:id="@+id/outCards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
