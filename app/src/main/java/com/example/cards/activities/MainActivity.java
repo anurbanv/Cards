@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startGameActivity(int playerCount) {
-        Intent intent = new Intent(this, NewGameActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("playerCount", playerCount);
         startActivity(intent);
     }

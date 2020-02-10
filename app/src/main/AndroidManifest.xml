@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".activities.JoinRoomActivity" />
         <activity android:name=".activities.LobbyActivity" />
-        <activity android:name=".activities.NewGameActivity" />
+        <activity android:name=".activities.GameActivity" />
     </application>
 
 </manifest>

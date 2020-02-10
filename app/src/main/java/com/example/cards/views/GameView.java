@@ -16,8 +16,8 @@ import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class GameView extends LinearLayout {
 
     public void setViewModels(DeckViewModel deckViewModel, BattleFieldViewModel battleFieldViewModel,
                               PlayersViewModel playersViewModel, CurrentDragViewModel currentDragViewModel,
-                              NewRoomViewModel roomViewModel) {
+                              RoomViewModel roomViewModel) {
         this.deckViewModel = deckViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;

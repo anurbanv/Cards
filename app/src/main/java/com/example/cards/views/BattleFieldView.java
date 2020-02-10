@@ -15,8 +15,8 @@ import com.example.cards.domain.Cell;
 import com.example.cards.service.CardDropEventHandler;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
-import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 
 import java.util.List;
 
@@ -54,14 +54,14 @@ public class BattleFieldView extends LinearLayout {
     public void setViewModels(CurrentDragViewModel currentDragViewModel,
                               BattleFieldViewModel battleFieldViewModel,
                               PlayersViewModel playersViewModel,
-                              NewRoomViewModel roomViewModel) {
+                              RoomViewModel roomViewModel) {
         handler = new CardDropEventHandler(currentDragViewModel, battleFieldViewModel,
                 playersViewModel, roomViewModel);
     }
 
     private void initCells() {
         for (int i = 0; i < 6; i++) {
-            CellViewNew cellView = new CellViewNew(getContext(), i);
+            CellView cellView = new CellView(getContext(), i);
             cellView.setOnDragListener(new FieldDropListener(i));
             grid.addView(cellView);
         }
@@ -69,7 +69,7 @@ public class BattleFieldView extends LinearLayout {
 
     public void update(List<Cell> cells) {
         for (int i = 0; i < 6; i++) {
-            CellViewNew cellView = (CellViewNew) grid.getChildAt(i);
+            CellView cellView = (CellView) grid.getChildAt(i);
             Cell cell = cells.get(i);
             cellView.update(cell);
         }
@@ -86,7 +86,7 @@ public class BattleFieldView extends LinearLayout {
         @Override
         public boolean onDrag(View v, DragEvent event) {
             if (event.getAction() == DragEvent.ACTION_DROP) {
-                CellViewNew cellView = (CellViewNew) grid.getChildAt(cell);
+                CellView cellView = (CellView) grid.getChildAt(cell);
                 handler.initEvent(cellView.isEmpty(), cell);
             }
             return true;

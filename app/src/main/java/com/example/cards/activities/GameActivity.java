@@ -16,27 +16,27 @@ import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.GameView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewGameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.gameView) GameView gameView;
 
     @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnRestore) Button btnRestore;
 
-    private NewRoomViewModel newRoomViewModel;
+    private RoomViewModel roomViewModel;
     private boolean multiPlayer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_new);
+        setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
         int playerCount = getIntent().getIntExtra("playerCount", 0);
@@ -52,11 +52,11 @@ public class NewGameActivity extends AppCompatActivity {
         playersViewModel.setDeckViewModel(deckViewModel);
         CurrentDragViewModel currentDragViewModel = provider.get(CurrentDragViewModel.class);
         BattleFieldViewModel battleFieldViewModel = provider.get(BattleFieldViewModel.class);
-        newRoomViewModel = ViewModelProviders.of(this).get(NewRoomViewModel.class);
-        newRoomViewModel.setViewModels(deckViewModel, playersViewModel, battleFieldViewModel);
+        roomViewModel = ViewModelProviders.of(this).get(RoomViewModel.class);
+        roomViewModel.setViewModels(deckViewModel, playersViewModel, battleFieldViewModel);
 
         gameView.setViewModels(deckViewModel, battleFieldViewModel, playersViewModel,
-                currentDragViewModel, newRoomViewModel);
+                currentDragViewModel, roomViewModel);
 
         deckViewModel.getDeck().observe(this, deckOfCards -> gameView.updateDeck(deckOfCards));
         deckViewModel.getOutCards().observe(this, cards -> gameView.updateDeck(cards));
@@ -94,9 +94,9 @@ public class NewGameActivity extends AppCompatActivity {
         String roomId = prefs.getRoomId();
 
         if (multiPlayer && roomId != null) {
-            newRoomViewModel.initCloudObserver(roomId);
+            roomViewModel.initCloudObserver(roomId);
 
-            newRoomViewModel.getRoom().observe(this, room -> {
+            roomViewModel.getRoom().observe(this, room -> {
                 if (!room.isStarted()) {
                     finish();
                 } else {
@@ -114,7 +114,7 @@ public class NewGameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (multiPlayer) {
-            newRoomViewModel.setGameStarted(false);
+            roomViewModel.setGameStarted(false);
         } else {
             super.onBackPressed();
         }

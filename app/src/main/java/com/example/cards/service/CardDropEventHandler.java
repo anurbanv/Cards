@@ -5,8 +5,8 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
-import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 
 import java.util.List;
 
@@ -18,12 +18,12 @@ public class CardDropEventHandler {
     private CurrentDragViewModel currentDragViewModel;
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
-    private NewRoomViewModel roomViewModel;
+    private RoomViewModel roomViewModel;
 
     public CardDropEventHandler(CurrentDragViewModel currentDragViewModel,
                                 BattleFieldViewModel battleFieldViewModel,
                                 PlayersViewModel playersViewModel,
-                                NewRoomViewModel roomViewModel) {
+                                RoomViewModel roomViewModel) {
         this.currentDragViewModel = currentDragViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;

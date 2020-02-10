@@ -23,32 +23,32 @@ import butterknife.ButterKnife;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-public class CellViewNew extends RelativeLayout {
+public class CellView extends RelativeLayout {
 
     @BindView(R.id.tvNumber) TextView tvNumber;
     @BindView(R.id.container) FrameLayout container;
 
     private int index;
 
-    public CellViewNew(Context context, int index) {
+    public CellView(Context context, int index) {
         super(context);
         this.index = index;
         init(context);
     }
 
-    public CellViewNew(Context context, @Nullable AttributeSet attrs) {
+    public CellView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CellViewNew(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CellView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View root = inflater.inflate(R.layout.item_cell_new, this, true);
+        View root = inflater.inflate(R.layout.item_cell, this, true);
         ButterKnife.bind(this, root);
         tvNumber.setText(String.valueOf(index + 1));
     }

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.cards.R;
 import com.example.cards.service.Preferences;
 import com.example.cards.service.RoomService;
-import com.example.cards.viewmodel.NewRoomViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.RoomView;
 
 import butterknife.BindView;
@@ -25,7 +25,7 @@ public class LobbyActivity extends AppCompatActivity {
     @BindView(R.id.tvStarted) TextView tvStarted;
     @BindView(R.id.roomView) RoomView roomView;
 
-    private NewRoomViewModel newRoomViewModel;
+    private RoomViewModel roomViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,16 +37,16 @@ public class LobbyActivity extends AppCompatActivity {
 
         Preferences prefs = new Preferences(this);
 
-        newRoomViewModel = ViewModelProviders.of(this).get(NewRoomViewModel.class);
+        roomViewModel = ViewModelProviders.of(this).get(RoomViewModel.class);
 
         String roomId = prefs.getRoomId();
 
-        newRoomViewModel.initCloudObserver(roomId);
+        roomViewModel.initCloudObserver(roomId);
 
-        newRoomViewModel.getRoom().observe(this, room -> {
+        roomViewModel.getRoom().observe(this, room -> {
             roomView.update(room);
             if (room.isStarted()) {
-                Intent intent = new Intent(this, NewGameActivity.class);
+                Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtra("multiPlayer", true);
                 intent.putExtra("playerCount", 2);
                 startActivity(intent);
@@ -56,12 +56,12 @@ public class LobbyActivity extends AppCompatActivity {
 
         btnLeave.setOnClickListener(v -> roomService.leaveRoom(success -> finish()));
 
-        btnStart.setOnClickListener(v -> newRoomViewModel.setGameStarted(true));
+        btnStart.setOnClickListener(v -> roomViewModel.setGameStarted(true));
     }
 
     @Override
     protected void onDestroy() {
-        newRoomViewModel.removeListener();
+        roomViewModel.removeListener();
         super.onDestroy();
     }
 }

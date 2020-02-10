@@ -14,8 +14,8 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.DeckViewModel;
-import com.example.cards.viewmodel.NewRoomViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
+import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.card_view.CardViewVer;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class DeckView extends LinearLayout {
     @BindView(R.id.outCards) View outCards;
     private PlayersViewModel playersViewModel;
     private DeckViewModel deckViewModel;
-    private NewRoomViewModel roomViewModel;
+    private RoomViewModel roomViewModel;
 
     public DeckView(Context context) {
         super(context);
@@ -72,7 +72,7 @@ public class DeckView extends LinearLayout {
     }
 
     public void setViewModels(PlayersViewModel playersViewModel, DeckViewModel deckViewModel,
-                              NewRoomViewModel roomViewModel) {
+                              RoomViewModel roomViewModel) {
         this.playersViewModel = playersViewModel;
         this.deckViewModel = deckViewModel;
         this.roomViewModel = roomViewModel;

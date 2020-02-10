@@ -14,7 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
-public class NewRoomViewModel extends AndroidViewModel {
+public class RoomViewModel extends AndroidViewModel {
 
     private final CollectionReference gamesRef;
 
@@ -27,7 +27,7 @@ public class NewRoomViewModel extends AndroidViewModel {
     private PlayersViewModel playersViewModel;
     private BattleFieldViewModel battleFieldViewModel;
 
-    public NewRoomViewModel(@NonNull Application application) {
+    public RoomViewModel(@NonNull Application application) {
         super(application);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         gamesRef = db.collection("games");
