@@ -83,7 +83,7 @@ public abstract class HandView extends LinearLayout {
 
     private void showDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("MSG " + player.getId());
+        builder.setMessage("MSG " + player.getName());
         builder.create().show();
     }
 }

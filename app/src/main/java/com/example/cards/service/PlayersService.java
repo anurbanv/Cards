@@ -29,6 +29,17 @@ public class PlayersService {
         }
     }
 
+    public void setPlayerNames(List<Player> allPlayers, List<String> playerNames) {
+        if (allPlayers.size() != playerNames.size()) {
+            throw new IllegalArgumentException("players size invalid");
+        }
+        for (int i = 0; i < allPlayers.size(); i++) {
+            Player player = allPlayers.get(i);
+            String name = playerNames.get(i);
+            player.setName(name);
+        }
+    }
+
     public List<Player> getNewPlayersList(int count) {
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < count; i++) {

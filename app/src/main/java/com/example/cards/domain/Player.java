@@ -15,6 +15,7 @@ public class Player {
     private int id;
     private Action action = Action.NONE;
     private boolean isOut = false;
+    private String name;
 
     public Player(int id) {
         this.id = id;
@@ -57,6 +58,14 @@ public class Player {
 
     public void setOut() {
         isOut = true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @NonNull

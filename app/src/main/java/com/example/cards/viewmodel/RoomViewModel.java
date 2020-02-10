@@ -68,8 +68,8 @@ public class RoomViewModel extends AndroidViewModel {
             if (task.isSuccessful() && task.getResult() != null) {
                 Room room = new Room(task.getResult());
                 room.setGameStarted(started);
-                if (started){
-                    room.setGameState(new Save(2));
+                if (started) {
+                    room.setGameState(new Save(2, room.getPlayers()));
                 }
                 roomRef.set(room.getObjectMap());
             }

@@ -68,12 +68,13 @@ public class Save {
         this.defendCards = battleFieldViewModel.getDefendCards();
     }
 
-    public Save(int playerCount) {
+    public Save(int playerCount, List<String> playerNames) {
         DeckOfCards deckOfCards = new DeckOfCards();
         this.deckOfCards = deckOfCards;
         this.outCards = new ArrayList<>();
         List<Player> players = playersService.getNewPlayersList(playerCount);
         playersService.fillPlayersHands(players, deckOfCards);
+        playersService.setPlayerNames(players, playerNames);
         Player attacker = playersService.getPlayerWithLowestStrongCard(players);
         Player defender = playersService.getNextPlayerInGame(players, attacker);
         playersService.setDefendingPlayer(players, defender);
