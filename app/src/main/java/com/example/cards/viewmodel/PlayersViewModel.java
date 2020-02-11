@@ -84,10 +84,10 @@ public class PlayersViewModel extends AndroidViewModel {
         players.setValue(new ArrayList<>());
     }
 
-    public void addPlayer(Player player) {
+    public void addPlayers(List<Player> allPlayers) {
         List<Player> value = players.getValue();
         if (value != null) {
-            value.add(player);
+            value.addAll(allPlayers);
             players.postValue(value);
         }
     }

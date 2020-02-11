@@ -2,15 +2,15 @@ package com.example.cards.viewmodel;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.cards.domain.Card;
 import com.example.cards.domain.DeckOfCards;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
 
 public class DeckViewModel extends AndroidViewModel {
 
@@ -26,7 +26,7 @@ public class DeckViewModel extends AndroidViewModel {
         return deck;
     }
 
-    public void reset() {
+    private void reset() {
         deck.setValue(new DeckOfCards());
         outCards.setValue(new ArrayList<>());
     }
@@ -59,5 +59,9 @@ public class DeckViewModel extends AndroidViewModel {
             return !value.isEmpty();
         }
         return false;
+    }
+
+    public DeckOfCards getDeckOfCards() {
+        return deck.getValue();
     }
 }

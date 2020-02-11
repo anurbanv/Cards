@@ -13,6 +13,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Cell;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
+import com.example.cards.service.PlayersService;
 import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
@@ -21,6 +22,7 @@ import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,6 +61,7 @@ public class GameView extends LinearLayout {
 
     private List<HandView> playerHands;
     private Preferences preferences;
+    private PlayersService playersService;
 
     public GameView(Context context) {
         super(context);
@@ -80,6 +83,7 @@ public class GameView extends LinearLayout {
         View root = inflater.inflate(R.layout.game_view, this, true);
         ButterKnife.bind(this, root);
         preferences = new Preferences(context);
+        playersService = new PlayersService();
     }
 
     public void setViewModels(DeckViewModel deckViewModel, BattleFieldViewModel battleFieldViewModel,
@@ -137,39 +141,10 @@ public class GameView extends LinearLayout {
             return;
         }
 
-        for (int i = 0; i < count; i++) {
-            Player player = new Player(i);
-            playersViewModel.addPlayer(player);
-        }
-
-        List<Player> playersList = playersViewModel.getPlayersInGame();
-
-        for (int i = 0; i < 6; i++) {
-            for (Player player : playersList) {
-                if (deckViewModel.hasCards()) {
-                    Card card = deckViewModel.takeCard();
-                    playersViewModel.addCardToPlayersHand(player, card);
-                }
-            }
-        }
-
-        Player firstPlayer = playersList.get(0);
-
-        Card lowestStrongCard = firstPlayer.lookAtCard(0);
-        Player cardOwner = firstPlayer;
-
-        for (Player player : playersViewModel.getPlayersInGame()) {
-            for (Card card : player.getHand()) {
-                if (!lowestStrongCard.isStrong() && card.isStrong()) {
-                    lowestStrongCard = card;
-                    cardOwner = player;
-                } else if (card.isStrong() && card.getNumber() < lowestStrongCard.getNumber()) {
-                    lowestStrongCard = card;
-                    cardOwner = player;
-                }
-            }
-        }
-
+        List<Player> playersList = playersService.getNewPlayersList(count);
+        playersViewModel.addPlayers(playersList);
+        playersService.fillPlayersHands(playersList, deckViewModel.getDeckOfCards());
+        Player cardOwner = playersService.getPlayerWithLowestStrongCard(playersList);
         playersViewModel.setDefendingPlayer(playersViewModel.getNextPlayerInGame(cardOwner));
     }
 
@@ -177,26 +152,18 @@ public class GameView extends LinearLayout {
         playerHands = new ArrayList<>();
         if (count >= 2) {
             if (count == 2) {
-                playerHands.add(player1);
+                playerHands.addAll(Arrays.asList(player1, player4));
                 player2.setVisibility(GONE);
                 player3.setVisibility(GONE);
-                playerHands.add(player4);
                 player5.setVisibility(GONE);
                 player6.setVisibility(GONE);
             } else if (count < 5) {
-                playerHands.add(player1);
+                playerHands.addAll(Arrays.asList(player1, player3, player4, player5));
                 player2.setVisibility(GONE);
-                playerHands.add(player3);
-                playerHands.add(player4);
-                playerHands.add(player5);
                 player6.setVisibility(GONE);
             } else if (count < 7) {
-                playerHands.add(player1);
-                playerHands.add(player2);
-                playerHands.add(player3);
-                playerHands.add(player4);
-                playerHands.add(player5);
-                playerHands.add(player6);
+                playerHands.addAll(Arrays.asList(player1, player2, player3,
+                        player4, player5, player6));
             }
         }
     }

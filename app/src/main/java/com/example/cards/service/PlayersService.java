@@ -34,8 +34,12 @@ public class PlayersService {
             for (Player player : allPlayers) {
                 if (player.getHand().size() < 6) {
                     allHandsFull = false;
-                    Card card = deckOfCards.takeCard();
-                    player.addCardToHand(card);
+                    if (deckOfCards.hasCards()) {
+                        Card card = deckOfCards.takeCard();
+                        player.addCardToHand(card);
+                    } else {
+                        break;
+                    }
                 }
             }
             if (allHandsFull) {
@@ -93,7 +97,7 @@ public class PlayersService {
         }
     }
 
-    public List<Player> getNotOutPlayers(List<Player> allPlayers) {
+    private List<Player> getNotOutPlayers(List<Player> allPlayers) {
         List<Player> playing = new ArrayList<>();
         for (Player player : allPlayers) {
             if (!player.isOut()) {
@@ -120,7 +124,7 @@ public class PlayersService {
         return nextPlayer;
     }
 
-    public Player getPreviousPlayerInGame(List<Player> allPlayers, Player player) {
+    private Player getPreviousPlayerInGame(List<Player> allPlayers, Player player) {
         int index = allPlayers.indexOf(player);
         if (index == -1) {
             throw new IllegalStateException("Cannot find player in list");
