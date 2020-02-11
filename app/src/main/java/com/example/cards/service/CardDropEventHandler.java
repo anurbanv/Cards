@@ -53,11 +53,57 @@ public class CardDropEventHandler {
         this.card = card;
         this.cardOwner = cardOwner;
 
+        if (cardOwner.isDefending()) {
+            if (card.isStrong() && card.canFlash()) {
+                boolean success = tryFlashEvent(cardOwner);
+                if (success) {
+                    card.flashUsed();
+                    return;
+                } else {
+                    LogUtil.w("Cannot flash with card " + card.toString());
+                }
+            } else {
+                LogUtil.w("Cannot flash with card " + card.toString());
+            }
+        }
+
         if (cardOwner.isAttacking()) {
             attackEvent();
         } else {
             LogUtil.w("Click event is only for attacking player");
         }
+    }
+
+    private boolean tryFlashEvent(Player defendingPlayer) {
+        List<Card> attackCards = battleFieldViewModel.getAttackingCardList();
+        List<Card> defendCards = battleFieldViewModel.getDefendingCardList();
+
+        if (defendCards.isEmpty() && !attackCards.isEmpty()) {
+
+            Player nextPlayer = playersViewModel.getNextPlayerInGame(defendingPlayer);
+
+            if (nextPlayer.getHand().size() >= attackCards.size()) {
+                boolean allSameNumber = true;
+                for (Card attackCard : attackCards) {
+                    if (card.getNumber() != attackCard.getNumber()) {
+                        allSameNumber = false;
+                        break;
+                    }
+                }
+                if (allSameNumber) {
+                    playersViewModel.shiftDefendingPlayer();
+                    roomViewModel.postGameState();
+                    return true;
+                } else {
+                    LogUtil.w("Not all cards are number " + card.getNumber());
+                }
+            } else {
+                LogUtil.w("Next player does not have enough cards");
+            }
+        } else {
+            LogUtil.w("Cannot transfer defended cards");
+        }
+        return false;
     }
 
     private int getFirstEmptyCell() {

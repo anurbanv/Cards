@@ -11,6 +11,7 @@ public class Card {
     private Suite suite;
     private int number;
     private boolean strong;
+    private boolean flash;
 
     public Card(Suite suite, int number) {
         this.suite = suite;
@@ -44,8 +45,17 @@ public class Card {
         return strong;
     }
 
+    public boolean canFlash() {
+        return flash;
+    }
+
+    public void flashUsed() {
+        flash = false;
+    }
+
     void setCardAsStrong() {
         strong = true;
+        flash = true;
     }
 
     @NonNull
@@ -55,6 +65,7 @@ public class Card {
                 "suite=" + suite +
                 ", number=" + number +
                 ", strong=" + strong +
+                ", flash=" + flash +
                 '}';
     }
 }

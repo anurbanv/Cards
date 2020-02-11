@@ -48,6 +48,10 @@ public class Player {
         return action == Action.ATTACK;
     }
 
+    public boolean isDefending() {
+        return action == Action.DEFEND;
+    }
+
     public void setAction(Action action) {
         if (this.action != action) {
             this.action = action;
