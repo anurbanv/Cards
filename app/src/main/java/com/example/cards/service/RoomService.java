@@ -50,7 +50,7 @@ public class RoomService {
                     return;
                 }
 
-                room.getPlayers().add(playerName);
+                room.addPlayer(playerName);
 
                 roomRef.set(room.getObjectMap()).addOnCompleteListener(setTask -> {
                     if (setTask.isSuccessful()) {
@@ -112,6 +112,7 @@ public class RoomService {
                 if (room.getPlayers().isEmpty()) {
                     roomRef.delete().addOnCompleteListener(listener);
                 } else {
+                    room.changeHost();
                     roomRef.set(room.getObjectMap()).addOnCompleteListener(listener);
                 }
             } else {

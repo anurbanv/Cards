@@ -14,6 +14,7 @@ import com.example.cards.service.Preferences;
 import com.example.cards.service.RoomService;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.RoomView;
+import com.example.cards.views.StartButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,11 +22,12 @@ import butterknife.ButterKnife;
 public class LobbyActivity extends AppCompatActivity {
 
     @BindView(R.id.btnLeave) Button btnLeave;
-    @BindView(R.id.btnStart) Button btnStart;
+    @BindView(R.id.btnStart) StartButton btnStart;
     @BindView(R.id.tvStarted) TextView tvStarted;
     @BindView(R.id.roomView) RoomView roomView;
 
     private RoomViewModel roomViewModel;
+    private Preferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,19 +37,22 @@ public class LobbyActivity extends AppCompatActivity {
 
         RoomService roomService = new RoomService(this);
 
-        Preferences prefs = new Preferences(this);
+        preferences = new Preferences(this);
 
         roomViewModel = ViewModelProviders.of(this).get(RoomViewModel.class);
 
-        String roomId = prefs.getRoomId();
+        btnStart.setViewModels(roomViewModel);
+
+        String roomId = preferences.getRoomId();
 
         roomViewModel.initCloudObserver(roomId);
 
         roomViewModel.getRoom().observe(this, room -> {
             roomView.update(room);
+            btnStart.update(room);
             if (room.isStarted()) {
                 Intent intent = new Intent(this, GameActivity.class);
-                prefs.setMultiPlayerMode(true);
+                preferences.setMultiPlayerMode(true);
                 intent.putExtra("playerCount", 2);
                 startActivity(intent);
             }
@@ -55,8 +60,6 @@ public class LobbyActivity extends AppCompatActivity {
         });
 
         btnLeave.setOnClickListener(v -> roomService.leaveRoom(success -> finish()));
-
-        btnStart.setOnClickListener(v -> roomViewModel.setGameStarted(true));
     }
 
     @Override

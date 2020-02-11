@@ -13,6 +13,7 @@ public class Room {
     private List<String> players;
     private boolean started;
     private String gameState;
+    private String hostName;
 
     public Room(DocumentSnapshot result) {
         List<String> players = (List<String>) result.get("players");
@@ -21,13 +22,23 @@ public class Room {
         if (started == null) started = false;
         String gameState = (String) result.get("gameState");
         if (gameState == null) gameState = "";
+        String hostName = (String) result.get("hostName");
+        if (hostName == null) hostName = "";
         this.players = players;
         this.started = started;
         this.gameState = gameState;
+        this.hostName = hostName;
     }
 
     public List<String> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(String playerName) {
+        players.add(playerName);
+        if (players.size() == 1) {
+            hostName = playerName;
+        }
     }
 
     public String getRoomId() {
@@ -54,6 +65,18 @@ public class Room {
         this.gameState = gameState;
     }
 
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public void changeHost() {
+        this.hostName = players.get(0);
+    }
+
     public boolean playerExists(String playerName) {
         for (String player : players) {
             if (player.equals(playerName)) {
@@ -77,6 +100,7 @@ public class Room {
         result.put("players", players);
         result.put("started", started);
         result.put("gameState", gameState);
+        result.put("hostName", hostName);
         return result;
     }
 

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.example.cards.R;
 import com.example.cards.domain.Room;
+import com.example.cards.service.Preferences;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 public class RoomView extends LinearLayout {
 
     @BindView(R.id.tvPlayers) TextView tvPlayers;
+
+    private Preferences preferences;
 
     public RoomView(Context context) {
         super(context);
@@ -40,6 +43,7 @@ public class RoomView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.room_view, this, true);
         ButterKnife.bind(this, root);
+        preferences = new Preferences(context);
     }
 
     public void update(Room room) {
@@ -48,10 +52,20 @@ public class RoomView extends LinearLayout {
             return;
         }
 
+        String hostName = room.getHostName();
+        String playerName = preferences.getPlayerName();
         List<String> players = room.getPlayers();
         String text = "";
         for (String player : players) {
-            text += player + "\n";
+            String prefix = "";
+            if (player.equals(playerName)) {
+                prefix = "you: ";
+            }
+            if (player.equals(hostName)) {
+                text += prefix + player + " *host*" + "\n";
+            } else {
+                text += prefix + player + "\n";
+            }
         }
         String substring = text.substring(0, text.length() - 1);
         tvPlayers.setText(substring);
