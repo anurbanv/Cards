@@ -35,7 +35,6 @@ public abstract class HandView extends LinearLayout {
     private PlayersViewModel playersViewModel;
     private RoomViewModel roomViewModel;
     private Player player;
-    private boolean multiPlayer = false;
     private Preferences preferences;
 
     public HandView(Context context) {
@@ -73,10 +72,6 @@ public abstract class HandView extends LinearLayout {
         this.roomViewModel = roomViewModel;
     }
 
-    public void setIsMultiPlayer(boolean multiPlayer) {
-        this.multiPlayer = multiPlayer;
-    }
-
     abstract int getLayoutId();
 
     public void update(Player player) {
@@ -108,7 +103,7 @@ public abstract class HandView extends LinearLayout {
     abstract CardView getCardHiddenView(Context context);
 
     private CardView getCardViewToAdd(Context context, Card card, Player player) {
-        if (multiPlayer) {
+        if (preferences.isMultiPlayerMode()) {
             String playerName = preferences.getPlayerName();
             if (!playerName.equals(player.getName())) {
                 return getCardHiddenView(context);

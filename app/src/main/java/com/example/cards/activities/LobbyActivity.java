@@ -47,7 +47,7 @@ public class LobbyActivity extends AppCompatActivity {
             roomView.update(room);
             if (room.isStarted()) {
                 Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra("multiPlayer", true);
+                prefs.setMultiPlayerMode(true);
                 intent.putExtra("playerCount", 2);
                 startActivity(intent);
             }

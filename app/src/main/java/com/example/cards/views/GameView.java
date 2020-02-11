@@ -13,6 +13,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Cell;
 import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
+import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
@@ -57,6 +58,7 @@ public class GameView extends LinearLayout {
     @BindView(R.id.battleField) BattleFieldView battleField;
 
     private List<HandView> playerHands;
+    private Preferences preferences;
 
     public GameView(Context context) {
         super(context);
@@ -77,6 +79,7 @@ public class GameView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.game_view, this, true);
         ButterKnife.bind(this, root);
+        preferences = new Preferences(context);
     }
 
     public void setViewModels(DeckViewModel deckViewModel, BattleFieldViewModel battleFieldViewModel,
@@ -122,16 +125,15 @@ public class GameView extends LinearLayout {
         }
     }
 
-    public void startGame(int count, boolean multiPlayer) {
+    public void startGame(int count) {
         initPlayerViews(count);
 
         for (HandView playerHand : playerHands) {
             playerHand.setViewModel(currentDragViewModel, battleFieldViewModel,
                     playersViewModel, roomViewModel);
-            playerHand.setIsMultiPlayer(multiPlayer);
         }
 
-        if (multiPlayer) {
+        if (preferences.isMultiPlayerMode()) {
             return;
         }
 

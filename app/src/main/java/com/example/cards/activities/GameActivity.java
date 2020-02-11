@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.btnRestore) Button btnRestore;
 
     private RoomViewModel roomViewModel;
-    private boolean multiPlayer;
+    private Preferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +39,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
+        preferences = new Preferences(this);
+
         int playerCount = getIntent().getIntExtra("playerCount", 0);
-        multiPlayer = getIntent().getBooleanExtra("multiPlayer", false);
 
         if (playerCount == 0) {
             finish();
@@ -84,15 +85,15 @@ public class GameActivity extends AppCompatActivity {
             save.saveToFileSystem();
         });
 
-        Preferences prefs = new Preferences(this);
-        String playerName = prefs.getPlayerName();
+        String playerName = preferences.getPlayerName();
 
         btnRestore.setOnClickListener(v -> {
             Save storedSave = Save.getStoredSave();
             storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel, playerName);
         });
 
-        String roomId = prefs.getRoomId();
+        String roomId = preferences.getRoomId();
+        boolean multiPlayer = preferences.isMultiPlayerMode();
 
         if (multiPlayer && roomId != null) {
             roomViewModel.initCloudObserver(roomId);
@@ -109,12 +110,12 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
         }
-        gameView.startGame(playerCount, multiPlayer);
+        gameView.startGame(playerCount);
     }
 
     @Override
     public void onBackPressed() {
-        if (multiPlayer) {
+        if (preferences.isMultiPlayerMode()) {
             roomViewModel.setGameStarted(false);
         } else {
             super.onBackPressed();

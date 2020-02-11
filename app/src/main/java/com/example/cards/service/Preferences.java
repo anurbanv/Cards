@@ -31,4 +31,12 @@ public class Preferences {
     public boolean isSavedSession() {
         return !getRoomId().isEmpty() && !getPlayerName().isEmpty();
     }
+
+    public void setMultiPlayerMode(boolean on) {
+        prefs.edit().putBoolean("multiPlayer", on).apply();
+    }
+
+    public boolean isMultiPlayerMode() {
+        return prefs.getBoolean("multiPlayer", false);
+    }
 }

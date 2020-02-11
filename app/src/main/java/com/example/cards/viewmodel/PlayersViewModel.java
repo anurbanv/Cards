@@ -126,12 +126,20 @@ public class PlayersViewModel extends AndroidViewModel {
     }
 
     public Player getDefendingPlayer() {
+        return getPlayer(Player.Action.DEFEND);
+    }
+
+    public Player getAttackingPlayer() {
+        return getPlayer(Player.Action.ATTACK);
+    }
+
+    private Player getPlayer(Player.Action action) {
         for (Player player : getPlayerList()) {
-            if (player.getAction() == Player.Action.DEFEND) {
+            if (player.getAction() == action) {
                 return player;
             }
         }
-        throw new IllegalArgumentException("no defend player found");
+        throw new IllegalArgumentException("player with action " + action + " not found");
     }
 
     private void attackingPlayerOut(Player player) {

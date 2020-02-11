@@ -5,7 +5,10 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.andrius.logutil.LogUtil;
 import com.example.cards.domain.Card;
+import com.example.cards.domain.Player;
+import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
@@ -20,24 +23,35 @@ public class DoneButton extends AppCompatButton {
     private PlayersViewModel playersViewModel;
     private DeckViewModel deckViewModel;
     private RoomViewModel roomViewModel;
+    private Preferences preferences;
 
     public DoneButton(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public DoneButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public DoneButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
+        preferences = new Preferences(context);
         setOnClickListener(v -> {
+            if (preferences.isMultiPlayerMode()) {
+                String playerName = preferences.getPlayerName();
+                Player attackingPlayer = playersViewModel.getAttackingPlayer();
+                if (!attackingPlayer.getName().equals(playerName)) {
+                    LogUtil.w("Current player is not attacking");
+                    return;
+                }
+            }
+
             List<Card> cards = battleFieldViewModel.removeAllCardsFromField();
             for (Card card : cards) {
                 deckViewModel.placeCardToOutDeck(card);
