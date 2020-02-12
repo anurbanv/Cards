@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.andrius.logutil.LogUtil;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.service.Preferences;
@@ -43,15 +42,6 @@ public class DoneButton extends AppCompatButton {
     private void init(Context context) {
         preferences = new Preferences(context);
         setOnClickListener(v -> {
-            if (preferences.isMultiPlayerMode()) {
-                String playerName = preferences.getPlayerName();
-                Player attackingPlayer = playersViewModel.getAttackingPlayer();
-                if (!attackingPlayer.getName().equals(playerName)) {
-                    LogUtil.w("Current player is not attacking");
-                    return;
-                }
-            }
-
             List<Card> cards = battleFieldViewModel.removeAllCardsFromField();
             for (Card card : cards) {
                 deckViewModel.placeCardToOutDeck(card);
@@ -84,6 +74,14 @@ public class DoneButton extends AppCompatButton {
         if (defending.isEmpty()) {
             setEnabled(false);
             return;
+        }
+        if (preferences.isMultiPlayerMode()) {
+            String playerName = preferences.getPlayerName();
+            Player attackingPlayer = playersViewModel.getAttackingPlayer();
+            if (!playerName.equals(attackingPlayer.getName())) {
+                setEnabled(false);
+                return;
+            }
         }
         setEnabled(true);
     }

@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.andrius.logutil.LogUtil;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.service.Preferences;
@@ -41,14 +40,6 @@ public class HomeButton extends AppCompatButton {
     private void init(Context context) {
         preferences = new Preferences(context);
         setOnClickListener(v -> {
-            if (preferences.isMultiPlayerMode()) {
-                String playerName = preferences.getPlayerName();
-                Player defendingPlayer = playersViewModel.getDefendingPlayer();
-                if (!defendingPlayer.getName().equals(playerName)) {
-                    LogUtil.w("Current player is not defending");
-                    return;
-                }
-            }
             List<Card> cards = battleFieldViewModel.removeAllCardsFromField();
             Player player = playersViewModel.getDefendingPlayer();
             for (Card card : cards) {
@@ -76,6 +67,14 @@ public class HomeButton extends AppCompatButton {
         if (defending.size() == attacking.size()) {
             setEnabled(false);
             return;
+        }
+        if (preferences.isMultiPlayerMode()) {
+            String playerName = preferences.getPlayerName();
+            Player defendingPlayer = playersViewModel.getDefendingPlayer();
+            if (!playerName.equals(defendingPlayer.getName())) {
+                setEnabled(false);
+                return;
+            }
         }
         setEnabled(true);
     }

@@ -9,12 +9,12 @@ import java.util.Map;
 
 public class Room {
 
-    private String roomId;
     private List<String> players;
     private boolean started;
     private String gameState;
     private String hostName;
 
+    @SuppressWarnings("unchecked")
     public Room(DocumentSnapshot result) {
         List<String> players = (List<String>) result.get("players");
         if (players == null) players = new ArrayList<>();
@@ -41,16 +41,8 @@ public class Room {
         }
     }
 
-    public String getRoomId() {
-        return roomId;
-    }
-
     public void setGameStarted(boolean started) {
         this.started = started;
-    }
-
-    public void setStarted() {
-        started = true;
     }
 
     public boolean isStarted() {
@@ -61,16 +53,8 @@ public class Room {
         return gameState;
     }
 
-    public void setGameState(String gameState) {
-        this.gameState = gameState;
-    }
-
     public String getHostName() {
         return hostName;
-    }
-
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
     }
 
     public void changeHost() {
