@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -30,6 +31,7 @@ public abstract class HandView extends LinearLayout {
 
     @BindView(R.id.llCards) LinearLayout llCards;
     @BindView(R.id.btnInfo) Button btnInfo;
+    @BindView(R.id.tvCardCount) TextView tvCardCount;
 
     private CurrentDragViewModel currentDragViewModel;
     private BattleFieldViewModel battleFieldViewModel;
@@ -95,6 +97,9 @@ public abstract class HandView extends LinearLayout {
                 DrawableCompat.setTint(getBackground(), getResources().getColor(R.color.gray));
             }
         }
+
+        int cardCount = player.getHand().size();
+        tvCardCount.setText(String.valueOf(cardCount));
     }
 
     abstract CardView getCardView(Context context, Card card, Player player,
