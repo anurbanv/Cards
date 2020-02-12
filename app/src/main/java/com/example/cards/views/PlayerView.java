@@ -45,7 +45,7 @@ public class PlayerView extends LinearLayout {
         }
         if (isYou) {
             Drawable background = root.getBackground().mutate();
-            DrawableCompat.setTint(background, getResources().getColor(R.color.colorPrimary));
+            DrawableCompat.setTint(background, getResources().getColor(R.color.colorPrimaryLight));
             root.setBackground(background);
             tvName.setTextColor(Color.WHITE);
         }

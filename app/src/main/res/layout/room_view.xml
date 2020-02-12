@@ -6,9 +6,8 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:elevation="8dp"
         android:layout_height="wrap_content">
 
         <TextView

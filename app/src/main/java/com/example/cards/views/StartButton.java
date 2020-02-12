@@ -44,5 +44,9 @@ public class StartButton extends AppCompatButton {
         String hostName = room.getHostName();
         boolean isHost = playerName.equals(hostName);
         setEnabled(isHost);
+
+        if (room.getPlayers().size() < 2) {
+            setEnabled(false);
+        }
     }
 }
