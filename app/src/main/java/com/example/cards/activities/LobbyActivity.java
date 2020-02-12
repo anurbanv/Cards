@@ -3,7 +3,6 @@ package com.example.cards.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +22,6 @@ public class LobbyActivity extends AppCompatActivity {
 
     @BindView(R.id.btnLeave) Button btnLeave;
     @BindView(R.id.btnStart) StartButton btnStart;
-    @BindView(R.id.tvStarted) TextView tvStarted;
     @BindView(R.id.roomView) RoomView roomView;
 
     private RoomViewModel roomViewModel;
@@ -56,7 +54,6 @@ public class LobbyActivity extends AppCompatActivity {
                 intent.putExtra("playerCount", 2);
                 startActivity(intent);
             }
-            tvStarted.setText("Started: " + room.isStarted());
         });
 
         btnLeave.setOnClickListener(v -> roomService.leaveRoom(success -> finish()));

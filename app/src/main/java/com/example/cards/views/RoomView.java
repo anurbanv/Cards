@@ -20,7 +20,8 @@ import butterknife.ButterKnife;
 
 public class RoomView extends LinearLayout {
 
-    @BindView(R.id.tvPlayers) TextView tvPlayers;
+    @BindView(R.id.llPlayers) LinearLayout llPlayers;
+    @BindView(R.id.tvCount) TextView tvCount;
 
     private Preferences preferences;
 
@@ -48,26 +49,24 @@ public class RoomView extends LinearLayout {
 
     public void update(Room room) {
         if (room == null || room.getPlayers().isEmpty()) {
-            tvPlayers.setText("empty");
             return;
         }
 
         String hostName = room.getHostName();
         String playerName = preferences.getPlayerName();
         List<String> players = room.getPlayers();
-        String text = "";
-        for (String player : players) {
-            String prefix = "";
-            if (player.equals(playerName)) {
-                prefix = "you: ";
-            }
-            if (player.equals(hostName)) {
-                text += prefix + player + " *host*" + "\n";
-            } else {
-                text += prefix + player + "\n";
-            }
+
+        llPlayers.removeAllViews();
+        for (String name : players) {
+            PlayerView playerView = new PlayerView(getContext());
+            boolean isHost = hostName.equals(name);
+            boolean isYou = playerName.equals(name);
+            playerView.setInfo(name, isHost, isYou);
+            llPlayers.addView(playerView);
         }
-        String substring = text.substring(0, text.length() - 1);
-        tvPlayers.setText(substring);
+
+        int playerCount = room.getPlayers().size();
+        String count = "[" + playerCount + "/6]";
+        tvCount.setText(count);
     }
 }
