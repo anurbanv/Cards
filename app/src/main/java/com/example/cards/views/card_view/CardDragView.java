@@ -11,6 +11,7 @@ import com.example.cards.domain.Player;
 import com.example.cards.service.CardDropEventHandler;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 
@@ -23,13 +24,13 @@ public abstract class CardDragView extends CardOpenView {
     public CardDragView(Context context, Card card, Player owner,
                         CurrentDragViewModel currentDragViewModel,
                         BattleFieldViewModel battleFieldViewModel, PlayersViewModel playersViewModel,
-                        RoomViewModel roomViewModel) {
+                        RoomViewModel roomViewModel, DeckViewModel deckViewModel) {
         super(context, card);
         this.owner = owner;
         this.currentDragViewModel = currentDragViewModel;
 
         handler = new CardDropEventHandler(currentDragViewModel, battleFieldViewModel,
-                playersViewModel, roomViewModel);
+                playersViewModel, roomViewModel, deckViewModel);
         init();
     }
 

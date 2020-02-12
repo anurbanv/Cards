@@ -99,7 +99,8 @@ public class GameView extends LinearLayout {
         deckView.setViewModels(playersViewModel, deckViewModel, roomViewModel);
         btnHome.setViewModels(battleFieldViewModel, playersViewModel, roomViewModel);
         btnDone.setViewModels(battleFieldViewModel, playersViewModel, deckViewModel, roomViewModel);
-        battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel, roomViewModel);
+        battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel,
+                roomViewModel, deckViewModel);
     }
 
     public void updateDeck(DeckOfCards deck) {
@@ -134,7 +135,7 @@ public class GameView extends LinearLayout {
 
         for (HandView playerHand : playerHands) {
             playerHand.setViewModel(currentDragViewModel, battleFieldViewModel,
-                    playersViewModel, roomViewModel);
+                    playersViewModel, roomViewModel, deckViewModel);
         }
 
         if (preferences.isMultiPlayerMode()) {

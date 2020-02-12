@@ -18,6 +18,7 @@ import com.example.cards.domain.Player;
 import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.card_view.CardView;
@@ -34,6 +35,7 @@ public abstract class HandView extends LinearLayout {
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
     private RoomViewModel roomViewModel;
+    private DeckViewModel deckViewModel;
     private Player player;
     private Preferences preferences;
 
@@ -65,11 +67,12 @@ public abstract class HandView extends LinearLayout {
     public void setViewModel(CurrentDragViewModel currentDragViewModel,
                              BattleFieldViewModel battleFieldViewModel,
                              PlayersViewModel playersViewModel,
-                             RoomViewModel roomViewModel) {
+                             RoomViewModel roomViewModel, DeckViewModel deckViewModel) {
         this.currentDragViewModel = currentDragViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
         this.roomViewModel = roomViewModel;
+        this.deckViewModel = deckViewModel;
     }
 
     abstract int getLayoutId();
@@ -98,7 +101,7 @@ public abstract class HandView extends LinearLayout {
                                   CurrentDragViewModel currentDragViewModel,
                                   BattleFieldViewModel battleFieldViewModel,
                                   PlayersViewModel playersViewModel,
-                                  RoomViewModel roomViewModel);
+                                  RoomViewModel roomViewModel, DeckViewModel deckViewModel);
 
     abstract CardView getCardHiddenView(Context context);
 
@@ -110,7 +113,7 @@ public abstract class HandView extends LinearLayout {
             }
         }
         return getCardView(context, card, player, currentDragViewModel, battleFieldViewModel,
-                playersViewModel, roomViewModel);
+                playersViewModel, roomViewModel, deckViewModel);
     }
 
     private void showDialog(Context context) {

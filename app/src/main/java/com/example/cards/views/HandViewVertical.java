@@ -10,6 +10,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.card_view.CardDragHorView;
@@ -40,9 +41,9 @@ public class HandViewVertical extends HandView {
                          CurrentDragViewModel currentDragViewModel,
                          BattleFieldViewModel battleFieldViewModel,
                          PlayersViewModel playersViewModel,
-                         RoomViewModel roomViewModel) {
+                         RoomViewModel roomViewModel, DeckViewModel deckViewModel) {
         return new CardDragHorView(getContext(), card, player, currentDragViewModel,
-                battleFieldViewModel, playersViewModel, roomViewModel);
+                battleFieldViewModel, playersViewModel, roomViewModel, deckViewModel);
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 
@@ -18,9 +19,9 @@ public class CardDragHorView extends CardDragView {
     public CardDragHorView(Context context, Card card, Player owner,
                            CurrentDragViewModel currentDragViewModel,
                            BattleFieldViewModel battleFieldViewModel, PlayersViewModel playersViewModel,
-                           RoomViewModel roomViewModel) {
+                           RoomViewModel roomViewModel, DeckViewModel deckViewModel) {
         super(context, card, owner, currentDragViewModel, battleFieldViewModel,
-                playersViewModel, roomViewModel);
+                playersViewModel, roomViewModel, deckViewModel);
     }
 
     public CardDragHorView(Context context, @Nullable AttributeSet attrs) {

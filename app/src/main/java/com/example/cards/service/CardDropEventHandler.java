@@ -2,9 +2,11 @@ package com.example.cards.service;
 
 import com.andrius.logutil.LogUtil;
 import com.example.cards.domain.Card;
+import com.example.cards.domain.DeckOfCards;
 import com.example.cards.domain.Player;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
+import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 
@@ -19,18 +21,24 @@ public class CardDropEventHandler {
     private BattleFieldViewModel battleFieldViewModel;
     private PlayersViewModel playersViewModel;
     private RoomViewModel roomViewModel;
+    private DeckViewModel deckViewModel;
 
     public CardDropEventHandler(CurrentDragViewModel currentDragViewModel,
                                 BattleFieldViewModel battleFieldViewModel,
                                 PlayersViewModel playersViewModel,
-                                RoomViewModel roomViewModel) {
+                                RoomViewModel roomViewModel, DeckViewModel deckViewModel) {
         this.currentDragViewModel = currentDragViewModel;
         this.battleFieldViewModel = battleFieldViewModel;
         this.playersViewModel = playersViewModel;
         this.roomViewModel = roomViewModel;
+        this.deckViewModel = deckViewModel;
     }
 
     public void initDragEvent(boolean attacking, int cell) {
+        if (!playersDrawnCards()) {
+            LogUtil.w("Players need to draw cards");
+            return;
+        }
         this.cell = cell;
 
         card = currentDragViewModel.getCurrentDrag();
@@ -44,6 +52,11 @@ public class CardDropEventHandler {
     }
 
     public void initClickEvent(Card card, Player cardOwner) {
+        if (!playersDrawnCards()) {
+            LogUtil.w("Players need to draw cards");
+            return;
+        }
+
         int firstEmptyCell = getFirstEmptyCell();
         if (firstEmptyCell == -1) {
             LogUtil.w("No empty cells for attack event");
@@ -72,6 +85,24 @@ public class CardDropEventHandler {
         } else {
             LogUtil.w("Click event is only for attacking player");
         }
+    }
+
+    private boolean playersDrawnCards() {
+        List<Card> attackCards = battleFieldViewModel.getAttackingCardList();
+        boolean empty = attackCards.isEmpty();
+        if (empty) {
+            DeckOfCards deckOfCards = deckViewModel.getDeckOfCards();
+            if (deckOfCards.hasCards()) {
+                List<Player> playersInGame = playersViewModel.getPlayersInGame();
+                for (Player player : playersInGame) {
+                    List<Card> hand = player.getHand();
+                    if (hand.size() < 6) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private boolean tryFlashEvent(Player defendingPlayer) {
