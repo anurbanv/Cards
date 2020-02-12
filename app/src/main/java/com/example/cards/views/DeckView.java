@@ -1,6 +1,7 @@
 package com.example.cards.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,16 @@ public class DeckView extends LinearLayout {
         }
         tvDeckCount.setText(String.valueOf(deck.cardCount()));
         lastCard.removeAllViews();
-        lastCard.addView(new CardVerView(getContext(), deck.getLastCard()));
+        CardVerView cardVerView = new CardVerView(getContext(), deck.getLastCard());
+        View background = cardVerView.findViewById(R.id.background);
+        LayoutParams params = new LayoutParams(dpToPx(40), dpToPx(60));
+        params.setMargins(0, 0, 0, 0);
+        background.setLayoutParams(params);
+        lastCard.addView(cardVerView);
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     public void update(List<Card> outCards) {
