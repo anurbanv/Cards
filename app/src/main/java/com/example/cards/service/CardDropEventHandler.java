@@ -158,16 +158,20 @@ public class CardDropEventHandler {
         if (cardOwner.getAction() == Player.Action.ATTACK) {
             int cardsToDefend = attackCards.size() - defendCards.size();
             int handSize = defendingPlayer.getHand().size();
-            if (handSize - cardsToDefend > 0) {
-                if (attackCards.isEmpty()) {
-                    success = true;
-                } else {
-                    if (containsSameNumber(attackCards, card) || containsSameNumber(defendCards, card)) {
+            if (defendCards.size() != 6) {
+                if (handSize - cardsToDefend > 0) {
+                    if (attackCards.isEmpty()) {
                         success = true;
+                    } else {
+                        if (containsSameNumber(attackCards, card) || containsSameNumber(defendCards, card)) {
+                            success = true;
+                        }
                     }
+                } else {
+                    LogUtil.w("Defending player has no cards");
                 }
             } else {
-                LogUtil.w("Defending player has no cards");
+                LogUtil.w("All cards defended");
             }
         } else if (cardOwner.getAction() == Player.Action.DEFEND) {
 

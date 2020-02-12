@@ -2,6 +2,7 @@ package com.example.cards.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -26,9 +27,9 @@ import butterknife.ButterKnife;
 public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.gameView) GameView gameView;
-
     @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnRestore) Button btnRestore;
+    @BindView(R.id.testButtons) View testButtons;
 
     private RoomViewModel roomViewModel;
     private Preferences preferences;
@@ -40,6 +41,10 @@ public class GameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         preferences = new Preferences(this);
+
+        if (preferences.isMultiPlayerMode()) {
+            testButtons.setVisibility(View.GONE);
+        }
 
         int playerCount = getIntent().getIntExtra("playerCount", 0);
 
