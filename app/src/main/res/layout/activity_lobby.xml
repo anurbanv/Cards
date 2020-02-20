@@ -24,16 +24,12 @@
             android:id="@+id/btnLeave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/dark_gray"
-            android:textColor="@color/white"
             android:layout_weight="1"
             android:text="leave" />
 
         <com.example.cards.views.StartButton
             android:id="@+id/btnStart"
             android:layout_width="0dp"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/light_blue"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="start" />
