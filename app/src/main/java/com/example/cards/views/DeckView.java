@@ -28,9 +28,11 @@ public class DeckView extends LinearLayout {
 
     @BindView(R.id.tvDeckCount) TextView tvDeckCount;
     @BindView(R.id.tvOutCount) TextView tvOutCount;
-    @BindView(R.id.btnDeck) View btnDeck;
+    @BindView(R.id.deckView) View deckView;
     @BindView(R.id.lastCard) RelativeLayout lastCard;
     @BindView(R.id.outCards) View outCards;
+    @BindView(R.id.deckLayout) View deckLayout;
+
     private PlayersViewModel playersViewModel;
     private DeckViewModel deckViewModel;
     private RoomViewModel roomViewModel;
@@ -55,7 +57,8 @@ public class DeckView extends LinearLayout {
         View root = inflater.inflate(R.layout.deck_view, this, true);
         ButterKnife.bind(this, root);
 
-        btnDeck.setOnClickListener(v -> {
+        deckLayout.setOnClickListener(v -> {
+            LogUtil.d(deckViewModel.getDeckOfCards().cardCount());
             List<Player> playersList = playersViewModel.getPlayersInGame();
             for (Player player : playersList) {
                 while (player.getHand().size() < 6) {
@@ -80,10 +83,11 @@ public class DeckView extends LinearLayout {
     }
 
     public void update(DeckOfCards deck) {
+        if (deck.cardCount() == 1) {
+            deckView.setVisibility(INVISIBLE);
+        }
         if (deck.isEmpty()) {
-            btnDeck.setEnabled(false);
-            btnDeck.setVisibility(INVISIBLE);
-            tvDeckCount.setVisibility(GONE);
+            lastCard.setAlpha(0.3f);
         }
         tvDeckCount.setText(String.valueOf(deck.cardCount()));
         lastCard.removeAllViews();

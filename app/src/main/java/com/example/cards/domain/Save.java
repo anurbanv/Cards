@@ -3,6 +3,7 @@ package com.example.cards.domain;
 import com.andrius.fileutil.FileUtil;
 import com.example.cards.activities.MainActivity;
 import com.example.cards.service.PlayersService;
+import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
@@ -81,11 +82,14 @@ public class Save {
     }
 
     public void restoreState(DeckViewModel deckViewModel, PlayersViewModel playersViewModel,
-                             BattleFieldViewModel battleFieldViewModel, String playerName) {
+                             BattleFieldViewModel battleFieldViewModel, String playerName,
+                             Preferences preferences) {
         PlayersService playersService = new PlayersService();
         deckViewModel.getDeck().postValue(deckOfCards);
         deckViewModel.getOutCards().postValue(outCards);
-        playersService.cyclePlayersToPosition(players, playerName);
+        if (preferences.isMultiPlayerMode()) {
+            playersService.cyclePlayersToPosition(players, playerName);
+        }
         playersViewModel.getPlayers().postValue(players);
         battleFieldViewModel.postFieldState(attackCards, defendCards);
     }

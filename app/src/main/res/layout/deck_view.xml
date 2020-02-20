@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/deckLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -30,7 +31,7 @@
                 tools:layout_width="40dp" />
 
             <com.example.cards.views.card_view.CardHiddenHorView
-                android:id="@+id/btnDeck"
+                android:id="@+id/deckView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

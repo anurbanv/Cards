@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <com.example.cards.views.DeckView
-        android:id="@+id/deckView"
+        android:id="@+id/deckContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/llField"

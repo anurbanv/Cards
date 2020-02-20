@@ -52,7 +52,7 @@ public class GameView extends LinearLayout {
     @BindView(R.id.player5) HandView player5;
     @BindView(R.id.player6) HandView player6;
 
-    @BindView(R.id.deckView) DeckView deckView;
+    @BindView(R.id.deckContainer) DeckView deckContainer;
 
     @BindView(R.id.btnHome) HomeButton btnHome;
     @BindView(R.id.btnDone) DoneButton btnDone;
@@ -96,7 +96,7 @@ public class GameView extends LinearLayout {
         this.currentDragViewModel = currentDragViewModel;
         this.roomViewModel = roomViewModel;
 
-        deckView.setViewModels(playersViewModel, deckViewModel, roomViewModel);
+        deckContainer.setViewModels(playersViewModel, deckViewModel, roomViewModel);
         btnHome.setViewModels(battleFieldViewModel, playersViewModel, roomViewModel);
         btnDone.setViewModels(battleFieldViewModel, playersViewModel, deckViewModel, roomViewModel);
         battleField.setViewModels(currentDragViewModel, battleFieldViewModel, playersViewModel,
@@ -104,11 +104,11 @@ public class GameView extends LinearLayout {
     }
 
     public void updateDeck(DeckOfCards deck) {
-        deckView.update(deck);
+        deckContainer.update(deck);
     }
 
     public void updateDeck(List<Card> outCards) {
-        deckView.update(outCards);
+        deckContainer.update(outCards);
     }
 
     public void updateCells(List<Cell> cells) {

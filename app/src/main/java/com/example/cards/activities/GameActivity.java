@@ -94,7 +94,8 @@ public class GameActivity extends AppCompatActivity {
 
         btnRestore.setOnClickListener(v -> {
             Save storedSave = Save.getStoredSave();
-            storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel, playerName);
+            storedSave.restoreState(deckViewModel, playersViewModel, battleFieldViewModel,
+                    playerName, preferences);
         });
 
         String roomId = preferences.getRoomId();
@@ -110,7 +111,8 @@ public class GameActivity extends AppCompatActivity {
                     String gameState = room.getGameState();
                     if (!TextUtils.isEmpty(gameState)) {
                         Save save = Save.getSaveFromJson(gameState);
-                        save.restoreState(deckViewModel, playersViewModel, battleFieldViewModel, playerName);
+                        save.restoreState(deckViewModel, playersViewModel, battleFieldViewModel,
+                                playerName, preferences);
                     }
                 }
             });
