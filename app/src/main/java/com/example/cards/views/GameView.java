@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Cell;
@@ -25,10 +26,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GameView extends LinearLayout {
+
+    @BindView(R.id.player1) HandView player1;
+    @BindView(R.id.player2) HandView player2;
+    @BindView(R.id.player3) HandView player3;
+    @BindView(R.id.player4) HandView player4;
+    @BindView(R.id.player5) HandView player5;
+    @BindView(R.id.player6) HandView player6;
+    @BindView(R.id.deckContainer) DeckView deckContainer;
+    @BindView(R.id.btnHome) HomeButton btnHome;
+    @BindView(R.id.btnDone) DoneButton btnDone;
+    @BindView(R.id.battleField) BattleFieldView battleField;
 
     private DeckViewModel deckViewModel;
     private BattleFieldViewModel battleFieldViewModel;
@@ -45,22 +59,8 @@ public class GameView extends LinearLayout {
         void onGameOver();
     }
 
-    @BindView(R.id.player1) HandView player1;
-    @BindView(R.id.player2) HandView player2;
-    @BindView(R.id.player3) HandView player3;
-    @BindView(R.id.player4) HandView player4;
-    @BindView(R.id.player5) HandView player5;
-    @BindView(R.id.player6) HandView player6;
-
-    @BindView(R.id.deckContainer) DeckView deckContainer;
-
-    @BindView(R.id.btnHome) HomeButton btnHome;
-    @BindView(R.id.btnDone) DoneButton btnDone;
-
-    @BindView(R.id.battleField) BattleFieldView battleField;
-
+    @Inject Preferences preferences;
     private List<HandView> playerHands;
-    private Preferences preferences;
     private PlayersService playersService;
 
     public GameView(Context context) {
@@ -82,7 +82,8 @@ public class GameView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.game_view, this, true);
         ButterKnife.bind(this, root);
-        preferences = new Preferences(context);
+
+        App.get().getAppComponent().inject(this);
         playersService = new PlayersService();
     }
 

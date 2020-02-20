@@ -8,12 +8,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.service.Preferences;
 import com.example.cards.service.RoomService;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.RoomView;
 import com.example.cards.views.StartButton;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +28,7 @@ public class LobbyActivity extends AppCompatActivity {
     @BindView(R.id.roomView) RoomView roomView;
 
     private RoomViewModel roomViewModel;
-    private Preferences preferences;
+    @Inject Preferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +36,9 @@ public class LobbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lobby);
         ButterKnife.bind(this);
 
-        RoomService roomService = new RoomService(this);
+        App.get().getAppComponent().inject(this);
 
-        preferences = new Preferences(this);
+        RoomService roomService = new RoomService();
 
         roomViewModel = ViewModelProviders.of(this).get(RoomViewModel.class);
 

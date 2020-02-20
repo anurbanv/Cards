@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.cards.App;
 import com.example.cards.domain.Room;
 import com.example.cards.domain.Save;
 import com.example.cards.service.Preferences;
@@ -14,6 +15,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+
+import javax.inject.Inject;
 
 public class RoomViewModel extends AndroidViewModel {
 
@@ -27,13 +30,13 @@ public class RoomViewModel extends AndroidViewModel {
     private DeckViewModel deckViewModel;
     private PlayersViewModel playersViewModel;
     private BattleFieldViewModel battleFieldViewModel;
-    private Preferences preferences;
+    @Inject Preferences preferences;
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        App.get().getAppComponent().inject(this);
         gamesRef = db.collection("games");
-        preferences = new Preferences(application);
     }
 
     public LiveData<Room> getRoom() {

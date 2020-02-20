@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.domain.Room;
 import com.example.cards.service.Preferences;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +26,7 @@ public class RoomView extends LinearLayout {
     @BindView(R.id.llPlayers) LinearLayout llPlayers;
     @BindView(R.id.tvCount) TextView tvCount;
 
-    private Preferences preferences;
+    @Inject Preferences preferences;
 
     public RoomView(Context context) {
         super(context);
@@ -44,7 +47,7 @@ public class RoomView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.room_view, this, true);
         ButterKnife.bind(this, root);
-        preferences = new Preferences(context);
+        App.get().getAppComponent().inject(this);
     }
 
     public void update(Room room) {

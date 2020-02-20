@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.cards.App;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
 import com.example.cards.service.Preferences;
@@ -15,6 +16,8 @@ import com.example.cards.viewmodel.RoomViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class DoneButton extends AppCompatButton {
 
     private GameView.GameOverListener listener;
@@ -22,25 +25,25 @@ public class DoneButton extends AppCompatButton {
     private PlayersViewModel playersViewModel;
     private DeckViewModel deckViewModel;
     private RoomViewModel roomViewModel;
-    private Preferences preferences;
+    @Inject Preferences preferences;
 
     public DoneButton(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public DoneButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public DoneButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
-        preferences = new Preferences(context);
+    private void init() {
+        App.get().getAppComponent().inject(this);
         setOnClickListener(v -> {
             List<Card> cards = battleFieldViewModel.removeAllCardsFromField();
             for (Card card : cards) {

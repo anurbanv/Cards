@@ -9,9 +9,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.service.Preferences;
 import com.example.cards.service.RoomService;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,24 +25,26 @@ public class JoinRoomActivity extends AppCompatActivity {
     @BindView(R.id.etRoomId) EditText etRoomId;
     @BindView(R.id.btnJoin) Button btnJoin;
 
+    @Inject Preferences preferences;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_room);
         ButterKnife.bind(this);
 
+        App.get().getAppComponent().inject(this);
+
         etRoomId.setText("12345");
 
         etPlayerName.setText(String.valueOf(System.currentTimeMillis()));
 
-        RoomService roomService = new RoomService(this);
+        RoomService roomService = new RoomService();
 
-        Preferences prefs = new Preferences(this);
-
-        if (prefs.isSavedSession()) {
+        if (preferences.isSavedSession()) {
             setInputEnabled(false);
-            etRoomId.setText(prefs.getRoomId());
-            etPlayerName.setText(prefs.getPlayerName());
+            etRoomId.setText(preferences.getRoomId());
+            etPlayerName.setText(preferences.getPlayerName());
             roomService.reJoinRoom(this::onJoinedRoom);
         }
 

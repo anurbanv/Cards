@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.domain.Save;
 import com.example.cards.service.Preferences;
@@ -20,6 +21,8 @@ import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.GameView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +35,7 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.testButtons) View testButtons;
 
     private RoomViewModel roomViewModel;
-    private Preferences preferences;
+    @Inject Preferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
-        preferences = new Preferences(this);
+        App.get().getAppComponent().inject(this);
 
         if (preferences.isMultiPlayerMode()) {
             testButtons.setVisibility(View.GONE);

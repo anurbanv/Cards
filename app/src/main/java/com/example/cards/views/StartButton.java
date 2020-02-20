@@ -6,32 +6,35 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.cards.App;
 import com.example.cards.domain.Room;
 import com.example.cards.service.Preferences;
 import com.example.cards.viewmodel.RoomViewModel;
 
+import javax.inject.Inject;
+
 public class StartButton extends AppCompatButton {
 
-    private Preferences preferences;
+    @Inject Preferences preferences;
     private RoomViewModel roomViewModel;
 
     public StartButton(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public StartButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public StartButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
-        preferences = new Preferences(context);
+    private void init() {
+        App.get().getAppComponent().inject(this);
         setOnClickListener(v -> roomViewModel.setGameStarted(true));
     }
 

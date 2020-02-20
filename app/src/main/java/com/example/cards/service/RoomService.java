@@ -1,17 +1,18 @@
 package com.example.cards.service;
 
-import android.content.Context;
-
+import com.example.cards.App;
 import com.example.cards.domain.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import javax.inject.Inject;
+
 public class RoomService {
 
     private final CollectionReference gamesRef;
-    private final Preferences prefs;
+    @Inject Preferences preferences;
 
     public interface JoinCallback {
         void onComplete(boolean success);
@@ -21,15 +22,15 @@ public class RoomService {
         void onComplete(boolean success);
     }
 
-    public RoomService(Context context) {
+    public RoomService() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        App.get().getAppComponent().inject(this);
         gamesRef = db.collection("games");
-        prefs = new Preferences(context);
     }
 
     public void joinRoom(String roomId, String playerName, JoinCallback callback) {
-        if (prefs.isSavedSession()) {
-            if (prefs.getRoomId().equals(roomId) && prefs.getPlayerName().equals(playerName)) {
+        if (preferences.isSavedSession()) {
+            if (preferences.getRoomId().equals(roomId) && preferences.getPlayerName().equals(playerName)) {
                 callback.onComplete(true);
                 return;
             }
@@ -54,7 +55,7 @@ public class RoomService {
 
                 roomRef.set(room.getObjectMap()).addOnCompleteListener(setTask -> {
                     if (setTask.isSuccessful()) {
-                        prefs.saveRoomSession(roomId, playerName);
+                        preferences.saveRoomSession(roomId, playerName);
                     }
                     callback.onComplete(setTask.isSuccessful());
                 });
@@ -65,13 +66,13 @@ public class RoomService {
     }
 
     public void reJoinRoom(JoinCallback callback) {
-        if (!prefs.isSavedSession()) {
+        if (!preferences.isSavedSession()) {
             callback.onComplete(false);
             return;
         }
 
-        String roomId = prefs.getRoomId();
-        String playerName = prefs.getPlayerName();
+        String roomId = preferences.getRoomId();
+        String playerName = preferences.getPlayerName();
 
         DocumentReference roomRef = gamesRef.document(roomId);
         roomRef.get().addOnCompleteListener(task -> {
@@ -81,7 +82,7 @@ public class RoomService {
                 if (room.playerExists(playerName)) {
                     callback.onComplete(true);
                 } else {
-                    prefs.removeStoredSession();
+                    preferences.removeStoredSession();
                     callback.onComplete(false);
                 }
             } else {
@@ -91,20 +92,20 @@ public class RoomService {
     }
 
     public void leaveRoom(LeaveCallback callback) {
-        if (!prefs.isSavedSession()) {
+        if (!preferences.isSavedSession()) {
             callback.onComplete(false);
             return;
         }
 
-        DocumentReference roomRef = gamesRef.document(prefs.getRoomId());
+        DocumentReference roomRef = gamesRef.document(preferences.getRoomId());
         roomRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 Room room = new Room(task.getResult());
-                room.removePlayer(prefs.getPlayerName());
+                room.removePlayer(preferences.getPlayerName());
 
                 OnCompleteListener<Void> listener = task1 -> {
                     if (task1.isSuccessful()) {
-                        prefs.removeStoredSession();
+                        preferences.removeStoredSession();
                     }
                     callback.onComplete(task1.isSuccessful());
                 };

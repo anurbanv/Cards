@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
@@ -23,6 +24,8 @@ import com.example.cards.viewmodel.DeckViewModel;
 import com.example.cards.viewmodel.PlayersViewModel;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.card_view.CardView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +42,7 @@ public abstract class HandView extends LinearLayout {
     private RoomViewModel roomViewModel;
     private DeckViewModel deckViewModel;
     private Player player;
-    private Preferences preferences;
+    @Inject Preferences preferences;
 
     public HandView(Context context) {
         super(context);
@@ -60,8 +63,7 @@ public abstract class HandView extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(getLayoutId(), this, true);
         ButterKnife.bind(this, view);
-
-        preferences = new Preferences(context);
+        App.get().getAppComponent().inject(this);
 
         btnInfo.setOnClickListener(v -> showDialog(context));
     }
