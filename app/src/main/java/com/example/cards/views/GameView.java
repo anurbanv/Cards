@@ -152,20 +152,29 @@ public class GameView extends LinearLayout {
 
     private void initPlayerViews(int count) {
         playerHands = new ArrayList<>();
+
         if (count >= 2) {
-            if (count == 2) {
-                playerHands.addAll(Arrays.asList(player1, player4));
-                player2.setVisibility(GONE);
-                player3.setVisibility(GONE);
-                player5.setVisibility(GONE);
-                player6.setVisibility(GONE);
-            } else if (count < 5) {
-                playerHands.addAll(Arrays.asList(player1, player3, player4, player5));
-                player2.setVisibility(GONE);
-                player6.setVisibility(GONE);
-            } else if (count < 7) {
-                playerHands.addAll(Arrays.asList(player1, player2, player3,
-                        player4, player5, player6));
+            switch (count) {
+                case 2:
+                    playerHands.addAll(Arrays.asList(player1, player4));
+                    break;
+                case 3:
+                    playerHands.addAll(Arrays.asList(player1, player3, player5));
+                    break;
+                case 4:
+                    playerHands.addAll(Arrays.asList(player1, player3, player4, player5));
+                    break;
+                case 5:
+                    playerHands.addAll(Arrays.asList(player1, player2, player3,
+                            player5, player6));
+                    break;
+                case 6:
+                    playerHands.addAll(Arrays.asList(player1, player2, player3,
+                            player4, player5, player6));
+                    break;
+            }
+            for (HandView playerHand : playerHands) {
+                playerHand.setVisibility(VISIBLE);
             }
         }
     }

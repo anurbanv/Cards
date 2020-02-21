@@ -46,7 +46,7 @@ public class RoomService {
             if (task.isSuccessful() && task.getResult() != null) {
                 Room room = new Room(task.getResult());
 
-                if (room.getPlayers().size() >= 2 || room.playerExists(playerName)) {
+                if (room.getPlayers().size() >= 6 || room.playerExists(playerName)) {
                     callback.onComplete(false);
                     return;
                 }

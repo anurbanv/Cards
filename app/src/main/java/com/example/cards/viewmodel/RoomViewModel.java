@@ -75,8 +75,9 @@ public class RoomViewModel extends AndroidViewModel {
                 Room room = new Room(task.getResult());
                 room.setGameStarted(started);
                 if (started) {
+                    int playerCount = room.getPlayers().size();
                     String playerName = preferences.getPlayerName();
-                    room.setGameState(new Save(2, room.getPlayers(), playerName));
+                    room.setGameState(new Save(playerCount, room.getPlayers(), playerName));
                 }
                 roomRef.set(room.getObjectMap());
             }
