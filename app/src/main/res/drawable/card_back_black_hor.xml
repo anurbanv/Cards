@@ -3,14 +3,14 @@
     <item>
         <shape>
             <gradient
+                android:angle="270"
                 android:centerColor="@color/gray"
                 android:endColor="@color/dark"
-                android:angle="180"
                 android:startColor="@color/dark" />
             <corners android:radius="10dp" />
             <size
-                android:width="40dp"
-                android:height="60dp" />
+                android:width="60dp"
+                android:height="40dp" />
         </shape>
     </item>
 </layer-list>

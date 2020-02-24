@@ -13,6 +13,8 @@ import com.example.cards.views.HandView;
 import com.example.cards.views.HomeButton;
 import com.example.cards.views.RoomView;
 import com.example.cards.views.StartButton;
+import com.example.cards.views.card_view.CardHiddenHorView;
+import com.example.cards.views.card_view.CardHiddenVerView;
 
 import dagger.Component;
 
@@ -44,4 +46,8 @@ public interface AppComponent {
     void inject(GameActivity gameActivity);
 
     void inject(SelectCardBackActivity selectCardBackActivity);
+
+    void inject(CardHiddenVerView cardHiddenVerView);
+
+    void inject(CardHiddenHorView cardHiddenHorView);
 }

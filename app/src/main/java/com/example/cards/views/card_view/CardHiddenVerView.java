@@ -9,17 +9,25 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
+import com.example.cards.App;
 import com.example.cards.R;
 import com.example.cards.service.CardStyle;
+import com.example.cards.service.Preferences;
+
+import javax.inject.Inject;
 
 public class CardHiddenVerView extends CardHiddenView {
 
-    private CardStyle cardStyle = CardStyle.DEFAULT;
+    @Inject Preferences preferences;
+
+    public CardHiddenVerView(Context context) {
+        super(context);
+        init();
+    }
 
     public CardHiddenVerView(Context context, CardStyle cardStyle) {
         super(context);
-        this.cardStyle = cardStyle;
-        init();
+        initWithStyle(cardStyle);
     }
 
     public CardHiddenVerView(Context context, @Nullable AttributeSet attrs) {
@@ -35,8 +43,15 @@ public class CardHiddenVerView extends CardHiddenView {
         return inflater.inflate(R.layout.item_card_hidden_ver, root, true);
     }
 
-    private void init() {
+    private void initWithStyle(CardStyle cardStyle) {
         Drawable drawable = getResources().getDrawable(cardStyle.getDrawableId());
+        getRoot().findViewById(R.id.background).setBackground(drawable);
+    }
+
+    private void init() {
+        App.get().getAppComponent().inject(this);
+        CardStyle cardBackStyle = preferences.getCardBackStyle();
+        Drawable drawable = getResources().getDrawable(cardBackStyle.getDrawableId());
         getRoot().findViewById(R.id.background).setBackground(drawable);
     }
 }

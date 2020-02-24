@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import com.example.cards.R;
 import com.example.cards.domain.Card;
 import com.example.cards.domain.Player;
-import com.example.cards.service.CardStyle;
 import com.example.cards.viewmodel.BattleFieldViewModel;
 import com.example.cards.viewmodel.CurrentDragViewModel;
 import com.example.cards.viewmodel.DeckViewModel;
@@ -49,6 +48,6 @@ public class HandViewHorizontal extends HandView {
 
     @Override
     CardView getCardHiddenView(Context context) {
-        return new CardHiddenVerView(context, CardStyle.DEFAULT);
+        return new CardHiddenVerView(context);
     }
 }
