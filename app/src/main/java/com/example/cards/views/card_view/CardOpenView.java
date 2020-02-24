@@ -42,8 +42,6 @@ public abstract class CardOpenView extends CardView {
         init();
     }
 
-    abstract int getResId();
-
     private void init() {
         ButterKnife.bind(this, getRoot());
 

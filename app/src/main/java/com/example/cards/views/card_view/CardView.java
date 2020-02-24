@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -27,11 +28,10 @@ public abstract class CardView extends LinearLayout {
         init(context);
     }
 
-    abstract int getResId();
+    abstract View getMainView(LayoutInflater inflater, ViewGroup root);
 
     private void init(Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        this.root = inflater.inflate(getResId(), this, true);
+        this.root = getMainView(LayoutInflater.from(context), this);
     }
 
     public View getRoot() {

@@ -2,6 +2,9 @@ package com.example.cards.views.card_view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
@@ -33,7 +36,7 @@ public class CardDragHorView extends CardDragView {
     }
 
     @Override
-    int getResId() {
-        return R.layout.item_card_rotated;
+    View getMainView(LayoutInflater inflater, ViewGroup root) {
+        return inflater.inflate(R.layout.item_card_rotated, root, true);
     }
 }

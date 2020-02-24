@@ -1,7 +1,11 @@
 package com.example.cards.views.card_view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
@@ -22,7 +26,10 @@ public class CardHiddenVerView extends CardHiddenView {
     }
 
     @Override
-    int getResId() {
-        return R.layout.item_card_hidden_ver;
+    View getMainView(LayoutInflater inflater, ViewGroup root) {
+        View view = inflater.inflate(R.layout.item_card_hidden_ver, root, true);
+        Drawable drawable = getResources().getDrawable(R.drawable.card_back_ver);
+        view.findViewById(R.id.background).setBackground(drawable);
+        return view;
     }
 }
