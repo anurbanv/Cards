@@ -39,4 +39,12 @@ public class Preferences {
     public boolean isMultiPlayerMode() {
         return prefs.getBoolean("multiPlayer", false);
     }
+
+    public void setCardBackStyle(CardStyle cardStyle) {
+        prefs.edit().putString("cardStyle", cardStyle.name()).apply();
+    }
+
+    public CardStyle getCardBackStyle() {
+        return CardStyle.valueOf(prefs.getString("cardStyle", CardStyle.DEFAULT.name()));
+    }
 }

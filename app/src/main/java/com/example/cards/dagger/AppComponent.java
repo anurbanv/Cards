@@ -4,6 +4,7 @@ import com.example.cards.activities.GameActivity;
 import com.example.cards.activities.JoinRoomActivity;
 import com.example.cards.activities.LobbyActivity;
 import com.example.cards.activities.MainActivity;
+import com.example.cards.activities.SelectCardBackActivity;
 import com.example.cards.service.RoomService;
 import com.example.cards.viewmodel.RoomViewModel;
 import com.example.cards.views.DoneButton;
@@ -41,4 +42,6 @@ public interface AppComponent {
     void inject(JoinRoomActivity joinRoomActivity);
 
     void inject(GameActivity gameActivity);
+
+    void inject(SelectCardBackActivity selectCardBackActivity);
 }
