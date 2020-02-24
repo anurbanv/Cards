@@ -12,4 +12,5 @@
     <color name="white">#fff</color>
     <color name="gold">#D4AF37</color>
     <color name="light_blue">#338DFF</color>
+    <color name="dark">#202020</color>
 </resources>

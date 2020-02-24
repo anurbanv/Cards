@@ -48,6 +48,6 @@ public class HandViewHorizontal extends HandView {
 
     @Override
     CardView getCardHiddenView(Context context) {
-        return new CardHiddenVerView(context);
+        return new CardHiddenVerView(context, 0);
     }
 }

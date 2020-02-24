@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn2Players) Button btn2Players;
     @BindView(R.id.btn4Players) Button btn4Players;
     @BindView(R.id.btn6Players) Button btn6Players;
+    @BindView(R.id.btnCardStyles) Button btnCardStyles;
     @BindView(R.id.btnMultiPlayer) Button btnMultiPlayer;
 
     @Inject Preferences preferences;
@@ -47,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
         btn4Players.setOnClickListener(v -> startGameActivity(4));
         btn6Players.setOnClickListener(v -> startGameActivity(6));
 
-        btnMultiPlayer.setOnClickListener(v ->
-                startActivity(new Intent(this, JoinRoomActivity.class)));
+        Intent cardActivity = new Intent(this, SelectCardBackActivity.class);
+        Intent roomActivity = new Intent(this, JoinRoomActivity.class);
+
+        btnCardStyles.setOnClickListener(v -> startActivity(cardActivity));
+        btnMultiPlayer.setOnClickListener(v -> startActivity(roomActivity));
     }
 
     private void startGameActivity(int playerCount) {
