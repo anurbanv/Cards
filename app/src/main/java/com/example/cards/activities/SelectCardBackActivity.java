@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cards.R;
+import com.example.cards.service.CardStyle;
 import com.example.cards.views.card_view.CardHiddenVerView;
 
 import butterknife.BindView;
@@ -25,13 +26,9 @@ public class SelectCardBackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_card_back);
         ButterKnife.bind(this);
 
-        CardHiddenVerView view = new CardHiddenVerView(this, 0);
-        CardHiddenVerView view1 = new CardHiddenVerView(this, 1);
-        CardHiddenVerView view2 = new CardHiddenVerView(this, 2);
-
-        gridCards.addView(view);
-        gridCards.addView(view1);
-        gridCards.addView(view2);
+        for (CardStyle value : CardStyle.values()) {
+            gridCards.addView(new CardHiddenVerView(this, value));
+        }
 
         for (int i = 0; i < gridCards.getChildCount(); i++) {
             View child = gridCards.getChildAt(i);

@@ -10,14 +10,15 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.example.cards.R;
+import com.example.cards.service.CardStyle;
 
 public class CardHiddenVerView extends CardHiddenView {
 
-    private int id = 0;
+    private CardStyle cardStyle = CardStyle.DEFAULT;
 
-    public CardHiddenVerView(Context context, int id) {
+    public CardHiddenVerView(Context context, CardStyle cardStyle) {
         super(context);
-        this.id = id;
+        this.cardStyle = cardStyle;
         init();
     }
 
@@ -35,16 +36,7 @@ public class CardHiddenVerView extends CardHiddenView {
     }
 
     private void init() {
-        int resId = R.drawable.card_back_ver;
-        switch (id) {
-            case 1:
-                resId = R.drawable.card_back_black_ver;
-                break;
-            case 2:
-                resId = R.drawable.card_back_gold_ver;
-                break;
-        }
-        Drawable drawable = getResources().getDrawable(resId);
+        Drawable drawable = getResources().getDrawable(cardStyle.getDrawableId());
         getRoot().findViewById(R.id.background).setBackground(drawable);
     }
 }
